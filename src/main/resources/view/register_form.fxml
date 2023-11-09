@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="RegisterPane" prefHeight="513.0" prefWidth="676.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.RegisterFormController">
+   <children>
+      <Label layoutX="330.0" layoutY="46.0" prefHeight="41.0" prefWidth="141.0" text="REGISTER">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtUser" alignment="CENTER" layoutX="246.0" layoutY="143.0" prefHeight="40.0" prefWidth="280.0" promptText="username" style="-fx-background-radius: 18;" styleClass="tex_field">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="txtPassword" alignment="CENTER" layoutX="246.0" layoutY="223.0" prefHeight="40.0" prefWidth="280.0" promptText="new password" style="-fx-background-radius: 18;" styleClass="tex_field">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="257.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/icons8-key-100.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="254.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/icons8-user-100.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="41.0" fitWidth="47.0" layoutX="9.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/icons8-bread-and-rye-100.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="57.0" layoutY="16.0" prefHeight="32.0" prefWidth="137.0" text="CHAN'S FOODS">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <effect>
+            <Glow />
+         </effect>
+      </Label>
+      <Label layoutX="257.0" layoutY="119.0" text="Enter your name" />
+      <Label layoutX="258.0" layoutY="199.0" text="Add a new Password" />
+      <TextField fx:id="txtPassword1" alignment="CENTER" layoutX="247.0" layoutY="303.0" prefHeight="40.0" prefWidth="280.0" promptText="Confirm password" style="-fx-background-radius: 18;" styleClass="tex_field">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextField>
+      <Label layoutX="258.0" layoutY="282.0" text="Confirm Password" />
+      <JFXButton buttonType="RAISED" layoutX="267.0" layoutY="371.0" onAction="#btnRegisterOnAction" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Register" textFill="#f5ecec">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <ImageView fitHeight="399.0" fitWidth="602.0" layoutX="-113.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/bake.jpeg" />
+         </image>
+      </ImageView>
+      <JFXButton buttonType="RAISED" layoutX="389.0" layoutY="371.0" onAction="#btnBackOnAction" prefHeight="30.0" prefWidth="101.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Back" textFill="#f5ecec">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <ImageView fitHeight="41.0" fitWidth="47.0" layoutX="361.0" layoutY="432.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/icons8-bread-and-rye-100.png" />
+         </image>
+      </ImageView>
+      <Line endX="100.0" layoutX="252.0" layoutY="457.0" startX="-28.0" stroke="#bc8f14" />
+      <Line endX="100.0" layoutX="441.0" layoutY="457.0" startX="-28.0" stroke="#bc8f14" />
+   </children>
+</AnchorPane>
