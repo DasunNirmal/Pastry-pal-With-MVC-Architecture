@@ -1,13 +1,12 @@
-package lk.ijse.PastryPal.dto;
+package lk.ijse.PastryPal.dto.tm;
 
 import lombok.*;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerDto {
-
-    private String customer_id;
+@Data
+public class CustomerTm {
+    private String Customer_id;
     private String name;
     private String address;
     private int phone_number;

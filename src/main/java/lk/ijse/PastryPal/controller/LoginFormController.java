@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.IOException;
 
@@ -15,7 +14,6 @@ public class LoginFormController {
 
     @FXML
     private TextField txtPassword;
-
     @FXML
     private TextField txtUser;
     @FXML
@@ -30,7 +28,7 @@ public class LoginFormController {
         stage.show();
     }
     @FXML
-    void btnSignUpOnAction(ActionEvent event) throws IOException {
+    void hyperSignUpOnAction(ActionEvent event) throws IOException {
         AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/register_form.fxml"));
         Scene scene = new Scene(anchorPane);
         Stage stage = (Stage) this.rootNode.getScene().getWindow();

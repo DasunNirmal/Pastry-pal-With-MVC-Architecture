@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Glow?>
@@ -49,10 +50,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton layoutX="504.0" layoutY="327.0" onAction="#btnSignUpOnAction" text="Sign up here !" textFill="#0b70eb">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor></JFXButton>
       <Label layoutX="365.0" layoutY="331.0" text="Don't hav an accout ?" />
       <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="358.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -76,5 +73,6 @@
       </ImageView>
       <Line endX="100.0" layoutX="357.0" layoutY="469.0" startX="-28.0" stroke="#bc8f14" />
       <Line endX="100.0" layoutX="546.0" layoutY="469.0" startX="-28.0" stroke="#bc8f14" />
+      <Hyperlink layoutX="517.0" layoutY="327.0" onAction="#hyperSignUpOnAction" style="-fx-background-radius: 15;" text="Sign up here !" />
    </children>
 </AnchorPane>
