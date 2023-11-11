@@ -4,25 +4,32 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import lk.ijse.PastryPal.dto.RegistrationDto;
+import lk.ijse.PastryPal.model.RegistrationModel;
+import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class RegisterFormController {
     @FXML
     private TextField txtPassword;
 
     @FXML
-    private TextField txtPassword1;
+    private TextField txtConfirmPassword;
 
     @FXML
     private TextField txtUser;
 
     @FXML
     private AnchorPane RegisterPane;
+
+    private RegistrationModel registrationModel = new RegistrationModel();
 
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
@@ -36,6 +43,23 @@ public class RegisterFormController {
 
     @FXML
     void btnRegisterOnAction(ActionEvent event) {
+        String user = txtUser.getText();
+        String pw = txtPassword.getText();
+        String ConfirmPW = txtConfirmPassword.getText();
 
+        if (!ConfirmPW.equals(pw)) {
+            new Alert(Alert.AlertType.ERROR, "Password Did Not Match").showAndWait();
+            return;
+        }
+        var dto = new RegistrationDto(user,pw);
+
+        try {
+            boolean isRegistered = registrationModel.registerUser(dto);
+            if (isRegistered){
+                new Alert(Alert.AlertType.CONFIRMATION,"Your Account Has been Created").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
     }
 }

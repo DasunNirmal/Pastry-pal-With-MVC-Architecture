@@ -53,7 +53,7 @@
       </Label>
       <Label layoutX="257.0" layoutY="119.0" text="Enter your name" />
       <Label layoutX="258.0" layoutY="199.0" text="Add a new Password" />
-      <TextField fx:id="txtPassword1" alignment="CENTER" layoutX="247.0" layoutY="303.0" prefHeight="40.0" prefWidth="280.0" promptText="Confirm password" style="-fx-background-radius: 18;" styleClass="tex_field">
+      <TextField fx:id="txtConfirmPassword" alignment="CENTER" layoutX="247.0" layoutY="303.0" prefHeight="40.0" prefWidth="280.0" promptText="Confirm password" style="-fx-background-radius: 18;" styleClass="tex_field">
          <font>
             <Font size="15.0" />
          </font>

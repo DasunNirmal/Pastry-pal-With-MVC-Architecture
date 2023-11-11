@@ -55,18 +55,24 @@ public class MainFormController {
     }
 
     @FXML
-    void btnItemsOnAction(ActionEvent event) {
-
+    void btnItemsOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/item_form.fxml"));
+        this.mainNode.getChildren().clear();
+        this.mainNode.getChildren().add(anchorPane);
     }
 
     @FXML
-    void btnEmployeeOnAction(ActionEvent event) {
-
+    void btnEmployeeOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/employee_form.fxml"));
+        this.mainNode.getChildren().clear();
+        this.mainNode.getChildren().add(anchorPane);
     }
 
     @FXML
-    void btnComplainsOnAction(ActionEvent event) {
-
+    void btnComplainsOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/complains_form.fxml"));
+        this.mainNode.getChildren().clear();
+        this.mainNode.getChildren().add(anchorPane);
     }
 
     @FXML

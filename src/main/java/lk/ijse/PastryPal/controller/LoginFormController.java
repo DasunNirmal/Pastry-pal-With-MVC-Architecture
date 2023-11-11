@@ -4,11 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.PastryPal.model.RegistrationModel;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class LoginFormController {
 
@@ -19,13 +22,25 @@ public class LoginFormController {
     @FXML
     private AnchorPane rootNode;
 
+    private RegistrationModel registrationModel = new RegistrationModel();
+
     @FXML
     void btnLoginOnAction(ActionEvent event) throws IOException {
-        rootNode.getScene().getWindow().hide();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/main_form.fxml"))));
-        stage.centerOnScreen();
-        stage.show();
+        String userName = txtUser.getText();
+        String pw = txtPassword.getText();
+
+        try {
+            boolean isValid = registrationModel.isValidUser(userName,pw);
+            if (isValid){
+                rootNode.getScene().getWindow().hide();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/main_form.fxml"))));
+                stage.centerOnScreen();
+                stage.show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
     @FXML
     void hyperSignUpOnAction(ActionEvent event) throws IOException {
