@@ -37,6 +37,8 @@ public class LoginFormController {
                 stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/main_form.fxml"))));
                 stage.centerOnScreen();
                 stage.show();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"User Name And Password Did Not Matched try again").showAndWait();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
