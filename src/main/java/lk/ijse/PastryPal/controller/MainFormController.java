@@ -3,7 +3,6 @@ package lk.ijse.PastryPal.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -42,13 +41,17 @@ public class MainFormController {
     }
 
     @FXML
-    void btnSupplierOnAction(ActionEvent event) {
-
+    void btnSupplierOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/supplier_form.fxml"));
+        this.mainNode.getChildren().clear();
+        this.mainNode.getChildren().add(anchorPane);
     }
 
     @FXML
-    void btnMaterialsOnAction(ActionEvent event) {
-
+    void btnMaterialsOnAction(ActionEvent event) throws IOException {
+        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/materials_form.fxml"));
+        this.mainNode.getChildren().clear();
+        this.mainNode.getChildren().add(anchorPane);
     }
 
     @FXML
