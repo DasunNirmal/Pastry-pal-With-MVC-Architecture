@@ -2,7 +2,6 @@ package lk.ijse.PastryPal.model;
 
 import lk.ijse.PastryPal.DB.DbConnection;
 import lk.ijse.PastryPal.dto.RegistrationDto;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +27,9 @@ public class RegistrationModel {
         PreparedStatement ptsm = connection.prepareStatement(sql);
         ptsm.setString(1, userName);
         ptsm.setString(2,pw);
+
         ResultSet resultSet = ptsm.executeQuery();
+
         return resultSet.next();
     }
 }

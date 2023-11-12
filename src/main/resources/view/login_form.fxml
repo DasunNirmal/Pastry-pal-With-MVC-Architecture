@@ -4,6 +4,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
@@ -37,11 +38,6 @@
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField fx:id="txtPassword" alignment="CENTER" layoutX="347.0" layoutY="283.0" prefHeight="40.0" prefWidth="280.0" promptText="password" style="-fx-background-radius: 18;" styleClass="tex_field">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </TextField>
       <JFXButton buttonType="RAISED" layoutX="444.0" layoutY="393.0" onAction="#btnLoginOnAction" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Login" textFill="#f5ecec">
          <font>
             <Font name="System Bold" size="16.0" />
@@ -51,17 +47,12 @@
          </cursor>
       </JFXButton>
       <Label layoutX="365.0" layoutY="331.0" text="Don't hav an accout ?" />
-      <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="358.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icons/icons8-key-100.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="355.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/icons8-user-100.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="425.0" fitWidth="363.0" layoutX="-19.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="425.0" fitWidth="363.0" layoutX="-17.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/bake.jpeg" />
          </image>
@@ -74,5 +65,15 @@
       <Line endX="100.0" layoutX="357.0" layoutY="469.0" startX="-28.0" stroke="#bc8f14" />
       <Line endX="100.0" layoutX="546.0" layoutY="469.0" startX="-28.0" stroke="#bc8f14" />
       <Hyperlink layoutX="517.0" layoutY="327.0" onAction="#hyperSignUpOnAction" style="-fx-background-radius: 15;" text="Sign up here !" />
+      <PasswordField fx:id="txtPassword" alignment="CENTER" layoutX="347.0" layoutY="286.0" prefHeight="40.0" prefWidth="280.0" promptText="password" style="-fx-background-radius: 18;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </PasswordField>
+      <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="354.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icons/icons8-key-100.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

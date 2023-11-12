@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -21,7 +22,7 @@ public class RegisterFormController {
     private TextField txtPassword;
 
     @FXML
-    private TextField txtConfirmPassword;
+    private PasswordField txtConfirmPassword;
 
     @FXML
     private TextField txtUser;
@@ -47,8 +48,8 @@ public class RegisterFormController {
         String pw = txtPassword.getText();
         String ConfirmPW = txtConfirmPassword.getText();
 
-        if (!ConfirmPW.equals(pw)) {
-            new Alert(Alert.AlertType.ERROR, "Password Did Not Match").showAndWait();
+        if (!ConfirmPW.equals(pw) || user.isEmpty() || pw.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Can Not Leave Password or User Name Empty !").showAndWait();
             return;
         }
         var dto = new RegistrationDto(user,pw);

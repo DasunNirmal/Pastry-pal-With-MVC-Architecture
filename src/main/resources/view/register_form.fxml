@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
@@ -53,11 +54,6 @@
       </Label>
       <Label layoutX="257.0" layoutY="119.0" text="Enter your name" />
       <Label layoutX="258.0" layoutY="199.0" text="Add a new Password" />
-      <TextField fx:id="txtConfirmPassword" alignment="CENTER" layoutX="247.0" layoutY="303.0" prefHeight="40.0" prefWidth="280.0" promptText="Confirm password" style="-fx-background-radius: 18;" styleClass="tex_field">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </TextField>
       <Label layoutX="258.0" layoutY="282.0" text="Confirm Password" />
       <JFXButton buttonType="RAISED" layoutX="267.0" layoutY="371.0" onAction="#btnRegisterOnAction" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Register" textFill="#f5ecec">
          <font>
@@ -87,5 +83,10 @@
       </ImageView>
       <Line endX="100.0" layoutX="252.0" layoutY="457.0" startX="-28.0" stroke="#bc8f14" />
       <Line endX="100.0" layoutX="441.0" layoutY="457.0" startX="-28.0" stroke="#bc8f14" />
+      <PasswordField fx:id="txtConfirmPassword" alignment="CENTER" layoutX="246.0" layoutY="305.0" prefHeight="40.0" prefWidth="280.0" promptText="Confirm password" style="-fx-background-radius: 18;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </PasswordField>
    </children>
 </AnchorPane>
