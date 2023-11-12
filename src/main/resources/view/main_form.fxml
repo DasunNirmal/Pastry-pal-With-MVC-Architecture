@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="642.0" prefWidth="831.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.MainFormController">
+<AnchorPane prefHeight="642.0" prefWidth="842.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.MainFormController">
    <children>
       <AnchorPane layoutX="6.0" layoutY="11.0" prefHeight="622.0" prefWidth="186.0" style="-fx-background-color: #FFDC006B; -fx-background-radius: 20;">
          <children>
@@ -38,7 +38,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <AnchorPane fx:id="mainNode" layoutX="201.0" layoutY="9.0" prefHeight="590.0" prefWidth="610.0" style="-fx-background-radius: 15;" />
+      <AnchorPane fx:id="mainNode" layoutX="208.0" layoutY="9.0" prefHeight="590.0" prefWidth="610.0" style="-fx-background-radius: 15;" />
       <JFXButton buttonType="RAISED" layoutX="16.0" layoutY="151.0" onAction="#btnDashBoardOnAction" prefHeight="32.0" prefWidth="164.0" style="-fx-background-color: white; -fx-background-radius: 16;" text="DashBoard">
          <font>
             <Font name="System Bold" size="13.0" />
@@ -47,7 +47,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="17.0" layoutY="203.0" onAction="#btnCustomerOnAction" prefHeight="32.0" prefWidth="164.0" style="-fx-background-color: white; -fx-background-radius: 16;" text="Customers">
+      <JFXButton buttonType="RAISED" layoutX="17.0" layoutY="257.0" onAction="#btnCustomerOnAction" prefHeight="32.0" prefWidth="164.0" style="-fx-background-color: white; -fx-background-radius: 16;" text="Customers">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -60,12 +60,12 @@
             <Image url="@../icons/icons8-dashboard.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="32.0" fitWidth="25.0" layoutX="26.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="32.0" fitWidth="25.0" layoutX="26.0" layoutY="263.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/icons8-customers.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="17.0" layoutY="255.0" onAction="#btnOrderOnAction" prefHeight="32.0" prefWidth="164.0" style="-fx-background-color: white; -fx-background-radius: 16;" text="Orders">
+      <JFXButton buttonType="RAISED" layoutX="17.0" layoutY="205.0" onAction="#btnOrderOnAction" prefHeight="32.0" prefWidth="164.0" style="-fx-background-color: white; -fx-background-radius: 16;" text="Orders">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -73,7 +73,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <ImageView fitHeight="32.0" fitWidth="25.0" layoutX="26.0" layoutY="259.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="32.0" fitWidth="25.0" layoutX="27.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/icons8-minimum-order.png" />
          </image>
@@ -143,12 +143,12 @@
             <Image url="@../icons/complain.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="40.0" fitWidth="41.0" layoutX="476.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="40.0" fitWidth="41.0" layoutX="516.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/icons8-bread-and-rye-100.png" />
          </image>
       </ImageView>
-      <Line endX="100.0" layoutX="367.0" layoutY="623.0" startX="-80.0" stroke="#bc8f14" />
-      <Line endX="100.0" layoutX="607.0" layoutY="623.0" startX="-80.0" stroke="#bc8f14" />
+      <Line endX="100.0" layoutX="407.0" layoutY="623.0" startX="-80.0" stroke="#bc8f14" />
+      <Line endX="100.0" layoutX="647.0" layoutY="623.0" startX="-80.0" stroke="#bc8f14" />
    </children>
 </AnchorPane>

@@ -65,7 +65,7 @@
       <Line endX="100.0" layoutX="357.0" layoutY="469.0" startX="-28.0" stroke="#bc8f14" />
       <Line endX="100.0" layoutX="546.0" layoutY="469.0" startX="-28.0" stroke="#bc8f14" />
       <Hyperlink layoutX="517.0" layoutY="327.0" onAction="#hyperSignUpOnAction" style="-fx-background-radius: 15;" text="Sign up here !" />
-      <PasswordField fx:id="txtPassword" alignment="CENTER" layoutX="347.0" layoutY="286.0" prefHeight="40.0" prefWidth="280.0" promptText="password" style="-fx-background-radius: 18;">
+      <PasswordField fx:id="txtPassword" alignment="CENTER" layoutX="347.0" layoutY="286.0" onAction="#txtLoginOnAction" prefHeight="40.0" prefWidth="280.0" promptText="password" style="-fx-background-radius: 18;">
          <font>
             <Font size="15.0" />
          </font>

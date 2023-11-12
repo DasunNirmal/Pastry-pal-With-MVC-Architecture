@@ -25,6 +25,14 @@ public class LoginFormController {
 
     private RegistrationModel registrationModel = new RegistrationModel();
 
+    private void Login() throws IOException {
+        rootNode.getScene().getWindow().hide();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/main_form.fxml"))));
+        stage.centerOnScreen();
+        stage.show();
+    }
+
     @FXML
     void btnLoginOnAction(ActionEvent event) throws IOException {
         String userName = txtUser.getText();
@@ -33,11 +41,7 @@ public class LoginFormController {
         try {
             boolean isValid = registrationModel.isValidUser(userName,pw);
             if (isValid){
-                rootNode.getScene().getWindow().hide();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/main_form.fxml"))));
-                stage.centerOnScreen();
-                stage.show();
+                Login();
             }else {
                 new Alert(Alert.AlertType.ERROR,"User Name And Password Did Not Matched try again").showAndWait();
             }
@@ -45,6 +49,24 @@ public class LoginFormController {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
+
+    @FXML
+    void txtLoginOnAction(ActionEvent event) throws IOException {
+        String userName = txtUser.getText();
+        String pw = txtPassword.getText();
+
+        try {
+            boolean isValid = registrationModel.isValidUser(userName,pw);
+            if (isValid){
+                Login();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"User Name And Password Did Not Matched try again").showAndWait();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
     @FXML
     void hyperSignUpOnAction(ActionEvent event) throws IOException {
         AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/register_form.fxml"));

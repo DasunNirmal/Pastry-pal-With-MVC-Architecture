@@ -18,18 +18,15 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class RegisterFormController {
+
     @FXML
     private TextField txtPassword;
-
     @FXML
     private PasswordField txtConfirmPassword;
-
     @FXML
     private TextField txtUser;
-
     @FXML
     private AnchorPane RegisterPane;
-
     private RegistrationModel registrationModel = new RegistrationModel();
 
     @FXML
@@ -49,18 +46,52 @@ public class RegisterFormController {
         String ConfirmPW = txtConfirmPassword.getText();
 
         if (!ConfirmPW.equals(pw) || user.isEmpty() || pw.isEmpty()) {
-            new Alert(Alert.AlertType.ERROR, "Can Not Leave Password or User Name Empty !").showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Can Not Leave Password or User Name Empty!").showAndWait();
             return;
         }
-        var dto = new RegistrationDto(user,pw);
 
+        var dto = new RegistrationDto(user, pw);
         try {
+            boolean checkDuplicates = registrationModel.check(user, pw);
+            if (checkDuplicates) {
+                new Alert(Alert.AlertType.ERROR, "Duplicate Entry").showAndWait();
+                return;
+            }
+
             boolean isRegistered = registrationModel.registerUser(dto);
-            if (isRegistered){
-                new Alert(Alert.AlertType.CONFIRMATION,"Your Account Has been Created").show();
+            if (isRegistered) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Your Account Has been Created").show();
             }
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+    @FXML
+    void txtRegisterOnAction(ActionEvent event) {
+        String user = txtUser.getText();
+        String pw = txtPassword.getText();
+        String ConfirmPW = txtConfirmPassword.getText();
+
+        if (!ConfirmPW.equals(pw) || user.isEmpty() || pw.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Can Not Leave Password or User Name Empty!").showAndWait();
+            return;
+        }
+
+        var dto = new RegistrationDto(user, pw);
+        try {
+            boolean checkDuplicates = registrationModel.check(user, pw);
+            if (checkDuplicates) {
+                new Alert(Alert.AlertType.ERROR, "Duplicate Entry").showAndWait();
+                return;
+            }
+
+            boolean isRegistered = registrationModel.registerUser(dto);
+            if (isRegistered) {
+                new Alert(Alert.AlertType.CONFIRMATION, "Your Account Has been Created").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 }
