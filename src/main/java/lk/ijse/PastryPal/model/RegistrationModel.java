@@ -33,16 +33,7 @@ public class RegistrationModel {
         return resultSet.next();
     }
 
-    public boolean check(String user, String pw) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM users WHERE user_name = ? AND password = ?";
-        PreparedStatement ptsm = connection.prepareStatement(sql);
-        ptsm.setString(1, user);
-        ptsm.setString(2,pw);
-
-        ResultSet resultSet = ptsm.executeQuery();
-
-        return resultSet.next();
+    public boolean check(String userName, String pw) throws SQLException {
+        return isValidUser(userName,pw);
     }
 }

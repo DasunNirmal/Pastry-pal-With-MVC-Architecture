@@ -41,18 +41,18 @@ public class RegisterFormController {
 
     @FXML
     void btnRegisterOnAction(ActionEvent event) {
-        String user = txtUser.getText();
+        String userName = txtUser.getText();
         String pw = txtPassword.getText();
         String ConfirmPW = txtConfirmPassword.getText();
 
-        if (!ConfirmPW.equals(pw) || user.isEmpty() || pw.isEmpty()) {
+        if (!ConfirmPW.equals(pw) || userName.isEmpty() || pw.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Can Not Leave Password or User Name Empty!").showAndWait();
             return;
         }
 
-        var dto = new RegistrationDto(user, pw);
+        var dto = new RegistrationDto(userName, pw);
         try {
-            boolean checkDuplicates = registrationModel.check(user, pw);
+            boolean checkDuplicates = registrationModel.check(userName, pw);
             if (checkDuplicates) {
                 new Alert(Alert.AlertType.ERROR, "Duplicate Entry").showAndWait();
                 return;
@@ -69,29 +69,17 @@ public class RegisterFormController {
 
     @FXML
     void txtRegisterOnAction(ActionEvent event) {
-        String user = txtUser.getText();
-        String pw = txtPassword.getText();
-        String ConfirmPW = txtConfirmPassword.getText();
-
-        if (!ConfirmPW.equals(pw) || user.isEmpty() || pw.isEmpty()) {
-            new Alert(Alert.AlertType.ERROR, "Can Not Leave Password or User Name Empty!").showAndWait();
-            return;
-        }
-
-        var dto = new RegistrationDto(user, pw);
-        try {
-            boolean checkDuplicates = registrationModel.check(user, pw);
-            if (checkDuplicates) {
-                new Alert(Alert.AlertType.ERROR, "Duplicate Entry").showAndWait();
-                return;
-            }
-
-            boolean isRegistered = registrationModel.registerUser(dto);
-            if (isRegistered) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Your Account Has been Created").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
+        btnRegisterOnAction(new ActionEvent());
     }
+
+    @FXML
+    void txtGoToNewPasswordOnAction(ActionEvent event) {
+        txtPassword.requestFocus();
+    }
+
+    @FXML
+    void txtGoToConfirmPasswordOnAction(ActionEvent event) {
+        txtConfirmPassword.requestFocus();
+    }
+
 }

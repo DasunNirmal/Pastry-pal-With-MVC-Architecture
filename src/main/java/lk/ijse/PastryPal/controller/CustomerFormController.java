@@ -2,9 +2,17 @@ package lk.ijse.PastryPal.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
+import lk.ijse.PastryPal.dto.CustomerDto;
+import lk.ijse.PastryPal.model.CustomerModel;
+
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class CustomerFormController {
     @FXML
@@ -32,8 +40,61 @@ public class CustomerFormController {
     private TextField txtPhoneNumber;
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
+    private Label lblDate;
 
+    @FXML
+    private Label lblTime;
+
+    private CustomerModel customerModel = new CustomerModel();
+
+    public void initialize(){
+        generateNextCustomerID();
+        setDateAndTime();
+    }
+
+    private void  generateNextCustomerID(){
+        try {
+            String customerID = customerModel. generateNextCustomer();
+            lblCustomerId.setText(customerID);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
+    }
+
+    private void clearFields(){
+        txtCustomerName.setText("");
+        txtCustomerAddress.setText("");
+        txtPhoneNumber.setText("");
+    }
+
+    private void setDateAndTime(){
+        lblDate.setText(String.valueOf(LocalDate.now()));
+
+        SimpleDateFormat simpleTime = new SimpleDateFormat("hh.mm.aa");
+        Date date = new Date();
+        String time = simpleTime.format(date);
+        lblTime.setText(time);
+    }
+
+    @FXML
+    void btnSaveOnAction(ActionEvent event) {
+        String id = lblCustomerId.getText();
+        String name = txtCustomerName.getText();
+        String address = txtCustomerAddress.getText();
+        int phoneNumber = Integer.parseInt(txtPhoneNumber.getText());
+
+        var dto = new CustomerDto(id,name,address,phoneNumber);
+        try {
+            boolean isSaved = customerModel.save(dto);
+            if (isSaved){
+                new Alert(Alert.AlertType.CONFIRMATION,"Customer is Saved").show();
+                clearFields();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"Customer is Not Saved").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
     }
 
     @FXML
@@ -44,5 +105,20 @@ public class CustomerFormController {
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
 
+    }
+
+    @FXML
+    void txtGoToAddressOnAction(ActionEvent event) {
+        txtCustomerAddress.requestFocus();
+    }
+
+    @FXML
+    void txtGoToPhoneNumberOnAction(ActionEvent event) {
+        txtPhoneNumber.requestFocus();
+    }
+
+    @FXML
+    void txtSaveOnAction(ActionEvent event) {
+        btnSaveOnAction(new ActionEvent());
     }
 }

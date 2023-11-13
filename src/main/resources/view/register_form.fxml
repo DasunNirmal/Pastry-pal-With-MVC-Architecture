@@ -19,12 +19,12 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="txtUser" alignment="CENTER" layoutX="246.0" layoutY="143.0" prefHeight="40.0" prefWidth="280.0" promptText="username" style="-fx-background-radius: 18;" styleClass="tex_field">
+      <TextField fx:id="txtUser" alignment="CENTER" layoutX="246.0" layoutY="143.0" onAction="#txtGoToNewPasswordOnAction" prefHeight="40.0" prefWidth="280.0" promptText="username" style="-fx-background-radius: 18;" styleClass="tex_field">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField fx:id="txtPassword" alignment="CENTER" layoutX="246.0" layoutY="223.0" prefHeight="40.0" prefWidth="280.0" promptText="new password" style="-fx-background-radius: 18;" styleClass="tex_field">
+      <TextField fx:id="txtPassword" alignment="CENTER" layoutX="246.0" layoutY="223.0" onAction="#txtGoToConfirmPasswordOnAction" prefHeight="40.0" prefWidth="280.0" promptText="new password" style="-fx-background-radius: 18;" styleClass="tex_field">
          <font>
             <Font size="15.0" />
          </font>

@@ -32,12 +32,12 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="446.0" layoutY="50.0" prefHeight="32.0" prefWidth="60.0" text="Date:">
+      <Label layoutX="506.0" layoutY="10.0" prefHeight="32.0" prefWidth="47.0" text="Date:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="541.0" layoutY="50.0" prefHeight="32.0" prefWidth="60.0" text="Time:">
+      <Label layoutX="508.0" layoutY="50.0" prefHeight="32.0" prefWidth="47.0" text="Time:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -76,6 +76,16 @@
       <Label layoutX="24.0" layoutY="197.0" prefHeight="22.0" prefWidth="113.0" text="Status :">
          <font>
             <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDate" layoutX="556.0" layoutY="10.0" prefHeight="32.0" prefWidth="102.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTime" layoutX="558.0" layoutY="50.0" prefHeight="32.0" prefWidth="102.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
          </font>
       </Label>
    </children>

@@ -33,7 +33,7 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="txtUser" alignment="CENTER" layoutX="347.0" layoutY="203.0" prefHeight="40.0" prefWidth="280.0" promptText="username" style="-fx-background-radius: 18;" styleClass="tex_field">
+      <TextField fx:id="txtUser" alignment="CENTER" layoutX="347.0" layoutY="203.0" onAction="#txtGoToPasswordOnAction" prefHeight="40.0" prefWidth="280.0" promptText="username" style="-fx-background-radius: 18;" styleClass="tex_field">
          <font>
             <Font size="15.0" />
          </font>

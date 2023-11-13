@@ -51,19 +51,7 @@ public class LoginFormController {
 
     @FXML
     void txtLoginOnAction(ActionEvent event) throws IOException {
-        String userName = txtUser.getText();
-        String pw = txtPassword.getText();
-
-        try {
-            boolean isValid = registrationModel.isValidUser(userName,pw);
-            if (isValid){
-                Login();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"User Name And Password Did Not Matched try again").showAndWait();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
+        btnLoginOnAction(new ActionEvent());
     }
 
     @FXML
@@ -74,5 +62,10 @@ public class LoginFormController {
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.setTitle("Register");
+    }
+
+    @FXML
+    void txtGoToPasswordOnAction(ActionEvent event) {
+        txtPassword.requestFocus();
     }
 }
