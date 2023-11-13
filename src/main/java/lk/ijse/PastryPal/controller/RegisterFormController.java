@@ -29,6 +29,12 @@ public class RegisterFormController {
     private AnchorPane RegisterPane;
     private RegistrationModel registrationModel = new RegistrationModel();
 
+    private void clearFields() {
+        txtUser.setText("");
+        txtPassword.setText("");
+        txtConfirmPassword.setText("");
+    }
+
     @FXML
     void btnBackOnAction(ActionEvent event) throws IOException {
         AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/login_form.fxml"));
@@ -61,6 +67,7 @@ public class RegisterFormController {
             boolean isRegistered = registrationModel.registerUser(dto);
             if (isRegistered) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Your Account Has been Created").show();
+                clearFields();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
