@@ -32,7 +32,7 @@ public class CustomerFormController {
     private TextField txtPhoneNumber;
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) {
+    void btnSaveOnAction(ActionEvent event) {
 
     }
 
@@ -42,7 +42,7 @@ public class CustomerFormController {
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
+    void btnDeleteOnAction(ActionEvent event) {
 
     }
 }

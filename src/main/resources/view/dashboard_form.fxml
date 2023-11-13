@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="590.0" prefWidth="615.0" style="-fx-background-color: #FFCD0017; -fx-background-radius: 24;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="590.0" prefWidth="615.0" style="-fx-background-color: #FFCD0017; -fx-background-radius: 24;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.DashboardFormController">
    <children>
       <ImageView fitHeight="41.0" fitWidth="47.0" layoutX="222.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -29,12 +29,12 @@
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <Label layoutX="446.0" layoutY="50.0" prefHeight="32.0" prefWidth="60.0" text="Date:">
+      <Label layoutX="506.0" layoutY="10.0" prefHeight="32.0" prefWidth="48.0" text="Date:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="541.0" layoutY="50.0" prefHeight="32.0" prefWidth="60.0" text="Time:">
+      <Label layoutX="505.0" layoutY="50.0" prefHeight="32.0" prefWidth="48.0" text="Time:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -129,5 +129,15 @@
             </JFXButton>
          </children>
       </AnchorPane>
+      <Label fx:id="lblDate" layoutX="554.0" layoutY="10.0" prefHeight="32.0" prefWidth="104.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTime" layoutX="555.0" layoutY="50.0" prefHeight="32.0" prefWidth="104.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
