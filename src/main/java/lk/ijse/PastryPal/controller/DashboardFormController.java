@@ -2,11 +2,8 @@ package lk.ijse.PastryPal.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Date;
 
 public class DashboardFormController {
@@ -19,10 +16,10 @@ public class DashboardFormController {
 
     public void initialize(){
         setDateAndTime();
-
     }
     private void setDateAndTime(){
         lblDate.setText(String.valueOf(LocalDate.now()));
+
         SimpleDateFormat simpleTime = new SimpleDateFormat("hh.mm.aa");
         Date date = new Date();
         String time = simpleTime.format(date);
