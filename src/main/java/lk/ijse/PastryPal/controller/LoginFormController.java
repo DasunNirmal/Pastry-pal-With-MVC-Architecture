@@ -24,14 +24,6 @@ public class LoginFormController {
     private AnchorPane rootNode;
     private RegistrationModel registrationModel = new RegistrationModel();
 
-    private void Login() throws IOException {
-        rootNode.getScene().getWindow().hide();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/main_form.fxml"))));
-        stage.centerOnScreen();
-        stage.show();
-    }
-
     @FXML
     void btnLoginOnAction(ActionEvent event) throws IOException {
         String userName = txtUser.getText();
@@ -40,7 +32,11 @@ public class LoginFormController {
         try {
             boolean isValid = registrationModel.isValidUser(userName,pw);
             if (isValid){
-                Login();
+                rootNode.getScene().getWindow().hide();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/main_form.fxml"))));
+                stage.centerOnScreen();
+                stage.show();
             }else {
                 new Alert(Alert.AlertType.ERROR,"User Name And Password Did Not Matched try again").showAndWait();
             }
