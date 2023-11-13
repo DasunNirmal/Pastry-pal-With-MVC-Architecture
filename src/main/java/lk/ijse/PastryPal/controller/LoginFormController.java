@@ -22,7 +22,6 @@ public class LoginFormController {
     private TextField txtUser;
     @FXML
     private AnchorPane rootNode;
-
     private RegistrationModel registrationModel = new RegistrationModel();
 
     private void Login() throws IOException {
