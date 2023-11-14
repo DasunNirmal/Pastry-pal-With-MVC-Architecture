@@ -2,6 +2,7 @@ package lk.ijse.PastryPal.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -43,15 +44,17 @@ public class SupplierFormController {
         setDateAndTime();
     }
     private void setDateAndTime(){
-        lblDate.setText(String.valueOf(LocalDate.now()));
+        Platform.runLater(() -> {
+            lblDate.setText(String.valueOf(LocalDate.now()));
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
-            String timeNow = LocalTime.now().format(formatter);
-            lblTime.setText(timeNow);
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1), event -> {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+                String timeNow = LocalTime.now().format(formatter);
+                lblTime.setText(timeNow);
+            }));
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+        });
     }
 
     @FXML

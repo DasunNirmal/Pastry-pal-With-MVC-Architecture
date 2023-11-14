@@ -45,7 +45,7 @@
       </Label>
       <Line endX="419.0" layoutX="249.0" layoutY="92.0" startX="-249.0" stroke="#bc8f14" />
       <TextField fx:id="txtCustomerName" alignment="CENTER" layoutX="30.0" layoutY="159.0" onAction="#txtGoToAddressOnAction" prefHeight="32.0" prefWidth="210.0" promptText="Customer Name" style="-fx-background-radius: 20;" />
-      <Label layoutX="402.0" layoutY="167.0" prefHeight="22.0" prefWidth="113.0" text="Customer ID :">
+      <Label layoutX="402.0" layoutY="160.0" prefHeight="22.0" prefWidth="113.0" text="Customer ID :">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -89,7 +89,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblCustomerId" layoutX="512.0" layoutY="167.0" prefHeight="22.0" prefWidth="102.0">
+      <Label fx:id="lblCustomerId" layoutX="512.0" layoutY="160.0" prefHeight="22.0" prefWidth="102.0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -109,5 +109,13 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
+      <JFXButton buttonType="RAISED" layoutX="229.0" layoutY="289.0" onAction="#btnClearOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Clear" textFill="#eeeeee">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
    </children>
 </AnchorPane>

@@ -51,8 +51,6 @@ public class CustomerFormController {
     @FXML
     private Label lblTime;
 
-    private volatile boolean stop = false;
-
     private CustomerModel customerModel = new CustomerModel();
 
     public void initialize(){
@@ -62,11 +60,24 @@ public class CustomerFormController {
 
     private void  generateNextCustomerID(){
         try {
+            String previousCustomerID = lblCustomerId.getText();
             String customerID = customerModel.generateNextCustomer();
             lblCustomerId.setText(customerID);
+            clearFields();
+            if (btnClearPressed){
+                lblCustomerId.setText(previousCustomerID);
+            }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
+    }
+
+    private boolean btnClearPressed = false;
+
+    @FXML
+    void btnClearOnAction(ActionEvent event) {
+        clearFields();
+        generateNextCustomerID();
     }
 
     private void clearFields(){
@@ -75,17 +86,20 @@ public class CustomerFormController {
         txtPhoneNumber.setText("");
     }
 
-    private void setDateAndTime(){
-        lblDate.setText(String.valueOf(LocalDate.now()));
+    private void setDateAndTime() {
+        Platform.runLater(() -> {
+            lblDate.setText(String.valueOf(LocalDate.now()));
 
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
-            String timeNow = LocalTime.now().format(formatter);
-            lblTime.setText(timeNow);
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1), event -> {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+                String timeNow = LocalTime.now().format(formatter);
+                lblTime.setText(timeNow);
+            }));
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+        });
     }
+
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
@@ -100,6 +114,7 @@ public class CustomerFormController {
             if (isSaved){
                 new Alert(Alert.AlertType.CONFIRMATION,"Customer is Saved").show();
                 clearFields();
+                generateNextCustomerID();
             }else {
                 new Alert(Alert.AlertType.ERROR,"Customer is Not Saved").show();
             }
