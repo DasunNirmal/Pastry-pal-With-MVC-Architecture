@@ -1,10 +1,13 @@
 package lk.ijse.PastryPal.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import java.text.SimpleDateFormat;
+import javafx.util.Duration;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class DashboardFormController {
 
@@ -20,9 +23,12 @@ public class DashboardFormController {
     private void setDateAndTime(){
         lblDate.setText(String.valueOf(LocalDate.now()));
 
-        SimpleDateFormat simpleTime = new SimpleDateFormat("hh.mm.aa");
-        Date date = new Date();
-        String time = simpleTime.format(date);
-        lblTime.setText(time);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+            String timeNow = LocalTime.now().format(formatter);
+            lblTime.setText(timeNow);
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 }

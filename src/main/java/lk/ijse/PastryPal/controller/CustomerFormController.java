@@ -1,17 +1,23 @@
 package lk.ijse.PastryPal.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
+import javafx.util.Duration;
 import lk.ijse.PastryPal.dto.CustomerDto;
 import lk.ijse.PastryPal.model.CustomerModel;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class CustomerFormController {
@@ -45,16 +51,18 @@ public class CustomerFormController {
     @FXML
     private Label lblTime;
 
+    private volatile boolean stop = false;
+
     private CustomerModel customerModel = new CustomerModel();
 
     public void initialize(){
-        generateNextCustomerID();
         setDateAndTime();
+        generateNextCustomerID();
     }
 
     private void  generateNextCustomerID(){
         try {
-            String customerID = customerModel. generateNextCustomer();
+            String customerID = customerModel.generateNextCustomer();
             lblCustomerId.setText(customerID);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -70,10 +78,13 @@ public class CustomerFormController {
     private void setDateAndTime(){
         lblDate.setText(String.valueOf(LocalDate.now()));
 
-        SimpleDateFormat simpleTime = new SimpleDateFormat("hh.mm.aa");
-        Date date = new Date();
-        String time = simpleTime.format(date);
-        lblTime.setText(time);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+            String timeNow = LocalTime.now().format(formatter);
+            lblTime.setText(timeNow);
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     @FXML

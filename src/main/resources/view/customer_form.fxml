@@ -89,11 +89,6 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblTime" layoutX="554.0" layoutY="50.0" prefHeight="32.0" prefWidth="102.0">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-      </Label>
       <Label fx:id="lblCustomerId" layoutX="512.0" layoutY="167.0" prefHeight="22.0" prefWidth="102.0">
          <font>
             <Font name="System Bold" size="13.0" />
@@ -109,5 +104,10 @@
             <Image url="@../icons/icons8-search (1).gif" />
          </image>
       </ImageView>
+      <Label fx:id="lblTime" layoutX="554.0" layoutY="50.0" prefHeight="32.0" prefWidth="102.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
