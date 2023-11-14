@@ -3,22 +3,22 @@ package lk.ijse.PastryPal.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import lk.ijse.PastryPal.dto.CustomerDto;
+import lk.ijse.PastryPal.dto.tm.CustomerTm;
 import lk.ijse.PastryPal.model.CustomerModel;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.List;
 
 public class CustomerFormController {
     @FXML
@@ -34,6 +34,9 @@ public class CustomerFormController {
     private TableColumn<?, ?> colPoneNumber;
 
     @FXML
+    private TableView<CustomerTm> tblCustomer;
+
+    @FXML
     private Label lblCustomerId;
 
     @FXML
@@ -46,6 +49,9 @@ public class CustomerFormController {
     private TextField txtPhoneNumber;
 
     @FXML
+    private TextField txtSearch;
+
+    @FXML
     private Label lblDate;
 
     @FXML
@@ -54,8 +60,10 @@ public class CustomerFormController {
     private CustomerModel customerModel = new CustomerModel();
 
     public void initialize(){
+        setCellValueFactory();
         setDateAndTime();
         generateNextCustomerID();
+        loadAllCustomers();
     }
 
     private void  generateNextCustomerID(){
@@ -84,6 +92,7 @@ public class CustomerFormController {
         txtCustomerName.setText("");
         txtCustomerAddress.setText("");
         txtPhoneNumber.setText("");
+        txtSearch.setText("");
     }
 
     private void setDateAndTime() {
@@ -100,6 +109,34 @@ public class CustomerFormController {
         });
     }
 
+    private void setCellValueFactory() {
+        colCustomerID.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
+        colCustomerName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colPoneNumber.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
+    }
+
+    private void loadAllCustomers() {
+        var model = new CustomerModel();
+
+        ObservableList<CustomerTm> oblist = FXCollections.observableArrayList();
+        try {
+            List<CustomerDto> dtoList = model.getAllCustomer();
+            for (CustomerDto dto : dtoList){
+                oblist.add(
+                        new CustomerTm(
+                                dto.getCustomer_id(),
+                                dto.getName(),
+                                dto.getAddress(),
+                                dto.getPhone_number()
+                        )
+                );
+            }
+            tblCustomer.setItems(oblist);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
+    }
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
@@ -115,6 +152,7 @@ public class CustomerFormController {
                 new Alert(Alert.AlertType.CONFIRMATION,"Customer is Saved").show();
                 clearFields();
                 generateNextCustomerID();
+                loadAllCustomers();
             }else {
                 new Alert(Alert.AlertType.ERROR,"Customer is Not Saved").show();
             }
@@ -125,12 +163,62 @@ public class CustomerFormController {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        String id = lblCustomerId.getText();
+        String name = txtCustomerName.getText();
+        String address = txtCustomerAddress.getText();
+        int phoneNumber = Integer.parseInt(txtPhoneNumber.getText());
 
+        var dto = new CustomerDto(id,name,address,phoneNumber);
+        try {
+            boolean isUpdated = customerModel.updateCustomer(dto);
+            if (isUpdated){
+                new Alert(Alert.AlertType.CONFIRMATION,"Customer is Updated").show();
+                loadAllCustomers();
+                clearFields();
+                generateNextCustomerID();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
+        String id = lblCustomerId.getText();
 
+        try {
+            boolean isDeleted = customerModel.deleteCustomers(id);
+            if (isDeleted){
+                new Alert(Alert.AlertType.CONFIRMATION,"Customer is Deleted").show();
+                loadAllCustomers();
+                clearFields();
+                generateNextCustomerID();
+            }else {
+                new Alert(Alert.AlertType.INFORMATION,"Customer is Not Deleted").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
+    }
+
+    @FXML
+    void txtSearchOnActon(ActionEvent event) {
+        String searchId = txtSearch.getText();
+
+        try {
+            CustomerDto customerDto = customerModel.searchCustomer(searchId);
+            if (customerDto != null){
+                lblCustomerId.setText(customerDto.getCustomer_id());
+                txtCustomerName.setText(customerDto.getName());
+                txtCustomerAddress.setText(customerDto.getAddress());
+                txtPhoneNumber.setText(String.valueOf(customerDto.getPhone_number()));
+            }else {
+                lblCustomerId.setText("");
+                new Alert(Alert.AlertType.INFORMATION,"Customer not Found").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
     }
 
     @FXML

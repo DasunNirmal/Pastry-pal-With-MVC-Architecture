@@ -44,8 +44,8 @@
          </font>
       </Label>
       <Line endX="419.0" layoutX="249.0" layoutY="92.0" startX="-249.0" stroke="#bc8f14" />
-      <TextField fx:id="txtCustomerName" alignment="CENTER" layoutX="30.0" layoutY="159.0" onAction="#txtGoToAddressOnAction" prefHeight="32.0" prefWidth="210.0" promptText="Customer Name" style="-fx-background-radius: 20;" />
-      <Label layoutX="402.0" layoutY="160.0" prefHeight="22.0" prefWidth="113.0" text="Customer ID :">
+      <TextField fx:id="txtCustomerName" alignment="CENTER" layoutX="399.0" layoutY="155.0" onAction="#txtGoToAddressOnAction" prefHeight="32.0" prefWidth="210.0" promptText="Customer Name" style="-fx-background-radius: 20;" />
+      <Label layoutX="37.0" layoutY="160.0" prefHeight="22.0" prefWidth="113.0" text="Customer ID :">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -76,7 +76,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <TableView layoutX="49.0" layoutY="337.0" prefHeight="240.0" prefWidth="587.0" style="-fx-background-color: white; -fx-background-radius: 16;">
+      <TableView fx:id="tblCustomer" layoutX="49.0" layoutY="337.0" prefHeight="240.0" prefWidth="587.0" style="-fx-background-color: white; -fx-background-radius: 16;">
         <columns>
           <TableColumn fx:id="colCustomerID" prefWidth="108.0" text="Customer ID" />
           <TableColumn fx:id="colCustomerName" prefWidth="135.0" text="Customer Name" />
@@ -89,12 +89,12 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblCustomerId" layoutX="512.0" layoutY="160.0" prefHeight="22.0" prefWidth="102.0">
+      <Label fx:id="lblCustomerId" layoutX="142.0" layoutY="160.0" prefHeight="22.0" prefWidth="102.0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <TextField fx:id="txtCustomerName1" alignment="CENTER_RIGHT" layoutX="30.0" layoutY="101.0" prefHeight="32.0" prefWidth="170.0" promptText="Enter a ID to search" style="-fx-background-radius: 20;">
+      <TextField fx:id="txtSearch" alignment="CENTER_RIGHT" layoutX="30.0" layoutY="101.0" onAction="#txtSearchOnActon" prefHeight="32.0" prefWidth="170.0" promptText="Enter a ID to search" style="-fx-background-radius: 20;">
          <font>
             <Font size="12.0" />
          </font>

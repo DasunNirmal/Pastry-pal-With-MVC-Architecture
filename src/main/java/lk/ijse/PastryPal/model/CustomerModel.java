@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerModel {
 
@@ -45,6 +47,70 @@ public class CustomerModel {
         ptsm.setString(3,dto.getAddress());
         ptsm.setString(4, String.valueOf(dto.getPhone_number()));
 
+        return ptsm.executeUpdate() > 0;
+    }
+
+    public List<CustomerDto> getAllCustomer() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql ="SELECT * FROM customer";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ResultSet resultSet = ptsm.executeQuery();
+
+        ArrayList<CustomerDto> dtoList = new ArrayList<>();
+
+        while (resultSet.next()){
+            dtoList.add(
+                    new CustomerDto(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getInt(4)
+                    )
+            );
+        }
+        return dtoList;
+    }
+
+    public boolean updateCustomer(CustomerDto dto) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "UPDATE customer SET name = ?,address = ?,phone_number = ? WHERE customer_id =?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1, dto.getName());
+        ptsm.setString(2, dto.getAddress());
+        ptsm.setString(3, String.valueOf(dto.getPhone_number()));
+        ptsm.setString(4, dto.getCustomer_id());
+
+        return ptsm.executeUpdate() > 0;
+    }
+
+    public CustomerDto searchCustomer(String searchId) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM customer WHERE customer_id = ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1,searchId);
+        ResultSet resultSet = ptsm.executeQuery();
+
+        CustomerDto dto = null;
+        if (resultSet.next()){
+            String customer_id = resultSet.getString(1);
+            String customer_name = resultSet.getString(2);
+            String customer_address = resultSet.getString(3);
+            int customer_phoneNumber = Integer.parseInt(resultSet.getString(4));
+
+            dto = new CustomerDto(customer_id,customer_name,customer_address,customer_phoneNumber);
+        }
+        return dto;
+    }
+
+    public boolean deleteCustomers(String id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "DELETE FROM customer WHERE customer_id = ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1,id);
         return ptsm.executeUpdate() > 0;
     }
 }
