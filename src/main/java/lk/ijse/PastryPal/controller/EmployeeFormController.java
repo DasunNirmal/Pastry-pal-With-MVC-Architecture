@@ -18,21 +18,6 @@ import java.util.Date;
 public class EmployeeFormController {
 
     @FXML
-    private TableColumn<?, ?> colCustomerId;
-
-    @FXML
-    private TableColumn<?, ?> colCustomerId1;
-
-    @FXML
-    private TableColumn<?, ?> colDescription;
-
-    @FXML
-    private TableColumn<?, ?> colOrderID;
-
-    @FXML
-    private TableColumn<?, ?> colPrice;
-
-    @FXML
     private Label lblDate;
 
     @FXML

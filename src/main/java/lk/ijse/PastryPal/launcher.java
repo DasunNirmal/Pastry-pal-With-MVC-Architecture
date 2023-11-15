@@ -16,7 +16,7 @@ public class launcher extends Application {
         stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/login_form.fxml"))));
         stage.centerOnScreen();
         stage.setTitle("Dashboard");
-
+        stage.setResizable(false);
         stage.show();
     }
 }

@@ -2,45 +2,41 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="590.0" prefWidth="615.0" style="-fx-background-color: #FFCD0017; -fx-background-radius: 24;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.DashboardFormController">
+<AnchorPane prefHeight="751.0" prefWidth="1142.0" style="-fx-background-radius: 24; -fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.DashboardFormController">
    <children>
-      <ImageView fitHeight="41.0" fitWidth="47.0" layoutX="222.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="47.0" fitWidth="48.0" layoutX="462.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/icons8-bread-and-rye-100.png" />
          </image>
       </ImageView>
-      <Label layoutX="273.0" layoutY="3.0" prefHeight="32.0" prefWidth="137.0" text="CHAN'S FOODS">
+      <Label layoutX="514.0" layoutY="10.0" prefHeight="32.0" prefWidth="134.0" text="CHAN'S FOODS">
          <font>
-            <Font name="System Bold" size="13.0" />
+            <Font name="System Bold" size="15.0" />
          </font>
-         <effect>
-            <Glow />
-         </effect>
       </Label>
       <Label layoutX="13.0" layoutY="50.0" prefHeight="32.0" prefWidth="116.0" text="DashBoard">
          <font>
-            <Font name="System Bold" size="17.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Label layoutX="506.0" layoutY="10.0" prefHeight="32.0" prefWidth="48.0" text="Date:">
+      <Label layoutX="966.0" layoutY="10.0" prefHeight="32.0" prefWidth="48.0" text="Date:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="505.0" layoutY="50.0" prefHeight="32.0" prefWidth="48.0" text="Time:">
+      <Label layoutX="965.0" layoutY="50.0" prefHeight="32.0" prefWidth="48.0" text="Time:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Line endX="419.0" layoutX="249.0" layoutY="92.0" startX="-249.0" stroke="#bc8f14" />
-      <AnchorPane layoutX="34.0" layoutY="165.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(74, 105, 189,1.0); -fx-background-radius: 20;">
+      <Line endX="893.0" layoutX="249.0" layoutY="92.0" startX="-249.0" stroke="#bc8f14" />
+      <AnchorPane layoutX="24.0" layoutY="165.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(74, 105, 189,1.0); -fx-background-radius: 20;">
          <children>
             <Label layoutX="9.0" layoutY="4.0" prefHeight="32.0" prefWidth="127.0" text="Total Orders" textFill="WHITE">
                <font>
@@ -54,87 +50,87 @@
             </JFXButton>
          </children>
       </AnchorPane>
-      <Label layoutX="279.0" layoutY="99.0" prefHeight="32.0" prefWidth="116.0" text="Over View">
+      <Label layoutX="519.0" layoutY="99.0" prefHeight="32.0" prefWidth="116.0" text="Over View">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="394.0" layoutY="165.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(74, 105, 189,1.0); -fx-background-radius: 20;">
+      <AnchorPane layoutX="564.0" layoutY="165.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(162, 155, 254,1.0); -fx-background-radius: 20;">
          <children>
             <Label layoutX="9.0" layoutY="4.0" prefHeight="32.0" prefWidth="127.0" text="Total Sales" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="15.0" />
                </font>
             </Label>
-            <JFXButton layoutX="162.0" layoutY="78.0" style="-fx-background-color: rgba(96, 163, 188,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="162.0" layoutY="78.0" style="-fx-background-color: rgba(108, 92, 231,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="11.0" />
                </font>
             </JFXButton>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="394.0" layoutY="305.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(74, 105, 189,1.0); -fx-background-radius: 20;">
+      <AnchorPane layoutX="24.0" layoutY="605.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(239, 87, 119,1.0); -fx-background-radius: 20;">
          <children>
             <Label layoutX="9.0" layoutY="4.0" prefHeight="32.0" prefWidth="127.0" text="Total Payments" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="15.0" />
                </font>
             </Label>
-            <JFXButton layoutX="161.0" layoutY="77.0" style="-fx-background-color: rgba(96, 163, 188,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="161.0" layoutY="77.0" style="-fx-background-color: rgba(131, 52, 113,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="11.0" />
                </font>
             </JFXButton>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="35.0" layoutY="305.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(74, 105, 189,1.0); -fx-background-radius: 20;">
+      <AnchorPane layoutX="291.0" layoutY="165.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(116, 185, 255,1.0); -fx-background-radius: 20;">
          <children>
             <Label layoutX="9.0" layoutY="4.0" prefHeight="32.0" prefWidth="127.0" text="Confirm Orders" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="15.0" />
                </font>
             </Label>
-            <JFXButton layoutX="163.0" layoutY="75.0" style="-fx-background-color: rgba(96, 163, 188,1.0); -fx-background-radius: 20;" text="View more" textFill="#f5f5f5">
+            <JFXButton buttonType="RAISED" layoutX="163.0" layoutY="75.0" prefHeight="20.0" prefWidth="70.0" style="-fx-background-color: rgba(9, 132, 227,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="11.0" />
                </font>
             </JFXButton>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="35.0" layoutY="445.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(74, 105, 189,1.0); -fx-background-radius: 20;">
+      <AnchorPane layoutX="25.0" layoutY="317.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(130, 204, 221,1.0); -fx-background-radius: 20;">
          <children>
             <Label layoutX="9.0" layoutY="4.0" prefHeight="32.0" prefWidth="167.0" text="Customer Complains" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="15.0" />
                </font>
             </Label>
-            <JFXButton layoutX="163.0" layoutY="76.0" style="-fx-background-color: rgba(96, 163, 188,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
+            <JFXButton layoutX="163.0" layoutY="76.0" style="-fx-background-color: rgba(60, 99, 130,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="11.0" />
                </font>
             </JFXButton>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="395.0" layoutY="445.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(74, 105, 189,1.0); -fx-background-radius: 20;">
+      <AnchorPane layoutX="25.0" layoutY="465.0" prefHeight="106.0" prefWidth="240.0" style="-fx-background-color: rgba(234, 181, 67,1.0); -fx-background-radius: 20;">
          <children>
             <Label layoutX="9.0" layoutY="4.0" prefHeight="32.0" prefWidth="167.0" text="Today Profit" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="15.0" />
                </font>
             </Label>
-            <JFXButton layoutX="160.0" layoutY="77.0" style="-fx-background-color: rgba(96, 163, 188,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="160.0" layoutY="77.0" style="-fx-background-color: rgba(249, 127, 81,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="11.0" />
                </font>
             </JFXButton>
          </children>
       </AnchorPane>
-      <Label fx:id="lblDate" layoutX="554.0" layoutY="10.0" prefHeight="32.0" prefWidth="104.0">
+      <Label fx:id="lblDate" layoutX="1014.0" layoutY="10.0" prefHeight="32.0" prefWidth="104.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblTime" layoutX="555.0" layoutY="50.0" prefHeight="32.0" prefWidth="104.0">
+      <Label fx:id="lblTime" layoutX="1015.0" layoutY="50.0" prefHeight="32.0" prefWidth="104.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

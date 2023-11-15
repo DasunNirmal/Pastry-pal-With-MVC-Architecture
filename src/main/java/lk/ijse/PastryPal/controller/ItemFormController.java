@@ -106,23 +106,35 @@ public class ItemFormController {
     void btnSaveOnAction(ActionEvent event) {
         String id = lblItemID.getText();
         String description = txtDescription.getText();
-        double qty = Double.parseDouble(txtQty.getText());
-        double price = Double.parseDouble(txtPrice.getText());
-
-        var dto = new ItemDto(id,description,qty,price);
+        String qtyText = txtQty.getText();
+        String priceText = txtPrice.getText();
+        //check if the text fields are empty before parse to double or int otherwise program will throw a Exception
+        if (id.isEmpty() || description.isEmpty() || qtyText.isEmpty() || priceText.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Can not Save Item. Text Field is Empty").showAndWait();
+            return;
+        }
         try {
-            boolean isSaved = itemModel.saveItem(dto);
-            if (isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION,"Item Is Saved").show();
-                clearFields();
-                generateNextItemID();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Item Is Not Saved").show();
+            double qty = Double.parseDouble(qtyText);
+            double price = Double.parseDouble(priceText);
+
+            var dto = new ItemDto(id, description, qty, price);
+            try {
+                boolean isSaved = itemModel.saveItem(dto);
+                if (isSaved) {
+                    new Alert(Alert.AlertType.CONFIRMATION, "Item Is Saved").show();
+                    clearFields();
+                    generateNextItemID();
+                } else {
+                    new Alert(Alert.AlertType.ERROR, "Item Is Not Saved").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR, "Invalid quantity or price format").showAndWait();
         }
     }
+
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
