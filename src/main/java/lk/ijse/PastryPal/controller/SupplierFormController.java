@@ -72,4 +72,8 @@ public class SupplierFormController {
 
     }
 
+    @FXML
+    void txtSearchOnActon(ActionEvent actionEvent) {
+
+    }
 }

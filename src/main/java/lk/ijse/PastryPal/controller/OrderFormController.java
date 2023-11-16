@@ -3,8 +3,10 @@ package lk.ijse.PastryPal.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
 import java.text.SimpleDateFormat;
@@ -16,20 +18,16 @@ import java.util.Date;
 public class OrderFormController {
 
     @FXML
-    private Label lblCustomerId;
-
-    @FXML
-    private Label lblOrderId;
-
+    private TextField txtSearch;
     @FXML
     private Label lblDate;
-
     @FXML
     private Label lblTime;
 
     public void initialize(){
         setDateAndTime();
     }
+
     private void setDateAndTime(){
         Platform.runLater(() -> {
             lblDate.setText(String.valueOf(LocalDate.now()));
@@ -43,5 +41,8 @@ public class OrderFormController {
             timeline.play();
         });
     }
+    @FXML
+    void txtSearchOnActon(ActionEvent event) {
 
+    }
 }

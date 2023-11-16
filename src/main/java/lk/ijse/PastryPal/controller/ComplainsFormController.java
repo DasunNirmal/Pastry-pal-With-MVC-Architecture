@@ -55,4 +55,9 @@ public class ComplainsFormController {
 
     }
 
+    @FXML
+    void txtSearchOnActon(ActionEvent event) {
+
+    }
+
 }
