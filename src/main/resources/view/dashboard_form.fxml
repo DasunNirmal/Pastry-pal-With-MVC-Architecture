@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="751.0" prefWidth="1142.0" style="-fx-background-radius: 24; -fx-background-color: white;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.DashboardFormController">
+<AnchorPane prefHeight="751.0" prefWidth="1142.0" style="-fx-background-radius: 24; -fx-background-color: white;" styleClass="btnRoot" stylesheets="@../style/drop_shadow.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.DashboardFormController">
    <children>
       <ImageView fitHeight="47.0" fitWidth="48.0" layoutX="462.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -104,7 +104,7 @@
                   <Font name="FreeSans Bold" size="15.0" />
                </font>
             </Label>
-            <JFXButton layoutX="163.0" layoutY="76.0" style="-fx-background-color: rgba(60, 99, 130,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
+            <JFXButton buttonType="RAISED" layoutX="163.0" layoutY="76.0" style="-fx-background-color: rgba(60, 99, 130,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="11.0" />
                </font>
