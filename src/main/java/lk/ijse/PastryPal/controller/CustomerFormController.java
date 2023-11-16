@@ -13,6 +13,7 @@ import javafx.util.Duration;
 import lk.ijse.PastryPal.dto.CustomerDto;
 import lk.ijse.PastryPal.dto.tm.CustomerTm;
 import lk.ijse.PastryPal.model.CustomerModel;
+import org.checkerframework.checker.units.qual.A;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -143,21 +144,32 @@ public class CustomerFormController {
         String id = lblCustomerId.getText();
         String name = txtCustomerName.getText();
         String address = txtCustomerAddress.getText();
-        int phoneNumber = Integer.parseInt(txtPhoneNumber.getText());
+        String phoneNumberTxt = txtPhoneNumber.getText();
 
-        var dto = new CustomerDto(id,name,address,phoneNumber);
+        if (id.isEmpty() || name.isEmpty() || address.isEmpty() || phoneNumberTxt.isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Can Not Save Customers.Text Fields are Empty").showAndWait();
+            return;
+        }
+
         try {
-            boolean isSaved = customerModel.save(dto);
-            if (isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION,"Customer is Saved").show();
-                clearFields();
-                generateNextCustomerID();
-                loadAllCustomers();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Customer is Not Saved").show();
+            int phoneNumber = Integer.parseInt(txtPhoneNumber.getText());
+
+            var dto = new CustomerDto(id,name,address,phoneNumber);
+            try {
+                boolean isSaved = customerModel.save(dto);
+                if (isSaved){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Customer is Saved").show();
+                    clearFields();
+                    generateNextCustomerID();
+                    loadAllCustomers();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Customer is Not Saved").show();
+                }
+            }catch (SQLException e){
+             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR,"In Valid Phone Number Format").showAndWait();
         }
     }
 
@@ -166,26 +178,43 @@ public class CustomerFormController {
         String id = lblCustomerId.getText();
         String name = txtCustomerName.getText();
         String address = txtCustomerAddress.getText();
-        int phoneNumber = Integer.parseInt(txtPhoneNumber.getText());
+        String phoneNumberTxt = txtPhoneNumber.getText();
 
-        var dto = new CustomerDto(id,name,address,phoneNumber);
+        if (id.isEmpty() || name.isEmpty() || address.isEmpty() || phoneNumberTxt.isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Can Not Update Customers.Text Fields are Empty").showAndWait();
+            return;
+        }
         try {
-            boolean isUpdated = customerModel.updateCustomer(dto);
-            if (isUpdated){
-                new Alert(Alert.AlertType.CONFIRMATION,"Customer is Updated").show();
-                loadAllCustomers();
-                clearFields();
-                generateNextCustomerID();
+            int phoneNumber = Integer.parseInt(txtPhoneNumber.getText());
+
+            var dto = new CustomerDto(id,name,address,phoneNumber);
+            try {
+                boolean isUpdated = customerModel.updateCustomer(dto);
+                if (isUpdated){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Customer is Updated").show();
+                    loadAllCustomers();
+                    clearFields();
+                    generateNextCustomerID();
+                }
+            }catch (SQLException e){
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR,"In Valid Phone Number Format").showAndWait();
         }
     }
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
         String id = lblCustomerId.getText();
+        String name = txtCustomerName.getText();
+        String address = txtCustomerAddress.getText();
+        String phoneNumberTxt = txtPhoneNumber.getText();
 
+        if (id.isEmpty() || name.isEmpty() || address.isEmpty() || phoneNumberTxt.isEmpty()){
+            new Alert(Alert.AlertType.ERROR,"Can Not Delete Customers.Text Fields are Empty").showAndWait();
+            return;
+        }
         try {
             boolean isDeleted = customerModel.deleteCustomers(id);
             if (isDeleted){
@@ -214,6 +243,7 @@ public class CustomerFormController {
                 txtPhoneNumber.setText(String.valueOf(customerDto.getPhone_number()));
             }else {
                 lblCustomerId.setText("");
+                generateNextCustomerID();
                 new Alert(Alert.AlertType.INFORMATION,"Customer not Found").show();
             }
         } catch (SQLException e) {

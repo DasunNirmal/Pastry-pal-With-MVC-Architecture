@@ -42,6 +42,7 @@ public class RegisterFormController {
         Stage stage = (Stage) this.RegisterPane.getScene().getWindow();
         stage.setScene(scene);
         stage.setTitle("Login");
+        stage.setResizable(false);
         stage.centerOnScreen();
     }
 
@@ -63,7 +64,6 @@ public class RegisterFormController {
                 new Alert(Alert.AlertType.ERROR, "Duplicate Entry").showAndWait();
                 return;
             }
-
             boolean isRegistered = registrationModel.registerUser(dto);
             if (isRegistered) {
                 new Alert(Alert.AlertType.CONFIRMATION, "Your Account Has been Created").show();

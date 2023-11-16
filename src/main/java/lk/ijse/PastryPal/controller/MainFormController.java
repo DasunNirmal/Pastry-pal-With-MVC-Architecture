@@ -5,9 +5,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.PastryPal.dto.RegistrationDto;
+import lk.ijse.PastryPal.model.RegistrationModel;
 
 import java.io.IOException;
 
@@ -39,6 +42,11 @@ public class MainFormController {
     @FXML
     private AnchorPane mainNode;
 
+    @FXML
+    private  Label lblUser;
+
+    private RegistrationDto userDto; // Create a reference using the dto that has the values of username and passwords
+
     public void initialize() throws IOException {
         selectCss(btnDashboard);
         AnchorPane anchorPane = FXMLLoader.load(getClass().getResource("/view/dashboard_form.fxml"));
@@ -67,6 +75,18 @@ public class MainFormController {
 
         mainFormBtn.getStyleClass().remove("default_button");
         mainFormBtn.getStyleClass().add("select_button");
+    }
+
+    public void setUser(RegistrationDto userDto) { //assigning the values
+        this.userDto = userDto;
+        loadUserName();
+    }
+
+    private void loadUserName() { // loading the userName to the label
+        if (userDto != null){
+            String userName = userDto.getUser_name();
+            lblUser.setText(userName);
+        }
     }
 
     @FXML
@@ -139,6 +159,7 @@ public class MainFormController {
         Stage stage = new Stage();
         stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/login_form.fxml"))));
         stage.centerOnScreen();
+        stage.setResizable(false);
         stage.show();
     }
 }

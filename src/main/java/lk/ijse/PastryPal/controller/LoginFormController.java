@@ -3,12 +3,14 @@ package lk.ijse.PastryPal.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import lk.ijse.PastryPal.dto.RegistrationDto;
 import lk.ijse.PastryPal.model.RegistrationModel;
 
 import java.io.IOException;
@@ -32,10 +34,19 @@ public class LoginFormController {
         try {
             boolean isValid = registrationModel.isValidUser(userName,pw);
             if (isValid){
+
+                registrationModel.getUserInfo(userName); //Create a method in the model where the query is executed
                 rootNode.getScene().getWindow().hide();
                 Stage stage = new Stage();
-                stage.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("/view/main_form.fxml"))));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main_form.fxml"));
+                Parent root = loader.load();
+                MainFormController mainFormController  = loader.getController(); //passing the values (login form text field values) to the main controller
+
+                RegistrationDto userDto = registrationModel.getUserInfo(userName); //setting the getUserInfo methods values
+                mainFormController.setUser(userDto); //finally, passing the user info to setUser method
+                stage.setScene(new Scene(root));
                 stage.centerOnScreen();
+                stage.setResizable(false);
                 stage.show();
             }else {
                 new Alert(Alert.AlertType.ERROR,"User Name And Password Did Not Matched try again").showAndWait();
@@ -57,6 +68,7 @@ public class LoginFormController {
         Stage stage = (Stage) this.rootNode.getScene().getWindow();
         stage.setScene(scene);
         stage.centerOnScreen();
+        stage.setResizable(false);
         stage.setTitle("Register");
     }
 
