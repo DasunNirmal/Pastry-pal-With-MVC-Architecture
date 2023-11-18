@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="751.0" prefWidth="1142.0" style="-fx-background-color: white; -fx-background-radius: 24;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.CustomerFormController">
+<AnchorPane prefHeight="751.0" prefWidth="1142.0" style="-fx-background-color: white; -fx-background-radius: 24;" styleClass="btnRoot" stylesheets="@../style/drop_shadow.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.CustomerFormController">
    <children>
       <ImageView fitHeight="48.0" fitWidth="47.0" layoutX="463.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>

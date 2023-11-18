@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="751.0" prefWidth="1142.0" style="-fx-background-color: white; -fx-background-radius: 24;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.OrderFormController">
+<AnchorPane prefHeight="751.0" prefWidth="1142.0" style="-fx-background-color: white; -fx-background-radius: 24;" styleClass="btnRoot" stylesheets="@../style/drop_shadow.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.OrderFormController">
    <children>
       <Label layoutX="13.0" layoutY="50.0" prefHeight="32.0" prefWidth="188.0" text="Manage Orders">
          <font>
