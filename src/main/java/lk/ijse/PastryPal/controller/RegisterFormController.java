@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.RegistrationDto;
 import lk.ijse.PastryPal.model.RegistrationModel;
 import org.checkerframework.checker.units.qual.A;
@@ -51,26 +52,25 @@ public class RegisterFormController {
         String userName = txtUser.getText();
         String pw = txtPassword.getText();
         String ConfirmPW = txtConfirmPassword.getText();
-
-        if (!ConfirmPW.equals(pw) || userName.isEmpty() || pw.isEmpty()) {
-            new Alert(Alert.AlertType.ERROR, "Can Not Leave Password or User Name Empty!").showAndWait();
-            return;
-        }
-
-        var dto = new RegistrationDto(userName, pw);
-        try {
-            boolean checkDuplicates = registrationModel.check(userName, pw);
-            if (checkDuplicates) {
-                new Alert(Alert.AlertType.ERROR, "Duplicate Entry").showAndWait();
-                return;
+        boolean isUserValid = RegExPatterns.getValidName().matcher(userName).matches();
+        if (!isUserValid){
+            new Alert(Alert.AlertType.ERROR,"Can Not Leave Name Empty").showAndWait();
+        }else {
+            var dto = new RegistrationDto(userName, pw);
+            try {
+                boolean checkDuplicates = registrationModel.check(userName, pw);
+                if (checkDuplicates) {
+                    new Alert(Alert.AlertType.ERROR, "Duplicate Entry").showAndWait();
+                    return;
+                }
+                boolean isRegistered = registrationModel.registerUser(dto);
+                if (isRegistered) {
+                    new Alert(Alert.AlertType.CONFIRMATION, "Your Account Has been Created").show();
+                    clearFields();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             }
-            boolean isRegistered = registrationModel.registerUser(dto);
-            if (isRegistered) {
-                new Alert(Alert.AlertType.CONFIRMATION, "Your Account Has been Created").show();
-                clearFields();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
 
