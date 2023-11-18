@@ -14,7 +14,6 @@ import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.CustomerDto;
 import lk.ijse.PastryPal.dto.tm.CustomerTm;
 import lk.ijse.PastryPal.model.CustomerModel;
-import org.checkerframework.checker.units.qual.A;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -67,7 +66,6 @@ public class CustomerFormController {
         generateNextCustomerID();
         loadAllCustomers();
     }
-
     private void  generateNextCustomerID(){
         try {
             String previousCustomerID = lblCustomerId.getText();
@@ -81,22 +79,18 @@ public class CustomerFormController {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
-
     private boolean btnClearPressed = false;
-
     @FXML
     void btnClearOnAction(ActionEvent event) {
         clearFields();
         generateNextCustomerID();
     }
-
     private void clearFields(){
         txtCustomerName.setText("");
         txtCustomerAddress.setText("");
         txtPhoneNumber.setText("");
         txtSearch.setText("");
     }
-
     private void setDateAndTime() {
         Platform.runLater(() -> {
             lblDate.setText(String.valueOf(LocalDate.now()));
@@ -110,14 +104,12 @@ public class CustomerFormController {
             timeline.play();
         });
     }
-
     private void setCellValueFactory() {
         colCustomerID.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
         colCustomerName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colPoneNumber.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
     }
-
     private void loadAllCustomers() {
         var model = new CustomerModel();
 
@@ -145,11 +137,22 @@ public class CustomerFormController {
         String id = lblCustomerId.getText();
         String name = txtCustomerName.getText();
         String address = txtCustomerAddress.getText();
-        int phoneNumber = Integer.parseInt(txtPhoneNumber.getText());
-        boolean isValidName = RegExPatterns.getValidName().matcher(name).matches();
-        if (isValidName){
+        String phoneNumber = txtPhoneNumber.getText();
+
+        boolean isValidName = RegExPatterns.getValidNameAndDescriptions().matcher(name).matches();
+        boolean isValidAddress = RegExPatterns.getValidAddress().matcher(address).matches();
+        boolean isValidPhoneNumber = RegExPatterns.getValidPhoneNumber().matcher(phoneNumber).matches();
+
+        if (!isValidName){
             new Alert(Alert.AlertType.ERROR,"Can Not Leave Name Empty").showAndWait();
+            return;
+        }if (!isValidAddress){
+            new Alert(Alert.AlertType.ERROR,"Not a Valid Address").showAndWait();
+            return;
+        }if (!isValidPhoneNumber){
+            new Alert(Alert.AlertType.ERROR,"Not A Valid Phone Number").showAndWait();
         }else {
+
             var dto = new CustomerDto(id,name,address,phoneNumber);
             try {
                 boolean isSaved = customerModel.save(dto);
@@ -172,29 +175,37 @@ public class CustomerFormController {
         String id = lblCustomerId.getText();
         String name = txtCustomerName.getText();
         String address = txtCustomerAddress.getText();
-        String phoneNumberTxt = txtPhoneNumber.getText();
+        String phoneNumber = txtPhoneNumber.getText();
 
-        if (id.isEmpty() || name.isEmpty() || address.isEmpty() || phoneNumberTxt.isEmpty()){
-            new Alert(Alert.AlertType.ERROR,"Can Not Update Customers.Text Fields are Empty").showAndWait();
+        boolean isValidName = RegExPatterns.getValidNameAndDescriptions().matcher(name).matches();
+        boolean isValidAddress = RegExPatterns.getValidAddress().matcher(address).matches();
+        boolean isValidPhoneNumber = RegExPatterns.getValidPhoneNumber().matcher(phoneNumber).matches();
+
+        if (!isValidName){
+            new Alert(Alert.AlertType.ERROR,"Can Not Update Customers.Name is Empty").showAndWait();
             return;
-        }
-        try {
-            int phoneNumber = Integer.parseInt(txtPhoneNumber.getText());
-
-            var dto = new CustomerDto(id,name,address,phoneNumber);
+        }if (!isValidAddress){
+            new Alert(Alert.AlertType.ERROR,"Can not Update Customer.Address is Empty").showAndWait();
+            return;
+        }if (!isValidPhoneNumber){
+            new Alert(Alert.AlertType.ERROR,"Can not Update Customer.Phone Number is Empty").showAndWait();
+        }else {
             try {
-                boolean isUpdated = customerModel.updateCustomer(dto);
-                if (isUpdated){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Customer is Updated").show();
-                    loadAllCustomers();
-                    clearFields();
-                    generateNextCustomerID();
+                var dto = new CustomerDto(id,name,address,phoneNumber);
+                try {
+                    boolean isUpdated = customerModel.updateCustomer(dto);
+                    if (isUpdated){
+                        new Alert(Alert.AlertType.CONFIRMATION,"Customer is Updated").show();
+                        loadAllCustomers();
+                        clearFields();
+                        generateNextCustomerID();
+                    }
+                }catch (SQLException e){
+                    new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
                 }
-            }catch (SQLException e){
-                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            } catch (NumberFormatException e) {
+                new Alert(Alert.AlertType.ERROR,"In Valid Phone Number Format").showAndWait();
             }
-        } catch (NumberFormatException e) {
-            new Alert(Alert.AlertType.ERROR,"In Valid Phone Number Format").showAndWait();
         }
     }
 
@@ -203,24 +214,34 @@ public class CustomerFormController {
         String id = lblCustomerId.getText();
         String name = txtCustomerName.getText();
         String address = txtCustomerAddress.getText();
-        String phoneNumberTxt = txtPhoneNumber.getText();
+        String phoneNumber = txtPhoneNumber.getText();
 
-        if (id.isEmpty() || name.isEmpty() || address.isEmpty() || phoneNumberTxt.isEmpty()){
-            new Alert(Alert.AlertType.ERROR,"Can Not Delete Customers.Text Fields are Empty").showAndWait();
+        boolean isValidName = RegExPatterns.getValidNameAndDescriptions().matcher(name).matches();
+        boolean isValidAddress = RegExPatterns.getValidAddress().matcher(address).matches();
+        boolean isValidPhoneNumber = RegExPatterns.getValidPhoneNumber().matcher(phoneNumber).matches();
+
+        if (!isValidName){
+            new Alert(Alert.AlertType.ERROR,"Can Not Delete.Name is Empty").showAndWait();
             return;
-        }
-        try {
-            boolean isDeleted = customerModel.deleteCustomers(id);
-            if (isDeleted){
-                new Alert(Alert.AlertType.CONFIRMATION,"Customer is Deleted").show();
-                loadAllCustomers();
-                clearFields();
-                generateNextCustomerID();
-            }else {
-                new Alert(Alert.AlertType.INFORMATION,"Customer is Not Deleted").show();
+        }if (!isValidAddress){
+            new Alert(Alert.AlertType.ERROR,"Can Not Delete.Address is Empty").showAndWait();
+            return;
+        }if (!isValidPhoneNumber){
+            new Alert(Alert.AlertType.ERROR,"Can Not Delete.Phone Number is Empty").showAndWait();
+        }else {
+            try {
+                boolean isDeleted = customerModel.deleteCustomers(id);
+                if (isDeleted){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Customer is Deleted").show();
+                    loadAllCustomers();
+                    clearFields();
+                    generateNextCustomerID();
+                }else {
+                    new Alert(Alert.AlertType.INFORMATION,"Customer is Not Deleted").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 

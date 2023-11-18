@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -46,16 +47,25 @@
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <JFXButton buttonType="RAISED" layoutX="882.0" layoutY="294.0" onAction="#btnUpdateOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Update" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <JFXButton buttonType="RAISED" layoutX="982.0" layoutY="294.0" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Save" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <TableView layoutX="68.0" layoutY="337.0" prefHeight="391.0" prefWidth="1006.0" style="-fx-background-color: white; -fx-background-radius: 16;">
          <columns>
@@ -89,6 +99,9 @@
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <ImageView fitHeight="48.0" fitWidth="47.0" layoutX="473.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -107,7 +120,7 @@
       </TextField>
       <ImageView fitHeight="25.0" fitWidth="27.0" layoutX="74.0" layoutY="297.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../icons/icons8-search%20(1).gif" />
+            <Image url="@../icons/icons8-search (1).gif" />
          </image>
       </ImageView>
       <AnchorPane layoutX="814.0" layoutY="116.0" prefHeight="116.0" prefWidth="239.0" style="-fx-background-color: rgba(162, 155, 254,1.0); -fx-background-radius: 20;" />

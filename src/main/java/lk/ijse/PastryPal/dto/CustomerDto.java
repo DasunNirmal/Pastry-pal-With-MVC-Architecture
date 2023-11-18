@@ -10,5 +10,5 @@ public class CustomerDto {
     private String customer_id;
     private String name;
     private String address;
-    private int phone_number;
+    private String phone_number;
 }

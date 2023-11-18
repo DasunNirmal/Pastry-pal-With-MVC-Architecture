@@ -45,7 +45,7 @@ public class CustomerModel {
         ptsm.setString(1,dto.getCustomer_id());
         ptsm.setString(2,dto.getName());
         ptsm.setString(3,dto.getAddress());
-        ptsm.setString(4, String.valueOf(dto.getPhone_number()));
+        ptsm.setString(4,dto.getPhone_number());
 
         return ptsm.executeUpdate() > 0;
     }
@@ -65,7 +65,7 @@ public class CustomerModel {
                             resultSet.getString(1),
                             resultSet.getString(2),
                             resultSet.getString(3),
-                            resultSet.getInt(4)
+                            resultSet.getString(4)
                     )
             );
         }
@@ -98,7 +98,7 @@ public class CustomerModel {
             String customer_id = resultSet.getString(1);
             String customer_name = resultSet.getString(2);
             String customer_address = resultSet.getString(3);
-            int customer_phoneNumber = Integer.parseInt(resultSet.getString(4));
+            String customer_phoneNumber = resultSet.getString(4);
 
             dto = new CustomerDto(customer_id,customer_name,customer_address,customer_phoneNumber);
         }

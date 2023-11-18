@@ -9,11 +9,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.RegistrationDto;
 import lk.ijse.PastryPal.model.RegistrationModel;
-import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -52,9 +50,18 @@ public class RegisterFormController {
         String userName = txtUser.getText();
         String pw = txtPassword.getText();
         String ConfirmPW = txtConfirmPassword.getText();
-        boolean isUserValid = RegExPatterns.getValidName().matcher(userName).matches();
+
+        boolean isUserValid = RegExPatterns.getValidNameAndDescriptions().matcher(userName).matches();
+        boolean isPasswordValid = RegExPatterns.getValidPassword().matcher(pw).matches();
+
         if (!isUserValid){
             new Alert(Alert.AlertType.ERROR,"Can Not Leave Name Empty").showAndWait();
+            return;
+        }if (!isPasswordValid){
+            new Alert(Alert.AlertType.ERROR,"Can not Leave Password Empty").showAndWait();
+            return;
+        }if (!ConfirmPW.equals(pw)){
+            new Alert(Alert.AlertType.ERROR,"Password Did Not Matched").showAndWait();
         }else {
             var dto = new RegistrationDto(userName, pw);
             try {

@@ -10,15 +10,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
+import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.ItemDto;
 import lk.ijse.PastryPal.model.ItemModel;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class ItemFormController {
 
@@ -106,39 +105,45 @@ public class ItemFormController {
     void btnSaveOnAction(ActionEvent event) {
         String id = lblItemID.getText();
         String description = txtDescription.getText();
+        //the reason for this is matcher only accepts String not double
         String qtyText = txtQty.getText();
         String priceText = txtPrice.getText();
-        //check if the text fields are empty before parse to double or int otherwise program will throw a Exception
-        if (id.isEmpty() || description.isEmpty() || qtyText.isEmpty() || priceText.isEmpty()) {
-            new Alert(Alert.AlertType.ERROR, "Can not Save Item. Text Field is Empty").showAndWait();
+
+        boolean isValidDescription = RegExPatterns.getValidNameAndDescriptions().matcher(description).matches();
+        boolean isValidQty = RegExPatterns.getValidDouble().matcher(qtyText).matches();
+        boolean isValidPrice = RegExPatterns.validDouble.matcher(priceText).matches();
+
+        if (!isValidDescription) {
+            new Alert(Alert.AlertType.ERROR, "Can not Save Item.Description is Empty").showAndWait();
             return;
-        }
-        try {
-            double qty = Double.parseDouble(qtyText);
-            double price = Double.parseDouble(priceText);
-
-            var dto = new ItemDto(id, description, qty, price);
+        }if (!isValidQty){
+            new Alert(Alert.AlertType.ERROR,"Can not Save Item.Quantity is Empty").showAndWait();
+            return;
+        }if (!isValidPrice){
+            new Alert(Alert.AlertType.ERROR,"Can not Save Item.Price is Empty").showAndWait();
+        }else {
             try {
-                boolean isSaved = itemModel.saveItem(dto);
-                if (isSaved) {
-                    new Alert(Alert.AlertType.CONFIRMATION, "Item Is Saved").show();
-                    clearFields();
-                    generateNextItemID();
-                } else {
-                    new Alert(Alert.AlertType.ERROR, "Item Is Not Saved").show();
+                //the reason for this is qty and price takes double and can't take String
+                double qty = Double.parseDouble(qtyText);
+                double price = Double.parseDouble(priceText);
+
+                var dto = new ItemDto(id, description, qty, price);
+                try {
+                    boolean isSaved = itemModel.saveItem(dto);
+                    if (isSaved) {
+                        new Alert(Alert.AlertType.CONFIRMATION, "Item Is Saved").show();
+                        clearFields();
+                        generateNextItemID();
+                    } else {
+                        new Alert(Alert.AlertType.ERROR, "Item Is Not Saved").show();
+                    }
+                } catch (SQLException e) {
+                    new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
                 }
-            } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+            } catch (NumberFormatException e) {
+                new Alert(Alert.AlertType.ERROR, "Invalid quantity or price format").showAndWait();
             }
-        } catch (NumberFormatException e) {
-            new Alert(Alert.AlertType.ERROR, "Invalid quantity or price format").showAndWait();
         }
-    }
-
-
-    @FXML
-    void btnDeleteOnAction(ActionEvent event) {
-
     }
 
     @FXML
@@ -147,8 +152,12 @@ public class ItemFormController {
     }
 
     @FXML
-    void txtSearchOnActon(ActionEvent event) {
+    void btnDeleteOnAction(ActionEvent event) {
 
     }
 
+    @FXML
+    void txtSearchOnActon(ActionEvent event) {
+
+    }
 }
