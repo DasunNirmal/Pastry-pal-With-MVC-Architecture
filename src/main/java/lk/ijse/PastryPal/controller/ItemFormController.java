@@ -236,6 +236,7 @@ public class ItemFormController {
         boolean isValidDescription = RegExPatterns.getValidNameAndDescriptions().matcher(desc).matches();
         boolean isValidQty = RegExPatterns.getValidDouble().matcher(qtyText).matches();
         boolean isValidPrice = RegExPatterns.getValidDouble().matcher(priceText).matches();
+
         if (!isValidDescription){
             new Alert(Alert.AlertType.ERROR, "Can not Delete Item.Description is Empty").showAndWait();
             return;
