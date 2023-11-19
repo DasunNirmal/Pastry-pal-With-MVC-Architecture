@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemModel {
-
     private String splitItemID(String currentItemID){
         if (currentItemID != null){
             String [] split = currentItemID.split("00");
