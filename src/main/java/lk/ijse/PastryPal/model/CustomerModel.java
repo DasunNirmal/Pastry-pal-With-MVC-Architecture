@@ -105,6 +105,28 @@ public class CustomerModel {
         return dto;
     }
 
+    public CustomerDto searchCustomerByPhoneNumber(String phoneNumber) throws SQLException {
+            Connection connection = DbConnection.getInstance().getConnection();
+
+            String sql = "SELECT * FROM customer WHERE phone_number = ?";
+            PreparedStatement ptsm = connection.prepareStatement(sql);
+            ptsm.setString(1, phoneNumber);
+            ResultSet resultSet = ptsm.executeQuery();
+
+            CustomerDto dto = null;
+            if (resultSet.next()) {
+                String customer_id = resultSet.getString(1);
+                String customer_name = resultSet.getString(2);
+                String customer_address = resultSet.getString(3);
+                String customer_phoneNumber = resultSet.getString(4);
+
+                dto = new CustomerDto(customer_id, customer_name, customer_address, customer_phoneNumber);
+            }
+            return dto;
+    }
+
+
+
     public boolean deleteCustomers(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 

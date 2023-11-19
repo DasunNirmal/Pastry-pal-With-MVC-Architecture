@@ -46,4 +46,66 @@ public class ItemModel {
 
         return ptsm.executeUpdate() > 0;
     }
+
+    public boolean updateItems(ItemDto dto) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "UPDATE items SET description = ?, qty = ?, price = ? WHERE item_id = ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1,dto.getDescription());
+        ptsm.setString(2, String.valueOf(dto.getQty()));
+        ptsm.setString(3, String.valueOf(dto.getPrice()));
+        ptsm.setString(4, dto.getItem_id());
+
+        return ptsm.executeUpdate() > 0;
+    }
+
+    public ItemDto searchItemById(String searchId) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM items WHERE item_id = ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1,searchId);
+        ResultSet resultSet = ptsm.executeQuery();
+
+        ItemDto dto = null;
+        if (resultSet.next()){
+            String Item_id = resultSet.getString(1);
+            String Item_description = resultSet.getString(2);
+            double Item_qty = Double.parseDouble(resultSet.getString(3));
+            double Item_price = Double.parseDouble(resultSet.getString(4));
+
+            dto = new ItemDto(Item_id, Item_description, Item_qty ,Item_price);
+        }
+        return dto;
+    }
+
+    public ItemDto searchItemByName(String searchName) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM items WHERE description = ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1,searchName);
+        ResultSet resultSet = ptsm.executeQuery();
+
+        ItemDto dto = null;
+        if (resultSet.next()){
+            String Item_Id = resultSet.getString(1);
+            String Item_description = resultSet.getString(2);
+            double Item_qty = Double.parseDouble(resultSet.getString(3));
+            double Item_price = Double.parseDouble(resultSet.getString(4));
+
+            dto = new ItemDto(Item_Id, Item_description, Item_qty, Item_price);
+        }
+        return  dto;
+    }
+
+    public boolean deleteItems(String itemId) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "DELETE FROM items WHERE item_id = ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1,itemId);
+        return ptsm.executeUpdate() > 0;
+    }
 }

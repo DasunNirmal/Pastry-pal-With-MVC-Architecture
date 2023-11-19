@@ -247,24 +247,31 @@ public class CustomerFormController {
 
     @FXML
     void txtSearchOnActon(ActionEvent event) {
-        String searchId = txtSearch.getText();
+        String searchInput = txtSearch.getText();
 
         try {
-            CustomerDto customerDto = customerModel.searchCustomer(searchId);
-            if (customerDto != null){
+            CustomerDto customerDto;
+            //validating the input method assuming it is a digit
+            if (searchInput.matches("\\d+")) {
+                customerDto = customerModel.searchCustomerByPhoneNumber(searchInput);
+            } else {
+                customerDto = customerModel.searchCustomer(searchInput);
+            }
+            if (customerDto != null) {
                 lblCustomerId.setText(customerDto.getCustomer_id());
                 txtCustomerName.setText(customerDto.getName());
                 txtCustomerAddress.setText(customerDto.getAddress());
-                txtPhoneNumber.setText(String.valueOf(customerDto.getPhone_number()));
-            }else {
+                txtPhoneNumber.setText(customerDto.getPhone_number());
+            } else {
                 lblCustomerId.setText("");
                 generateNextCustomerID();
-                new Alert(Alert.AlertType.INFORMATION,"Customer not Found").show();
+                new Alert(Alert.AlertType.INFORMATION, "Customer not Found").show();
             }
         } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
+
 
     @FXML
     void txtGoToAddressOnAction(ActionEvent event) {
