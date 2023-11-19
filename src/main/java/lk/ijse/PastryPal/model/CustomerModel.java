@@ -125,8 +125,6 @@ public class CustomerModel {
             return dto;
     }
 
-
-
     public boolean deleteCustomers(String id) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
