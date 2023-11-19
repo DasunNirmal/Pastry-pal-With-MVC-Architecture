@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemModel {
 
@@ -107,5 +109,27 @@ public class ItemModel {
         PreparedStatement ptsm = connection.prepareStatement(sql);
         ptsm.setString(1,itemId);
         return ptsm.executeUpdate() > 0;
+    }
+
+    public List<ItemDto> getAllItems() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM items";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ResultSet resultSet = ptsm.executeQuery();
+
+        ArrayList<ItemDto> dtoList = new ArrayList<>();
+
+        while (resultSet.next()){
+            dtoList.add(
+                    new ItemDto(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getDouble(3),
+                            resultSet.getDouble(4)
+                    )
+            );
+        }
+        return dtoList;
     }
 }

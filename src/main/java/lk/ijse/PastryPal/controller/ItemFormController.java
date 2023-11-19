@@ -3,24 +3,27 @@ package lk.ijse.PastryPal.controller;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.ItemDto;
+import lk.ijse.PastryPal.dto.tm.ItemTm;
 import lk.ijse.PastryPal.model.ItemModel;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class ItemFormController {
-
+    @FXML
+    private TableColumn<?, ?> colAction;
 
     @FXML
     private TableColumn<?, ?> colDescription;
@@ -35,13 +38,16 @@ public class ItemFormController {
     private TableColumn<?, ?> colQtyOnHand;
 
     @FXML
+    private TableView<ItemTm> tblItems;
+
+    @FXML
     private Label lblDate;
 
     @FXML
-    private Label lblTime;
+    private Label lblItemID;
 
     @FXML
-    private Label lblItemID;
+    private Label lblTime;
 
     @FXML
     private TextField txtDescription;
@@ -58,8 +64,10 @@ public class ItemFormController {
     private ItemModel itemModel = new ItemModel();
 
     public void initialize(){
+        setValueFactory();
         setDateAndTime();
         generateNextItemID();
+        loadAllItems();
     }
 
     private void generateNextItemID() {
@@ -90,7 +98,6 @@ public class ItemFormController {
         txtPrice.setText("");
         txtSearch.setText("");
     }
-
     private void setDateAndTime(){
         Platform.runLater(() -> {
             lblDate.setText(String.valueOf(LocalDate.now()));
@@ -103,6 +110,33 @@ public class ItemFormController {
             timeline.setCycleCount(Timeline.INDEFINITE);
             timeline.play();
         });
+    }
+    private void setValueFactory() {
+        colItemID.setCellValueFactory(new PropertyValueFactory<>("item_id"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colQtyOnHand.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+    }
+    private void loadAllItems() {
+        var model = new ItemModel();
+
+        ObservableList<ItemTm> obList = FXCollections.observableArrayList();
+        try {
+            List<ItemDto> dtoList = model.getAllItems();
+            for (ItemDto dto : dtoList){
+                obList.add(
+                        new ItemTm(
+                                dto.getItem_id(),
+                                dto.getDescription(),
+                                dto.getQty(),
+                                dto.getPrice()
+                        )
+                );
+            }
+            tblItems.setItems(obList);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
     }
 
     @FXML
@@ -138,6 +172,7 @@ public class ItemFormController {
                         new Alert(Alert.AlertType.CONFIRMATION, "Item Is Saved").show();
                         clearFields();
                         generateNextItemID();
+                        loadAllItems();
                     } else {
                         new Alert(Alert.AlertType.ERROR, "Item Is Not Saved").show();
                     }
@@ -157,23 +192,37 @@ public class ItemFormController {
         String qtyText = txtQty.getText();
         String priceText = txtPrice.getText();
 
-        try {
-            double qty = Double.parseDouble(qtyText);
-            double price = Double.parseDouble(priceText);
+        boolean isValidDescription = RegExPatterns.getValidNameAndDescriptions().matcher(desc).matches();
+        boolean isValidQty = RegExPatterns.getValidDouble().matcher(qtyText).matches();
+        boolean isValidPrice = RegExPatterns.getValidDouble().matcher(priceText).matches();
 
-            var dto = new ItemDto(itemId,desc,qty,price);
+        if (!isValidDescription){
+            new Alert(Alert.AlertType.ERROR, "Can not Update Item.Description is Empty").showAndWait();
+            return;
+        }if (!isValidQty){
+            new Alert(Alert.AlertType.ERROR, "Can not Update Item.Quantity is Empty").showAndWait();
+            return;
+        }if (!isValidPrice){
+            new Alert(Alert.AlertType.ERROR, "Can not Update Item.Price is Empty").showAndWait();
+        }else {
             try {
-                boolean isUpdated = itemModel.updateItems(dto);
-                if (isUpdated){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Item Is Updated").show();
-                    clearFields();
-                    generateNextItemID();
+                double qty = Double.parseDouble(qtyText);
+                double price = Double.parseDouble(priceText);
+
+                var dto = new ItemDto(itemId,desc,qty,price);
+                try {
+                    boolean isUpdated = itemModel.updateItems(dto);
+                    if (isUpdated){
+                        new Alert(Alert.AlertType.CONFIRMATION,"Item Is Updated").show();
+                        clearFields();
+                        generateNextItemID();
+                    }
+                } catch (SQLException e) {
+                    new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
                 }
-            } catch (SQLException e) {
+            }catch (NumberFormatException e){
                 new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
-        }catch (NumberFormatException e){
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 
@@ -184,18 +233,30 @@ public class ItemFormController {
         String qtyText = txtQty.getText();
         String priceText = txtPrice.getText();
 
-
-        try {
-            boolean isDeleted = itemModel.deleteItems(itemId);
-            if (isDeleted){
-                new Alert(Alert.AlertType.CONFIRMATION,"Item is Deleted").show();
-                clearFields();
-                generateNextItemID();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Item is Not Deleted").show();
+        boolean isValidDescription = RegExPatterns.getValidNameAndDescriptions().matcher(desc).matches();
+        boolean isValidQty = RegExPatterns.getValidDouble().matcher(qtyText).matches();
+        boolean isValidPrice = RegExPatterns.getValidDouble().matcher(priceText).matches();
+        if (!isValidDescription){
+            new Alert(Alert.AlertType.ERROR, "Can not Delete Item.Description is Empty").showAndWait();
+            return;
+        }if (!isValidQty){
+            new Alert(Alert.AlertType.ERROR, "Can not Delete Item.Quantity is Empty").showAndWait();
+            return;
+        }if (!isValidPrice){
+            new Alert(Alert.AlertType.ERROR, "Can not Delete Item.Price is Empty").showAndWait();
+        }else {
+            try {
+                boolean isDeleted = itemModel.deleteItems(itemId);
+                if (isDeleted){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Item is Deleted").show();
+                    clearFields();
+                    generateNextItemID();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Item is Not Deleted").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 
