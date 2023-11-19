@@ -272,7 +272,6 @@ public class CustomerFormController {
         }
     }
 
-
     @FXML
     void txtGoToAddressOnAction(ActionEvent event) {
         txtCustomerAddress.requestFocus();
