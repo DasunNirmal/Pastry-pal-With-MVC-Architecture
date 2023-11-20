@@ -31,10 +31,10 @@ public class SupplierFormController {
     private TableColumn<?, ?> colSupplierID;
 
     @FXML
-    private Label lblSupplierID;
+    private TableView<?> tblSuppliers;
 
     @FXML
-    private TableView<?> tblSuppliers;
+    private Label lblSupplierID;
 
     @FXML
     private DatePicker txtDate;
