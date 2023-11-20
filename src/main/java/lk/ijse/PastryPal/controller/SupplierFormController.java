@@ -112,20 +112,30 @@ public class SupplierFormController {
         String phoneNumber = txtPhoneNumber.getText();
 
         boolean isValidName = RegExPatterns.getValidName().matcher(name).matches();
-//        boolean
+        boolean isValidPhoneNumber = RegExPatterns.getValidPhoneNumber().matcher(phoneNumber).matches();
 
-        var dto = new SupplierDto(id, name, date, phoneNumber);
-        try {
-            boolean isSaved = supplierModel.saveSupplier(dto);
-            if (isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION,"Supplier is saved").show();
-                clearFields();
-                generateNextSupplierID();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Supplier is not saved").show();
+        if (!isValidName){
+            new Alert(Alert.AlertType.ERROR,"Can not Save Supplier.Name is empty").showAndWait();
+            return;
+        }if (date == null){
+            new Alert(Alert.AlertType.ERROR,"Can not Save Supplier.Date is empty").showAndWait();
+            return;
+        }if (!isValidPhoneNumber){
+            new Alert(Alert.AlertType.ERROR,"Can not Save Supplier.Phone Number is empty").showAndWait();
+        }else {
+            var dto = new SupplierDto(id, name, date, phoneNumber);
+            try {
+                boolean isSaved = supplierModel.saveSupplier(dto);
+                if (isSaved){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Supplier is saved").show();
+                    clearFields();
+                    generateNextSupplierID();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Supplier is not saved").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 
