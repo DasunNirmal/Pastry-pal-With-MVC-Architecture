@@ -51,7 +51,7 @@ public class RegisterFormController {
         String pw = txtPassword.getText();
         String ConfirmPW = txtConfirmPassword.getText();
 
-        boolean isUserValid = RegExPatterns.getValidNameAndDescriptions().matcher(userName).matches();
+        boolean isUserValid = RegExPatterns.getValidName().matcher(userName).matches();
         boolean isPasswordValid = RegExPatterns.getValidPassword().matcher(pw).matches();
 
         if (!isUserValid){

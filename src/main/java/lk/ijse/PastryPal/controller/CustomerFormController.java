@@ -139,7 +139,7 @@ public class CustomerFormController {
         String address = txtCustomerAddress.getText();
         String phoneNumber = txtPhoneNumber.getText();
 
-        boolean isValidName = RegExPatterns.getValidNameAndDescriptions().matcher(name).matches();
+        boolean isValidName = RegExPatterns.getValidName().matcher(name).matches();
         boolean isValidAddress = RegExPatterns.getValidAddress().matcher(address).matches();
         boolean isValidPhoneNumber = RegExPatterns.getValidPhoneNumber().matcher(phoneNumber).matches();
 
@@ -177,7 +177,7 @@ public class CustomerFormController {
         String address = txtCustomerAddress.getText();
         String phoneNumber = txtPhoneNumber.getText();
 
-        boolean isValidName = RegExPatterns.getValidNameAndDescriptions().matcher(name).matches();
+        boolean isValidName = RegExPatterns.getValidName().matcher(name).matches();
         boolean isValidAddress = RegExPatterns.getValidAddress().matcher(address).matches();
         boolean isValidPhoneNumber = RegExPatterns.getValidPhoneNumber().matcher(phoneNumber).matches();
 
@@ -216,7 +216,7 @@ public class CustomerFormController {
         String address = txtCustomerAddress.getText();
         String phoneNumber = txtPhoneNumber.getText();
 
-        boolean isValidName = RegExPatterns.getValidNameAndDescriptions().matcher(name).matches();
+        boolean isValidName = RegExPatterns.getValidName().matcher(name).matches();
         boolean isValidAddress = RegExPatterns.getValidAddress().matcher(address).matches();
         boolean isValidPhoneNumber = RegExPatterns.getValidPhoneNumber().matcher(phoneNumber).matches();
 

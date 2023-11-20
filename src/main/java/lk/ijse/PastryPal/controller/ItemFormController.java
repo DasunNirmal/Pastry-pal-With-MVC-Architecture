@@ -146,7 +146,7 @@ public class ItemFormController {
         String qtyText = txtQty.getText();
         String priceText = txtPrice.getText();
 
-        boolean isValidDescription = RegExPatterns.getValidNameAndDescriptions().matcher(description).matches();
+        boolean isValidDescription = RegExPatterns.getValidDescription().matcher(description).matches();
         boolean isValidQty = RegExPatterns.getValidDouble().matcher(qtyText).matches();
         boolean isValidPrice = RegExPatterns.getValidDouble().matcher(priceText).matches();
 
@@ -191,7 +191,7 @@ public class ItemFormController {
         String qtyText = txtQty.getText();
         String priceText = txtPrice.getText();
 
-        boolean isValidDescription = RegExPatterns.getValidNameAndDescriptions().matcher(desc).matches();
+        boolean isValidDescription = RegExPatterns.getValidName().matcher(desc).matches();
         boolean isValidQty = RegExPatterns.getValidDouble().matcher(qtyText).matches();
         boolean isValidPrice = RegExPatterns.getValidDouble().matcher(priceText).matches();
 
@@ -232,7 +232,7 @@ public class ItemFormController {
         String qtyText = txtQty.getText();
         String priceText = txtPrice.getText();
 
-        boolean isValidDescription = RegExPatterns.getValidNameAndDescriptions().matcher(desc).matches();
+        boolean isValidDescription = RegExPatterns.getValidName().matcher(desc).matches();
         boolean isValidQty = RegExPatterns.getValidDouble().matcher(qtyText).matches();
         boolean isValidPrice = RegExPatterns.getValidDouble().matcher(priceText).matches();
 

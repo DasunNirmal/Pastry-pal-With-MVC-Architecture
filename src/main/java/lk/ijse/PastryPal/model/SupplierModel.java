@@ -1,6 +1,8 @@
 package lk.ijse.PastryPal.model;
 
 import lk.ijse.PastryPal.DB.DbConnection;
+import lk.ijse.PastryPal.dto.SupplierDto;
+import org.apache.poi.hssf.record.DBCellRecord;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,5 +32,18 @@ public class SupplierModel {
             return splitSupplierID(resultSet.getString(1));
         }
         return splitSupplierID(null);
+    }
+
+    public boolean saveSupplier(SupplierDto dto) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "INSERT INTO suppliers VALUES (?,?,?,?)";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1, dto.getSupplier_id());
+        ptsm.setString(2, dto.getName());
+        ptsm.setString(3, String.valueOf(dto.getDate()));
+        ptsm.setString(4,dto.getPhone_number());
+
+        return ptsm.executeUpdate() > 0;
     }
 }

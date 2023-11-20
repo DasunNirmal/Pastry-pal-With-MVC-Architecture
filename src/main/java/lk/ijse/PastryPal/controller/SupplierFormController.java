@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Duration;
+import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
+import lk.ijse.PastryPal.dto.SupplierDto;
 import lk.ijse.PastryPal.model.SupplierModel;
 
 import java.sql.SQLException;
@@ -104,7 +106,27 @@ public class SupplierFormController {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
+        String id = lblSupplierID.getText();
+        String name = txtName.getText();
+        LocalDate date = txtDate.getValue();
+        String phoneNumber = txtPhoneNumber.getText();
 
+        boolean isValidName = RegExPatterns.getValidName().matcher(name).matches();
+//        boolean
+
+        var dto = new SupplierDto(id, name, date, phoneNumber);
+        try {
+            boolean isSaved = supplierModel.saveSupplier(dto);
+            if (isSaved){
+                new Alert(Alert.AlertType.CONFIRMATION,"Supplier is saved").show();
+                clearFields();
+                generateNextSupplierID();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"Supplier is not saved").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
     }
 
     @FXML
