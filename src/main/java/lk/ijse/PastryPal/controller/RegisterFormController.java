@@ -58,7 +58,7 @@ public class RegisterFormController {
             new Alert(Alert.AlertType.ERROR,"Can Not Leave Name Empty").showAndWait();
             return;
         }if (!isPasswordValid){
-            new Alert(Alert.AlertType.ERROR,"Can not Leave Password Empty").showAndWait();
+            new Alert(Alert.AlertType.ERROR,"Password need to contain minimum of four Characters").showAndWait();
             return;
         }if (!ConfirmPW.equals(pw)){
             new Alert(Alert.AlertType.ERROR,"Password Did Not Matched").showAndWait();
