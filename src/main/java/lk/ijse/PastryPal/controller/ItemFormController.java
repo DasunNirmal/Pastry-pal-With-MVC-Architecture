@@ -143,7 +143,6 @@ public class ItemFormController {
     void btnSaveOnAction(ActionEvent event) {
         String id = lblItemID.getText();
         String description = txtDescription.getText();
-        //the reason for this is matcher only accepts String not double
         String qtyText = txtQty.getText();
         String priceText = txtPrice.getText();
 

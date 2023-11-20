@@ -5,11 +5,11 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.util.Duration;
+import lk.ijse.PastryPal.model.SupplierModel;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -31,18 +31,63 @@ public class SupplierFormController {
     private TableColumn<?, ?> colSupplierID;
 
     @FXML
+    private Label lblSupplierID;
+
+    @FXML
     private TableView<?> tblSuppliers;
 
     @FXML
-    private Label lblDate;
+    private DatePicker txtDate;
+
+    @FXML
+    private TextField txtName;
+
+    @FXML
+    private TextField txtPhoneNumber;
+
+    @FXML
+    private TextField txtSearch;
 
     @FXML
     private Label lblTime;
 
+    @FXML
+    private Label lblDate;
+
+    private SupplierModel supplierModel = new SupplierModel();
 
     public void initialize(){
         setDateAndTime();
+        generateNextSupplierID();
     }
+
+    private void generateNextSupplierID() {
+        try {
+            String previousSupplierID = lblSupplierID.getText();
+            String supplierID = supplierModel.generateNextSupplierID();
+            lblSupplierID.setText(supplierID);
+            clearFields();
+            if (btnClearIsPressed){
+                lblSupplierID.setText(previousSupplierID);
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
+    }
+
+    private boolean btnClearIsPressed = false;
+    @FXML
+    void btnClearOnAction(ActionEvent event) {
+        clearFields();
+        generateNextSupplierID();
+    }
+    private void clearFields() {
+        txtName.setText("");
+        txtDate.setValue(null);
+        txtSearch.setText("");
+        txtPhoneNumber.setText("");
+    }
+
     private void setDateAndTime(){
         Platform.runLater(() -> {
             lblDate.setText(String.valueOf(LocalDate.now()));
@@ -58,12 +103,12 @@ public class SupplierFormController {
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) {
+    void btnSaveOnAction(ActionEvent event) {
 
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
+    void btnDeleteOnAction(ActionEvent event) {
 
     }
 
@@ -74,6 +119,16 @@ public class SupplierFormController {
 
     @FXML
     void txtSearchOnActon(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    void txtNameOnAction(ActionEvent event) {
+
+    }
+
+    @FXML
+    void txtPhoneNumberOnAction(ActionEvent event) {
 
     }
 }
