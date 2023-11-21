@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
+import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.ComplainDto;
 import lk.ijse.PastryPal.dto.tm.ComplainTm;
 import lk.ijse.PastryPal.model.ComplainModel;
@@ -133,19 +134,28 @@ public class ComplainsFormController {
         String complain = txtComplain.getText();
         LocalDate date = txtDate.getValue();
 
-        var dto = new ComplainDto(id , complain , date);
-        try {
-            boolean isSaved = complainModel.saveComplain(dto);
-            if (isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION,"Complain is saved").show();
-                clearFields();
-                generateNextComplainID();
-                loadAllComplains();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Complain is not saved").show();
+        boolean isValidDesc = RegExPatterns.getValidDescription().matcher(complain).matches();
+
+        if (!isValidDesc){
+            new Alert(Alert.AlertType.ERROR,"Not a valid Complain.Must start with a Uppercase Letter").showAndWait();
+            return;
+        }if (date == null ){
+            new Alert(Alert.AlertType.ERROR,"Can not Save Complain.Date is empty").showAndWait();
+        } else {
+            var dto = new ComplainDto(id , complain , date);
+            try {
+                boolean isSaved = complainModel.saveComplain(dto);
+                if (isSaved){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Complain is saved").show();
+                    clearFields();
+                    generateNextComplainID();
+                    loadAllComplains();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Complain is not saved").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 
@@ -155,19 +165,28 @@ public class ComplainsFormController {
         String complain = txtComplain.getText();
         LocalDate date = txtDate.getValue();
 
-        var dto = new ComplainDto(id , complain , date);
-        try {
-            boolean isUpdated = complainModel.updateComplains(dto);
-            if (isUpdated){
-                new Alert(Alert.AlertType.CONFIRMATION,"Complain is Updated").show();
-                clearFields();
-                generateNextComplainID();
-                loadAllComplains();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Complain is Not Updated").show();
+        boolean isValidDesc = RegExPatterns.getValidDescription().matcher(complain).matches();
+
+        if (!isValidDesc){
+            new Alert(Alert.AlertType.ERROR,"Not a valid Complain.Must start with a Uppercase Letter").showAndWait();
+            return;
+        }if (date == null ){
+            new Alert(Alert.AlertType.ERROR,"Can not Update Complain.Date is empty").showAndWait();
+        }else {
+            var dto = new ComplainDto(id , complain , date);
+            try {
+                boolean isUpdated = complainModel.updateComplains(dto);
+                if (isUpdated){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Complain is Updated").show();
+                    clearFields();
+                    generateNextComplainID();
+                    loadAllComplains();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Complain is Not Updated").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 
@@ -177,18 +196,27 @@ public class ComplainsFormController {
         String complain = txtComplain.getText();
         LocalDate date = txtDate.getValue();
 
-        try {
-            boolean isDeleted = complainModel.deleteComplains(id);
-            if (isDeleted){
-                new Alert(Alert.AlertType.CONFIRMATION,"Complain is Deleted").show();
-                clearFields();
-                generateNextComplainID();
-                loadAllComplains();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Complain is not Deleted").show();
+        boolean isValidDesc = RegExPatterns.getValidDescription().matcher(complain).matches();
+
+        if (!isValidDesc){
+            new Alert(Alert.AlertType.ERROR,"Can not Delete Complain.Description Can not be empty").showAndWait();
+            return;
+        }if (date == null ){
+            new Alert(Alert.AlertType.ERROR,"Can not Delete Complain.Date is empty").showAndWait();
+        } else {
+            try {
+                boolean isDeleted = complainModel.deleteComplains(id);
+                if (isDeleted){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Complain is Deleted").show();
+                    clearFields();
+                    generateNextComplainID();
+                    loadAllComplains();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Complain is not Deleted").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 
