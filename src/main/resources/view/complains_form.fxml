@@ -61,20 +61,20 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <TableView layoutX="129.0" layoutY="377.0" prefHeight="347.0" prefWidth="896.0" style="-fx-background-color: white; -fx-background-radius: 16;">
+      <TableView fx:id="tblComplains" layoutX="129.0" layoutY="377.0" prefHeight="347.0" prefWidth="896.0" style="-fx-background-color: white; -fx-background-radius: 16;">
          <columns>
-            <TableColumn prefWidth="127.0" text="Complain ID" />
-            <TableColumn prefWidth="396.0" text="Description" />
-            <TableColumn prefWidth="177.0" text="Date" />
+            <TableColumn fx:id="colComplainID" prefWidth="127.0" text="Complain ID" />
+            <TableColumn fx:id="colDescription" prefWidth="396.0" text="Description" />
+            <TableColumn fx:id="colDate" prefWidth="177.0" text="Date" />
             <TableColumn prefWidth="195.0" text="Delete/Update" />
          </columns>
       </TableView>
-      <TextArea layoutX="514.0" layoutY="125.0" prefHeight="150.0" prefWidth="328.0" promptText="         Describe the Complain here !">
+      <TextArea fx:id="txtComplain" layoutX="524.0" layoutY="134.0" prefHeight="141.0" prefWidth="318.0" promptText="         Describe the Complain here !">
          <font>
             <Font size="14.0" />
          </font>
       </TextArea>
-      <DatePicker layoutX="261.0" layoutY="246.0" prefHeight="24.0" prefWidth="188.0" promptText="Choose The Date" />
+      <DatePicker fx:id="txtDate" layoutX="261.0" layoutY="246.0" prefHeight="24.0" prefWidth="188.0" promptText="Choose The Date" />
       <Label layoutX="133.0" layoutY="245.0" prefHeight="22.0" prefWidth="127.0" text="Complain Date :">
          <font>
             <Font name="System Bold" size="14.0" />
@@ -100,7 +100,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="633.0" layoutY="334.0" onAction="#btnDeleteOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Clear" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="633.0" layoutY="334.0" onAction="#btnClearOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Clear" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -127,5 +127,10 @@
             <Image url="@../icons/icons8-search%20(1).gif" />
          </image>
       </ImageView>
+      <Label fx:id="lblComplainID" layoutX="244.0" layoutY="150.0" prefHeight="22.0" prefWidth="113.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

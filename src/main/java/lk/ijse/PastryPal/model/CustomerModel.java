@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerModel {
-
     private String splitCustomerID(String currentCustomerID){
         if (currentCustomerID != null){
             String [] split = currentCustomerID.split("00");

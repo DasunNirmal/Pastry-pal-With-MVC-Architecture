@@ -115,11 +115,9 @@ public class ItemFormController {
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
     }
     private void loadAllItems() {
-        var model = new ItemModel();
-
         ObservableList<ItemTm> obList = FXCollections.observableArrayList();
         try {
-            List<ItemDto> dtoList = model.getAllItems();
+            List<ItemDto> dtoList = itemModel.getAllItems();
             for (ItemDto dto : dtoList){
                 obList.add(
                         new ItemTm(
