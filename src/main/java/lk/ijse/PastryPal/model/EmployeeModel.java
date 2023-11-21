@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeModel {
     private String splitEmployeeID(String currentEmployeeID){
@@ -111,5 +113,28 @@ public class EmployeeModel {
         PreparedStatement ptsm = connection.prepareStatement(sql);
         ptsm.setString(1,id);
         return ptsm.executeUpdate() > 0;
+    }
+
+    public List<EmployeeDto> getAllEmployees() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM employee";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ResultSet resultSet = ptsm.executeQuery();
+
+        ArrayList<EmployeeDto> dtoList = new ArrayList<>();
+
+        while (resultSet.next()){
+            dtoList.add(
+                    new EmployeeDto(
+                            resultSet.getString(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getString(4),
+                            resultSet.getString(5)
+                    )
+            );
+        }
+        return dtoList;
     }
 }

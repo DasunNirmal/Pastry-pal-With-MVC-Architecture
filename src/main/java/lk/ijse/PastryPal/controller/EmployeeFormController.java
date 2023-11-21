@@ -1,23 +1,27 @@
 package lk.ijse.PastryPal.controller;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.EmployeeDto;
+import lk.ijse.PastryPal.dto.tm.CustomerTm;
+import lk.ijse.PastryPal.dto.tm.EmployeeTm;
 import lk.ijse.PastryPal.model.EmployeeModel;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class EmployeeFormController {
 
@@ -35,6 +39,9 @@ public class EmployeeFormController {
 
     @FXML
     private TableColumn<?, ?> colPhoneNumber;
+
+    @FXML
+    private TableView<EmployeeTm> tblEmployee;
 
     @FXML
     private TextField txtAddress;
@@ -65,8 +72,9 @@ public class EmployeeFormController {
     public void initialize(){
         setDateAndTime();
         generateNextEmployeeID();
+        loadAllEmployees();
+        setCellValueFactory();
     }
-
     private void generateNextEmployeeID() {
         try {
             String previousEmployeeID = lblEmployeeID.getId();
@@ -80,13 +88,11 @@ public class EmployeeFormController {
         }
     }
     private boolean btnClearPressed = false;
-
     @FXML
     void btnClearOnAction(ActionEvent event) {
         clearFields();
         generateNextEmployeeID();
     }
-
     private void clearFields(){
         txtFirstName.setText("");
         txtLastName.setText("");
@@ -94,7 +100,6 @@ public class EmployeeFormController {
         txtPhoneNumber.setText("");
         txtSearch.setText("");
     }
-
     private void setDateAndTime(){
         Platform.runLater(() -> {
             lblDate.setText(String.valueOf(LocalDate.now()));
@@ -107,6 +112,33 @@ public class EmployeeFormController {
             timeline.setCycleCount(Timeline.INDEFINITE);
             timeline.play();
         });
+    }
+    private void setCellValueFactory() {
+        colEmployeeID.setCellValueFactory(new PropertyValueFactory<>("employee_id"));
+        colFirstName.setCellValueFactory(new PropertyValueFactory<>("first_name"));
+        colLastName.setCellValueFactory(new PropertyValueFactory<>("last_name"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
+        colPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
+    }
+    private void loadAllEmployees() {
+        ObservableList<EmployeeTm> obList = FXCollections.observableArrayList();
+        try {
+            List<EmployeeDto> dtoList = employeeModel.getAllEmployees();
+            for (EmployeeDto dto: dtoList ) {
+                obList.add(
+                        new EmployeeTm(
+                                dto.getEmployee_id(),
+                                dto.getFirst_name(),
+                                dto.getLast_name(),
+                                dto.getAddress(),
+                                dto.getPhone_number()
+                        )
+                );
+            }
+            tblEmployee.setItems(obList);
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
     }
 
     @FXML
@@ -141,6 +173,7 @@ public class EmployeeFormController {
                     new Alert(Alert.AlertType.CONFIRMATION,"Employee is Saved").show();
                     clearFields();
                     generateNextEmployeeID();
+                    loadAllEmployees();
                 }else {
                     new Alert(Alert.AlertType.ERROR,"Employee is not Saved").show();
                 }
@@ -158,18 +191,37 @@ public class EmployeeFormController {
         String address = txtAddress.getText();
         String phone_number = txtPhoneNumber.getText();
 
-        var dto = new EmployeeDto(id, first_name, last_name, address ,phone_number);
-        try {
-            boolean isUpdated = employeeModel.updateEmployee(dto);
-            if (isUpdated){
-                new Alert(Alert.AlertType.CONFIRMATION,"Employee is Updated").show();
-                clearFields();
-                generateNextEmployeeID();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Employee is not Updated").show();
+        boolean isValidFirstName = RegExPatterns.getValidName().matcher(first_name).matches();
+        boolean isValidLastName = RegExPatterns.getValidName().matcher(last_name).matches();
+        boolean isValidAddress = RegExPatterns.getValidAddress().matcher(address).matches();
+        boolean isValidPhone_Number = RegExPatterns.getValidPhoneNumber().matcher(phone_number).matches();
+
+        if (!isValidFirstName){
+            new Alert(Alert.AlertType.ERROR,"Can nor Update Employee.First Name is empty").showAndWait();
+            return;
+        }if (!isValidLastName){
+            new Alert(Alert.AlertType.ERROR,"Can nor Update Employee.Last Name is empty").showAndWait();
+            return;
+        }if (!isValidAddress){
+            new Alert(Alert.AlertType.ERROR,"Can nor Update Employee.Address is empty").showAndWait();
+            return;
+        }if (!isValidPhone_Number){
+            new Alert(Alert.AlertType.ERROR,"Can nor Update Employee.Phone Number is empty").showAndWait();
+        } else {
+            var dto = new EmployeeDto(id, first_name, last_name, address ,phone_number);
+            try {
+                boolean isUpdated = employeeModel.updateEmployee(dto);
+                if (isUpdated){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Employee is Updated").show();
+                    clearFields();
+                    generateNextEmployeeID();
+                    loadAllEmployees();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Employee is not Updated").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 
@@ -181,17 +233,36 @@ public class EmployeeFormController {
         String address = txtAddress.getText();
         String phone_number = txtPhoneNumber.getText();
 
-        try {
-            boolean isDeleted = employeeModel.deleteEmployee(id);
-            if (isDeleted){
-                new Alert(Alert.AlertType.CONFIRMATION,"Employee is Deleted").show();
-                clearFields();
-                generateNextEmployeeID();
-            }else {
-                new Alert(Alert.AlertType.ERROR,"Employee is Not Deleted").show();
+        boolean isValidFirstName = RegExPatterns.getValidName().matcher(first_name).matches();
+        boolean isValidLastName = RegExPatterns.getValidName().matcher(last_name).matches();
+        boolean isValidAddress = RegExPatterns.getValidAddress().matcher(address).matches();
+        boolean isValidPhone_Number = RegExPatterns.getValidPhoneNumber().matcher(phone_number).matches();
+
+        if (!isValidFirstName){
+            new Alert(Alert.AlertType.ERROR,"Can nor Delete Employee.First Name is empty").showAndWait();
+            return;
+        }if (!isValidLastName){
+            new Alert(Alert.AlertType.ERROR,"Can nor Delete Employee.Last Name is empty").showAndWait();
+            return;
+        }if (!isValidAddress){
+            new Alert(Alert.AlertType.ERROR,"Can nor Delete Employee.Address is empty").showAndWait();
+            return;
+        }if (!isValidPhone_Number){
+            new Alert(Alert.AlertType.ERROR,"Can nor Delete Employee.Phone Number is empty").showAndWait();
+        } else {
+            try {
+                boolean isDeleted = employeeModel.deleteEmployee(id);
+                if (isDeleted){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Employee is Deleted").show();
+                    clearFields();
+                    generateNextEmployeeID();
+                    loadAllEmployees();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Employee is Not Deleted").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 
@@ -222,5 +293,20 @@ public class EmployeeFormController {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
-
+    @FXML
+    void txtGoToLastNameOnAction(ActionEvent event) {
+        txtLastName.requestFocus();
+    }
+    @FXML
+    void GoToPhoneNumberOnAction(ActionEvent event) {
+        txtPhoneNumber.requestFocus();
+    }
+    @FXML
+    void btnGoToAddressOnAction(ActionEvent event) {
+        txtAddress.requestFocus();
+    }
+    @FXML
+    void txtSaveOnAction(ActionEvent event) {
+        btnSaveOnAction(new ActionEvent());
+    }
 }

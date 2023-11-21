@@ -111,13 +111,11 @@ public class CustomerFormController {
         colPoneNumber.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
     }
     private void loadAllCustomers() {
-        var model = new CustomerModel();
-
-        ObservableList<CustomerTm> oblist = FXCollections.observableArrayList();
+        ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
         try {
-            List<CustomerDto> dtoList = model.getAllCustomer();
+            List<CustomerDto> dtoList = customerModel.getAllCustomer();
             for (CustomerDto dto : dtoList){
-                oblist.add(
+                obList.add(
                         new CustomerTm(
                                 dto.getCustomer_id(),
                                 dto.getName(),
@@ -126,7 +124,7 @@ public class CustomerFormController {
                         )
                 );
             }
-            tblCustomer.setItems(oblist);
+            tblCustomer.setItems(obList);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
@@ -277,12 +275,10 @@ public class CustomerFormController {
     void txtGoToAddressOnAction(ActionEvent event) {
         txtCustomerAddress.requestFocus();
     }
-
     @FXML
     void txtGoToPhoneNumberOnAction(ActionEvent event) {
         txtPhoneNumber.requestFocus();
     }
-
     @FXML
     void txtSaveOnAction(ActionEvent event) {
         btnSaveOnAction(new ActionEvent());
