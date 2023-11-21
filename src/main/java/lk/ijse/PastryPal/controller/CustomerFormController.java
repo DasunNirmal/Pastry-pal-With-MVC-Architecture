@@ -262,6 +262,7 @@ public class CustomerFormController {
                 txtCustomerName.setText(customerDto.getName());
                 txtCustomerAddress.setText(customerDto.getAddress());
                 txtPhoneNumber.setText(customerDto.getPhone_number());
+                txtSearch.setText("");
             } else {
                 lblCustomerId.setText("");
                 generateNextCustomerID();

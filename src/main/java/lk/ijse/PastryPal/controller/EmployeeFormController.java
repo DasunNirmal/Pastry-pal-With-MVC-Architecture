@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
+import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.EmployeeDto;
 import lk.ijse.PastryPal.model.EmployeeModel;
 
@@ -116,15 +117,56 @@ public class EmployeeFormController {
         String address = txtAddress.getText();
         String phone_number = txtPhoneNumber.getText();
 
+        boolean isValidFirstName = RegExPatterns.getValidName().matcher(first_name).matches();
+        boolean isValidLastName = RegExPatterns.getValidName().matcher(last_name).matches();
+        boolean isValidAddress = RegExPatterns.getValidAddress().matcher(address).matches();
+        boolean isValidPhone_Number = RegExPatterns.getValidPhoneNumber().matcher(phone_number).matches();
+
+        if (!isValidFirstName){
+            new Alert(Alert.AlertType.ERROR,"Can nor Save Employee.First Name is empty").showAndWait();
+            return;
+        }if (!isValidLastName){
+            new Alert(Alert.AlertType.ERROR,"Can nor Save Employee.Last Name is empty").showAndWait();
+            return;
+        }if (!isValidAddress){
+            new Alert(Alert.AlertType.ERROR,"Can nor Save Employee.Address is empty").showAndWait();
+            return;
+        }if (!isValidPhone_Number){
+            new Alert(Alert.AlertType.ERROR,"Can nor Save Employee.Phone Number is empty").showAndWait();
+        }else {
+            var dto = new EmployeeDto(id, first_name, last_name, address ,phone_number);
+            try {
+                boolean isSaved = employeeModel.saveEmployee(dto);
+                if (isSaved){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Employee is Saved").show();
+                    clearFields();
+                    generateNextEmployeeID();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Employee is not Saved").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            }
+        }
+    }
+
+    @FXML
+    void btnUpdateOnAction(ActionEvent event) {
+        String id = lblEmployeeID.getText();
+        String first_name = txtFirstName.getText();
+        String last_name = txtLastName.getText();
+        String address = txtAddress.getText();
+        String phone_number = txtPhoneNumber.getText();
+
         var dto = new EmployeeDto(id, first_name, last_name, address ,phone_number);
         try {
-            boolean isSaved = employeeModel.saveEmployee(dto);
-            if (isSaved){
-                new Alert(Alert.AlertType.CONFIRMATION,"Employee is Saved").show();
+            boolean isUpdated = employeeModel.updateEmployee(dto);
+            if (isUpdated){
+                new Alert(Alert.AlertType.CONFIRMATION,"Employee is Updated").show();
                 clearFields();
                 generateNextEmployeeID();
             }else {
-                new Alert(Alert.AlertType.ERROR,"Employee is not Saved").show();
+                new Alert(Alert.AlertType.ERROR,"Employee is not Updated").show();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
@@ -133,17 +175,52 @@ public class EmployeeFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
+        String id = lblEmployeeID.getText();
+        String first_name = txtFirstName.getText();
+        String last_name = txtLastName.getText();
+        String address = txtAddress.getText();
+        String phone_number = txtPhoneNumber.getText();
 
-    }
-
-    @FXML
-    void btnUpdateOnAction(ActionEvent event) {
-
+        try {
+            boolean isDeleted = employeeModel.deleteEmployee(id);
+            if (isDeleted){
+                new Alert(Alert.AlertType.CONFIRMATION,"Employee is Deleted").show();
+                clearFields();
+                generateNextEmployeeID();
+            }else {
+                new Alert(Alert.AlertType.ERROR,"Employee is Not Deleted").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
     }
 
     @FXML
     void txtSearchOnAction(ActionEvent event) {
+        String searchInput = txtSearch.getText();
 
+        try {
+            EmployeeDto employeeDto;
+            if (searchInput.matches("\\d+")){
+                employeeDto = employeeModel.searchEmployeeByPhoneNumber(searchInput);
+            }else {
+                employeeDto = employeeModel.searchEmployeeByID(searchInput);
+            }
+            if (employeeDto != null){
+                lblEmployeeID.setText(employeeDto.getEmployee_id());
+                txtFirstName.setText(employeeDto.getFirst_name());
+                txtLastName.setText(employeeDto.getLast_name());
+                txtAddress.setText(employeeDto.getAddress());
+                txtPhoneNumber.setText(employeeDto.getPhone_number());
+                txtSearch.setText("");
+            }else {
+                lblEmployeeID.setText("");
+                generateNextEmployeeID();
+                new Alert(Alert.AlertType.INFORMATION,"Employee not found").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
     }
 
 }
