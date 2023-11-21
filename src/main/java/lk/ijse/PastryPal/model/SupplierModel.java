@@ -2,7 +2,6 @@ package lk.ijse.PastryPal.model;
 
 import lk.ijse.PastryPal.DB.DbConnection;
 import lk.ijse.PastryPal.dto.SupplierDto;
-import org.apache.poi.hssf.record.DBCellRecord;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

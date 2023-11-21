@@ -83,15 +83,12 @@ public class ItemFormController {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
     }
-
     private boolean btnClearPressed = false;
-
     @FXML
     void btnClearOnAction(ActionEvent event) {
         clearFields();
         generateNextItemID();
     }
-
     private void clearFields(){
         txtDescription.setText("");
         txtQty.setText("");
