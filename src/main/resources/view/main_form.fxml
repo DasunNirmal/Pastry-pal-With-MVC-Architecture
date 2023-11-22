@@ -80,7 +80,7 @@
             <Image url="@../icons/icons8-minimum-order.png" />
          </image>
       </ImageView>
-      <JFXButton fx:id="btnSuppliers" layoutX="49.0" layoutY="416.0" onAction="#btnSupplierOnAction" prefHeight="40.0" prefWidth="199.0" stylesheets="@../style/main_btn.css" text="Suppliers">
+      <JFXButton fx:id="btnSuppliers" layoutX="49.0" layoutY="545.0" onAction="#btnSupplierOnAction" prefHeight="40.0" prefWidth="199.0" stylesheets="@../style/main_btn.css" text="Suppliers">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -88,7 +88,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <ImageView fitHeight="40.0" fitWidth="30.0" layoutX="56.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="40.0" fitWidth="30.0" layoutX="56.0" layoutY="552.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/icons8-supplier.png" />
          </image>
@@ -101,7 +101,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="btnItems" layoutX="49.0" layoutY="548.0" onAction="#btnItemsOnAction" prefHeight="40.0" prefWidth="199.0" stylesheets="@../style/main_btn.css" text="Products">
+      <JFXButton fx:id="btnItems" layoutX="49.0" layoutY="418.0" onAction="#btnItemsOnAction" prefHeight="40.0" prefWidth="199.0" stylesheets="@../style/main_btn.css" text="Products">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -114,7 +114,7 @@
             <Image url="@../icons/stock.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="40.0" fitWidth="30.0" layoutX="56.0" layoutY="553.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="40.0" fitWidth="30.0" layoutX="56.0" layoutY="423.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/items.png" />
          </image>
