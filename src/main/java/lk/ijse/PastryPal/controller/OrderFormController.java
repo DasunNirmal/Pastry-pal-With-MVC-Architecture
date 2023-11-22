@@ -87,6 +87,7 @@ public class OrderFormController {
     private TextField txtSearch;
 
     private CustomerModel customerModel = new CustomerModel();
+    private ProductDto dto = new ProductDto();
     private ProductModel productModel = new ProductModel();
     private OrderModel orderModel = new OrderModel();
     private ObservableList<OrderTm> obList = FXCollections.observableArrayList();
@@ -240,6 +241,14 @@ public class OrderFormController {
             boolean isSuccess = orderModel.placeOrder(orderDto);
             if (isSuccess){
                 new Alert(Alert.AlertType.CONFIRMATION,"Order is Saved").show();
+                String productId = cmbProductID.getValue();
+                ProductDto updatedProduct = productModel.searchProductById(productId);
+                if (updatedProduct != null) {
+                    lblQtyOnHand.setText(String.valueOf(updatedProduct.getQty()));
+                }
+                obList.clear();
+                tblOrder.refresh();
+                calculateTotal();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
