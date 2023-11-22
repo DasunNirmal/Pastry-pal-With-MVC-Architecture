@@ -226,9 +226,7 @@ public class ComplainsFormController {
 
         try {
             ComplainDto complainDto;
-
             complainDto = complainModel.searchComplainByID(searchInput);
-
             if (complainDto != null){
                 lblComplainID.setText(complainDto.getComplain_id());
                 txtComplain.setText(complainDto.getDescription());

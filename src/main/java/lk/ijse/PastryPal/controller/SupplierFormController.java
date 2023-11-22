@@ -177,12 +177,73 @@ public class SupplierFormController {
 
     @FXML
     void btnDeleteOnAction(ActionEvent event) {
+        String id = lblSupplierID.getText();
+        String name = txtName.getText();
+        LocalDate date = txtDate.getValue();
+        String phoneNumber = txtPhoneNumber.getText();
 
+        boolean isValidName = RegExPatterns.getValidName().matcher(name).matches();
+        boolean isValidPhoneNumber = RegExPatterns.getValidPhoneNumber().matcher(phoneNumber).matches();
+
+        if (!isValidName){
+            new Alert(Alert.AlertType.ERROR,"Can not Delete Supplier.Name is empty").showAndWait();
+            return;
+        }if (date == null){
+            new Alert(Alert.AlertType.ERROR,"Can not Delete Supplier.Date is empty").showAndWait();
+            return;
+        }if (!isValidPhoneNumber){
+            new Alert(Alert.AlertType.ERROR,"Can not Delete Supplier.Phone Number is empty").showAndWait();
+        }else {
+            try {
+                boolean isDeleted = supplierModel.deleteSuppliers(id);
+                if (isDeleted){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Supplier id Deleted").show();
+                    clearFields();
+                    generateNextSupplierID();
+                    loadAllSuppliers();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Supplier is not Deleted").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            }
+        }
     }
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        String id = lblSupplierID.getText();
+        String name = txtName.getText();
+        LocalDate date = txtDate.getValue();
+        String phoneNumber = txtPhoneNumber.getText();
 
+        boolean isValidName = RegExPatterns.getValidName().matcher(name).matches();
+        boolean isValidPhoneNumber = RegExPatterns.getValidPhoneNumber().matcher(phoneNumber).matches();
+
+        if (!isValidName){
+            new Alert(Alert.AlertType.ERROR,"Can not Update Supplier.Name is empty").showAndWait();
+            return;
+        }if (date == null){
+            new Alert(Alert.AlertType.ERROR,"Can not Update Supplier.Date is empty").showAndWait();
+            return;
+        }if (!isValidPhoneNumber){
+            new Alert(Alert.AlertType.ERROR,"Can not Update Supplier.Phone Number is empty").showAndWait();
+        } else {
+            var dto = new SupplierDto(id, name ,date ,phoneNumber);
+            try {
+                boolean isUpdated = supplierModel.updateSuppliers(dto);
+                if (isUpdated){
+                    new Alert(Alert.AlertType.CONFIRMATION,"Supplier is Updated").show();
+                    clearFields();
+                    generateNextSupplierID();
+                    loadAllSuppliers();
+                }else {
+                    new Alert(Alert.AlertType.ERROR,"Supplier is Not Updated").show();
+                }
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+            }
+        }
     }
 
     @FXML

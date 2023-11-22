@@ -110,4 +110,27 @@ public class SupplierModel {
         }
         return dto;
     }
+
+    public boolean deleteSuppliers(String id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "DELETE FROM suppliers WHERE supplier_id = ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1,id);
+
+        return ptsm.executeUpdate() > 0;
+    }
+
+    public boolean updateSuppliers(SupplierDto dto) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "UPDATE suppliers SET name = ?,s_date = ?,phone_number = ? WHERE supplier_id = ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1, dto.getName());
+        ptsm.setString(2, String.valueOf(dto.getDate()));
+        ptsm.setString(3, dto.getPhone_number());
+        ptsm.setString(4, dto.getSupplier_id());
+
+        return ptsm.executeUpdate() > 0;
+    }
 }
