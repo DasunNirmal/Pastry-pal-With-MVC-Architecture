@@ -2,6 +2,7 @@ package lk.ijse.PastryPal.model;
 
 import lk.ijse.PastryPal.DB.DbConnection;
 import lk.ijse.PastryPal.dto.ProductDto;
+import lk.ijse.PastryPal.dto.tm.OrderTm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -130,5 +131,25 @@ public class ProductModel {
             );
         }
         return dtoList;
+    }
+
+    public boolean updateProduct(List<OrderTm> orderTmList) throws SQLException {
+        for (OrderTm tm: orderTmList){
+            if (!updateQty(tm.getProduct_id(),tm.getQty())){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean updateQty(String productId, int qty) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "UPDATE products SET qty = qty - ? WHERE product_id = ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setDouble(1,qty);
+        ptsm.setString(2,productId);
+
+        return ptsm.executeUpdate() > 0;
     }
 }

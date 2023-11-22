@@ -181,6 +181,7 @@ public class ItemFormController {
                         new Alert(Alert.AlertType.CONFIRMATION,"Item is Saved").show();
                         clearFields();
                         generateNextItemID();
+                        loadAllItems();
                     }else {
                         new Alert(Alert.AlertType.ERROR,"Item is not Saved").show();
                     }
@@ -214,6 +215,7 @@ public class ItemFormController {
                     new Alert(Alert.AlertType.CONFIRMATION,"Item is Deleted").show();
                     clearFields();
                     generateNextItemID();
+                    loadAllItems();
                 }else {
                     new Alert(Alert.AlertType.ERROR,"Item is not Deleted").show();
                 }
@@ -251,6 +253,7 @@ public class ItemFormController {
                         new Alert(Alert.AlertType.CONFIRMATION,"Item is Updated").show();
                         clearFields();
                         generateNextItemID();
+                        loadAllItems();
                     }else {
                         new Alert(Alert.AlertType.ERROR,"Item is not Updated").show();
                     }
