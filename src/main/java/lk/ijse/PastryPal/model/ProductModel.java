@@ -1,7 +1,7 @@
 package lk.ijse.PastryPal.model;
 
 import lk.ijse.PastryPal.DB.DbConnection;
-import lk.ijse.PastryPal.dto.ItemDto;
+import lk.ijse.PastryPal.dto.ProductDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemModel {
+public class ProductModel {
     private String splitItemID(String currentItemID){
         if (currentItemID != null){
             String [] split = currentItemID.split("00");
@@ -26,7 +26,7 @@ public class ItemModel {
     public String generateNextItemID() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT item_id FROM items ORDER BY item_id DESC LIMIT 1";
+        String sql = "SELECT product_id FROM products ORDER BY product_id DESC LIMIT 1";
         PreparedStatement ptsm = connection.prepareStatement(sql);
         ResultSet resultSet = ptsm.executeQuery();
         if (resultSet.next()){
@@ -35,12 +35,12 @@ public class ItemModel {
         return splitItemID(null);
     }
 
-    public boolean saveItem(ItemDto dto) throws SQLException {
+    public boolean saveItem(ProductDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "INSERT INTO items VALUES (?,?,?,?)";
+        String sql = "INSERT INTO products VALUES (?,?,?,?)";
         PreparedStatement ptsm = connection.prepareStatement(sql);
-        ptsm.setString(1, dto.getItem_id());
+        ptsm.setString(1, dto.getProduct_id());
         ptsm.setString(2, dto.getDescription());
         ptsm.setString(3, String.valueOf(dto.getQty()));
         ptsm.setString(4, String.valueOf(dto.getPrice()));
@@ -48,55 +48,55 @@ public class ItemModel {
         return ptsm.executeUpdate() > 0;
     }
 
-    public boolean updateItems(ItemDto dto) throws SQLException {
+    public boolean updateItems(ProductDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "UPDATE items SET description = ?, qty = ?, price = ? WHERE item_id = ?";
+        String sql = "UPDATE products SET description = ?, qty = ?, price = ? WHERE product_id = ?";
         PreparedStatement ptsm = connection.prepareStatement(sql);
         ptsm.setString(1,dto.getDescription());
         ptsm.setString(2, String.valueOf(dto.getQty()));
         ptsm.setString(3, String.valueOf(dto.getPrice()));
-        ptsm.setString(4, dto.getItem_id());
+        ptsm.setString(4, dto.getProduct_id());
 
         return ptsm.executeUpdate() > 0;
     }
 
-    public ItemDto searchItemById(String searchId) throws SQLException {
+    public ProductDto searchProductById(String searchId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT * FROM items WHERE item_id = ?";
+        String sql = "SELECT * FROM products WHERE product_id = ?";
         PreparedStatement ptsm = connection.prepareStatement(sql);
         ptsm.setString(1,searchId);
         ResultSet resultSet = ptsm.executeQuery();
 
-        ItemDto dto = null;
+        ProductDto dto = null;
         if (resultSet.next()){
             String Item_id = resultSet.getString(1);
             String Item_description = resultSet.getString(2);
             double Item_qty = Double.parseDouble(resultSet.getString(3));
             double Item_price = Double.parseDouble(resultSet.getString(4));
 
-            dto = new ItemDto(Item_id, Item_description, Item_qty ,Item_price);
+            dto = new ProductDto(Item_id, Item_description, Item_qty ,Item_price);
         }
         return dto;
     }
 
-    public ItemDto searchItemByName(String searchName) throws SQLException {
+    public ProductDto searchProductByName(String searchName) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT * FROM items WHERE description = ?";
+        String sql = "SELECT * FROM products WHERE description = ?";
         PreparedStatement ptsm = connection.prepareStatement(sql);
         ptsm.setString(1,searchName);
         ResultSet resultSet = ptsm.executeQuery();
 
-        ItemDto dto = null;
+        ProductDto dto = null;
         if (resultSet.next()){
             String Item_Id = resultSet.getString(1);
             String Item_description = resultSet.getString(2);
             double Item_qty = Double.parseDouble(resultSet.getString(3));
             double Item_price = Double.parseDouble(resultSet.getString(4));
 
-            dto = new ItemDto(Item_Id, Item_description, Item_qty, Item_price);
+            dto = new ProductDto(Item_Id, Item_description, Item_qty, Item_price);
         }
         return  dto;
     }
@@ -104,24 +104,24 @@ public class ItemModel {
     public boolean deleteItems(String itemId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "DELETE FROM items WHERE item_id = ?";
+        String sql = "DELETE FROM products WHERE product_id = ?";
         PreparedStatement ptsm = connection.prepareStatement(sql);
         ptsm.setString(1,itemId);
         return ptsm.executeUpdate() > 0;
     }
 
-    public List<ItemDto> getAllItems() throws SQLException {
+    public List<ProductDto> getAllItems() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
-        String sql = "SELECT * FROM items";
+        String sql = "SELECT * FROM products";
         PreparedStatement ptsm = connection.prepareStatement(sql);
         ResultSet resultSet = ptsm.executeQuery();
 
-        ArrayList<ItemDto> dtoList = new ArrayList<>();
+        ArrayList<ProductDto> dtoList = new ArrayList<>();
 
         while (resultSet.next()){
             dtoList.add(
-                    new ItemDto(
+                    new ProductDto(
                             resultSet.getString(1),
                             resultSet.getString(2),
                             resultSet.getDouble(3),

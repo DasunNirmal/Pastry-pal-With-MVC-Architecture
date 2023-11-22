@@ -12,9 +12,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="751.0" prefWidth="1142.0" style="-fx-background-color: white; -fx-background-radius: 24;" styleClass="btnRoot" stylesheets="@../style/drop_shadow.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.ItemFormController">
+<AnchorPane prefHeight="751.0" prefWidth="1142.0" style="-fx-background-color: white; -fx-background-radius: 24;" styleClass="btnRoot" stylesheets="@../style/drop_shadow.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.PastryPal.controller.ProductFormController">
    <children>
-      <Label layoutX="13.0" layoutY="50.0" prefHeight="32.0" prefWidth="188.0" text="Manage Items">
+      <Label layoutX="13.0" layoutY="50.0" prefHeight="32.0" prefWidth="188.0" text="Manage Products">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -34,7 +34,7 @@
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <Label layoutX="72.0" layoutY="140.0" prefHeight="22.0" prefWidth="72.0" text="Item ID :">
+      <Label layoutX="72.0" layoutY="140.0" prefHeight="22.0" prefWidth="102.0" text="Product ID :">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -69,7 +69,7 @@
       </JFXButton>
       <TableView fx:id="tblItems" layoutX="75.0" layoutY="337.0" prefHeight="369.0" prefWidth="997.0" style="-fx-background-color: white; -fx-background-radius: 16;">
          <columns>
-            <TableColumn fx:id="colItemID" prefWidth="125.0" text="Item ID" />
+            <TableColumn fx:id="colProductID" prefWidth="125.0" text="Product ID" />
             <TableColumn fx:id="colDescription" prefWidth="309.0" text="Description" />
             <TableColumn fx:id="colQtyOnHand" prefWidth="206.0" text="Quantity On Hand" />
             <TableColumn fx:id="colPrice" prefWidth="164.0" text="Price" />
@@ -90,7 +90,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblItemID" layoutX="147.0" layoutY="140.0" prefHeight="22.0" prefWidth="93.0">
+      <Label fx:id="lblProductID" layoutX="177.0" layoutY="140.0" prefHeight="22.0" prefWidth="93.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
@@ -102,7 +102,7 @@
       </TextField>
       <ImageView fitHeight="25.0" fitWidth="30.0" layoutX="81.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../icons/icons8-search%20(1).gif" />
+            <Image url="@../icons/icons8-search (1).gif" />
          </image>
       </ImageView>
       <JFXButton buttonType="RAISED" layoutX="683.0" layoutY="288.0" onAction="#btnClearOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Clear" textFill="WHITE">
@@ -123,14 +123,8 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <AnchorPane layoutX="666.0" layoutY="104.0" prefHeight="127.0" prefWidth="204.0" style="-fx-background-color: rgba(162, 155, 254,1.0); -fx-background-radius: 20;" />
-      <AnchorPane layoutX="896.0" layoutY="104.0" prefHeight="127.0" prefWidth="204.0" style="-fx-background-color: rgba(140, 122, 230,1.0); -fx-background-radius: 20;" />
-      <Label layoutX="691.0" layoutY="113.0" prefHeight="32.0" prefWidth="160.0" text="Total Item Categoreis" textFill="WHITE">
-         <font>
-            <Font name="FreeSans Bold" size="15.0" />
-         </font>
-      </Label>
-      <Label layoutX="951.0" layoutY="113.0" prefHeight="32.0" prefWidth="85.0" text="Total Items" textFill="WHITE">
+      <AnchorPane layoutX="806.0" layoutY="104.0" prefHeight="127.0" prefWidth="204.0" style="-fx-background-color: rgba(140, 122, 230,1.0); -fx-background-radius: 20;" />
+      <Label layoutX="861.0" layoutY="113.0" prefHeight="32.0" prefWidth="115.0" text="Total Products" textFill="WHITE">
          <font>
             <Font name="FreeSans Bold" size="15.0" />
          </font>

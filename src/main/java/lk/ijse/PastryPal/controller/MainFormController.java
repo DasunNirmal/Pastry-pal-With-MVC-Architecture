@@ -10,7 +10,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.PastryPal.dto.RegistrationDto;
-import lk.ijse.PastryPal.model.RegistrationModel;
 
 import java.io.IOException;
 
@@ -124,7 +123,7 @@ public class MainFormController {
     @FXML
     void btnMaterialsOnAction(ActionEvent event) throws IOException {
         selectCss(btnMaterials);
-        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/materials_form.fxml"));
+        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/items_form.fxml"));
         this.mainNode.getChildren().clear();
         this.mainNode.getChildren().add(anchorPane);
     }
@@ -132,7 +131,7 @@ public class MainFormController {
     @FXML
     void btnItemsOnAction(ActionEvent event) throws IOException {
         selectCss(btnItems);
-        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/item_form.fxml"));
+        AnchorPane anchorPane = FXMLLoader.load(this.getClass().getResource("/view/product_form.fxml"));
         this.mainNode.getChildren().clear();
         this.mainNode.getChildren().add(anchorPane);
     }
