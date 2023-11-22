@@ -93,7 +93,7 @@
             <Image url="@../icons/icons8-supplier.png" />
          </image>
       </ImageView>
-      <JFXButton fx:id="btnMaterials" layoutX="49.0" layoutY="483.0" onAction="#btnMaterialsOnAction" prefHeight="40.0" prefWidth="199.0" stylesheets="@../style/main_btn.css" text="Materials">
+      <JFXButton fx:id="btnMaterials" layoutX="49.0" layoutY="483.0" onAction="#btnMaterialsOnAction" prefHeight="40.0" prefWidth="199.0" stylesheets="@../style/main_btn.css" text="Items">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
@@ -101,7 +101,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton fx:id="btnItems" layoutX="49.0" layoutY="548.0" onAction="#btnItemsOnAction" prefHeight="40.0" prefWidth="199.0" stylesheets="@../style/main_btn.css" text="Items">
+      <JFXButton fx:id="btnItems" layoutX="49.0" layoutY="548.0" onAction="#btnItemsOnAction" prefHeight="40.0" prefWidth="199.0" stylesheets="@../style/main_btn.css" text="Products">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>

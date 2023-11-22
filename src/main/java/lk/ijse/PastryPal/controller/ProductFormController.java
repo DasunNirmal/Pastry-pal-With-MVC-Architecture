@@ -66,11 +66,11 @@ public class ProductFormController {
     public void initialize(){
         setValueFactory();
         setDateAndTime();
-        generateNextItemID();
+        generateNextProductID();
         loadAllProducts();
     }
 
-    private void generateNextItemID() {
+    private void generateNextProductID() {
         try {
             String previousItemID = lblProductID.getId();
             String itemID = productModel.generateNextItemID();
@@ -87,7 +87,7 @@ public class ProductFormController {
     @FXML
     void btnClearOnAction(ActionEvent event) {
         clearFields();
-        generateNextItemID();
+        generateNextProductID();
     }
     private void clearFields(){
         txtDescription.setText("");
@@ -117,7 +117,7 @@ public class ProductFormController {
     private void loadAllProducts() {
         ObservableList<ProductTm> obList = FXCollections.observableArrayList();
         try {
-            List<ProductDto> dtoList = productModel.getAllItems();
+            List<ProductDto> dtoList = productModel.getAllProducts();
             for (ProductDto dto : dtoList){
                 obList.add(
                         new ProductTm(
@@ -161,11 +161,11 @@ public class ProductFormController {
 
                 var dto = new ProductDto(id, description, qty, price);
                 try {
-                    boolean isSaved = productModel.saveItem(dto);
+                    boolean isSaved = productModel.saveProduct(dto);
                     if (isSaved) {
                         new Alert(Alert.AlertType.CONFIRMATION, "Product Is Saved").show();
                         clearFields();
-                        generateNextItemID();
+                        generateNextProductID();
                         loadAllProducts();
                     } else {
                         new Alert(Alert.AlertType.ERROR, "Product Is Not Saved").show();
@@ -205,11 +205,11 @@ public class ProductFormController {
 
                 var dto = new ProductDto(id,desc,qty,price);
                 try {
-                    boolean isUpdated = productModel.updateItems(dto);
+                    boolean isUpdated = productModel.updateProducts(dto);
                     if (isUpdated){
-                        new Alert(Alert.AlertType.CONFIRMATION,"Item Is Updated").show();
+                        new Alert(Alert.AlertType.CONFIRMATION,"Product Is Updated").show();
                         clearFields();
-                        generateNextItemID();
+                        generateNextProductID();
                     }
                 } catch (SQLException e) {
                     new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
@@ -241,11 +241,11 @@ public class ProductFormController {
             new Alert(Alert.AlertType.ERROR, "Can not Delete Product.Price is Empty").showAndWait();
         }else {
             try {
-                boolean isDeleted = productModel.deleteItems(id);
+                boolean isDeleted = productModel.deleteProduct(id);
                 if (isDeleted){
                     new Alert(Alert.AlertType.CONFIRMATION,"Product is Deleted").show();
                     clearFields();
-                    generateNextItemID();
+                    generateNextProductID();
                     loadAllProducts();
                 }else {
                     new Alert(Alert.AlertType.ERROR,"Product is Not Deleted").show();
@@ -261,20 +261,20 @@ public class ProductFormController {
         String searchInput = txtSearch.getText();
 
         try {
-            ProductDto itemDto;
-            if (searchInput.matches("[I][0-9]{3,}")) {
-                itemDto = productModel.searchProductById(searchInput);
+            ProductDto productDto;
+            if (searchInput.matches("[P][0-9]{3,}")) {
+                productDto = productModel.searchProductById(searchInput);
             }else {
-                itemDto = productModel.searchProductByName(searchInput);
+                productDto = productModel.searchProductByName(searchInput);
             }
-            if (itemDto != null ){
-                lblProductID.setText(itemDto.getProduct_id());
-                txtDescription.setText(itemDto.getDescription());
-                txtQty.setText(String.valueOf(itemDto.getQty()));
-                txtPrice.setText(String.valueOf(itemDto.getPrice()));
+            if (productDto != null ){
+                lblProductID.setText(productDto.getProduct_id());
+                txtDescription.setText(productDto.getDescription());
+                txtQty.setText(String.valueOf(productDto.getQty()));
+                txtPrice.setText(String.valueOf(productDto.getPrice()));
             }else {
                 lblProductID.setText("");
-                generateNextItemID();
+                generateNextProductID();
                 new Alert(Alert.AlertType.CONFIRMATION,"Product Not Found").show();
             }
         } catch (SQLException e) {

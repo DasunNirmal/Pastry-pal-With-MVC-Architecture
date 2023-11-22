@@ -17,9 +17,9 @@ public class ProductModel {
 
             int id = Integer.parseInt(split[1]);
             id++;
-            return "I00" + id;
+            return "P00" + id;
         }else {
-            return "I001";
+            return "P001";
         }
     }
 
@@ -35,7 +35,7 @@ public class ProductModel {
         return splitItemID(null);
     }
 
-    public boolean saveItem(ProductDto dto) throws SQLException {
+    public boolean saveProduct(ProductDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "INSERT INTO products VALUES (?,?,?,?)";
@@ -48,7 +48,7 @@ public class ProductModel {
         return ptsm.executeUpdate() > 0;
     }
 
-    public boolean updateItems(ProductDto dto) throws SQLException {
+    public boolean updateProducts(ProductDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "UPDATE products SET description = ?, qty = ?, price = ? WHERE product_id = ?";
@@ -71,12 +71,12 @@ public class ProductModel {
 
         ProductDto dto = null;
         if (resultSet.next()){
-            String Item_id = resultSet.getString(1);
-            String Item_description = resultSet.getString(2);
-            double Item_qty = Double.parseDouble(resultSet.getString(3));
-            double Item_price = Double.parseDouble(resultSet.getString(4));
+            String Product_id = resultSet.getString(1);
+            String Product_description = resultSet.getString(2);
+            double Product_qty = Double.parseDouble(resultSet.getString(3));
+            double Product_price = Double.parseDouble(resultSet.getString(4));
 
-            dto = new ProductDto(Item_id, Item_description, Item_qty ,Item_price);
+            dto = new ProductDto(Product_id, Product_description, Product_qty ,Product_price);
         }
         return dto;
     }
@@ -91,17 +91,17 @@ public class ProductModel {
 
         ProductDto dto = null;
         if (resultSet.next()){
-            String Item_Id = resultSet.getString(1);
-            String Item_description = resultSet.getString(2);
-            double Item_qty = Double.parseDouble(resultSet.getString(3));
-            double Item_price = Double.parseDouble(resultSet.getString(4));
+            String Product_Id = resultSet.getString(1);
+            String Product_description = resultSet.getString(2);
+            double Product_qty = Double.parseDouble(resultSet.getString(3));
+            double Product_price = Double.parseDouble(resultSet.getString(4));
 
-            dto = new ProductDto(Item_Id, Item_description, Item_qty, Item_price);
+            dto = new ProductDto(Product_Id, Product_description, Product_qty, Product_price);
         }
         return  dto;
     }
 
-    public boolean deleteItems(String itemId) throws SQLException {
+    public boolean deleteProduct(String itemId) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "DELETE FROM products WHERE product_id = ?";
@@ -110,7 +110,7 @@ public class ProductModel {
         return ptsm.executeUpdate() > 0;
     }
 
-    public List<ProductDto> getAllItems() throws SQLException {
+    public List<ProductDto> getAllProducts() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 
         String sql = "SELECT * FROM products";
