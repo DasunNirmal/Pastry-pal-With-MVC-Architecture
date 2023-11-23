@@ -132,5 +132,13 @@
             </Label>
          </children>
       </AnchorPane>
+      <JFXButton buttonType="RAISED" layoutX="603.0" layoutY="309.0" onAction="#btnReportOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Report" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
    </children>
 </AnchorPane>

@@ -30,7 +30,7 @@
          </font>
       </Label>
       <Line endX="893.0" layoutX="249.0" layoutY="92.0" startX="-249.0" stroke="#bc8f14" />
-      <TextField fx:id="txtDescription" alignment="CENTER" layoutX="409.0" layoutY="135.0" prefHeight="32.0" prefWidth="210.0" promptText="Description" style="-fx-background-radius: 20;">
+      <TextField fx:id="txtDescription" alignment="CENTER" layoutX="409.0" layoutY="135.0" onAction="#txtPriceOnAction" prefHeight="32.0" prefWidth="210.0" promptText="Description" style="-fx-background-radius: 20;">
          <font>
             <Font size="14.0" />
          </font></TextField>
@@ -39,7 +39,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtQty" alignment="CENTER" layoutX="409.0" layoutY="195.0" prefHeight="32.0" prefWidth="210.0" promptText="Quantity" style="-fx-background-radius: 20;">
+      <TextField fx:id="txtQty" alignment="CENTER" layoutX="69.0" layoutY="195.0" onAction="#txtSaveOnAction" prefHeight="32.0" prefWidth="210.0" promptText="Quantity" style="-fx-background-radius: 20;">
          <font>
             <Font size="14.0" />
          </font></TextField>
@@ -76,7 +76,7 @@
             <TableColumn fx:id="colAction" prefWidth="192.0" text="Delete/Update" />
          </columns>
       </TableView>
-      <TextField fx:id="txtPrice" alignment="CENTER" layoutX="71.0" layoutY="195.0" prefHeight="32.0" prefWidth="210.0" promptText="Price" style="-fx-background-radius: 20;">
+      <TextField fx:id="txtPrice" alignment="CENTER" layoutX="411.0" layoutY="195.0" onAction="#txtQtyOnAction" prefHeight="32.0" prefWidth="210.0" promptText="Price" style="-fx-background-radius: 20;">
          <font>
             <Font size="14.0" />
          </font></TextField>

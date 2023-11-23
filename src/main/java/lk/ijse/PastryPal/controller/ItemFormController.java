@@ -319,4 +319,12 @@ public class ItemFormController {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
+    @FXML
+    void txtQtyOnAction(ActionEvent event) {
+        txtQty.requestFocus();
+    }
+    @FXML
+    void txtSaveOnAction(ActionEvent event) {
+        btnSaveOnAction(new ActionEvent());
+    }
 }

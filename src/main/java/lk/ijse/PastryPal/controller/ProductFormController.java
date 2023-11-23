@@ -281,4 +281,18 @@ public class ProductFormController {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
+    @FXML
+    void txtPriceOnAction(ActionEvent event) {
+        txtPrice.requestFocus();
+    }
+
+    @FXML
+    void txtQtyOnAction(ActionEvent event) {
+        txtQty.requestFocus();
+    }
+
+    @FXML
+    void txtSaveOnAction(ActionEvent event) {
+        btnSaveOnAction(new ActionEvent());
+    }
 }
