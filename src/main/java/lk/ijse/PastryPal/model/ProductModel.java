@@ -14,11 +14,11 @@ import java.util.List;
 public class ProductModel {
     private String splitItemID(String currentItemID){
         if (currentItemID != null){
-            String [] split = currentItemID.split("00");
+            String [] split = currentItemID.split("[P]");
 
             int id = Integer.parseInt(split[1]);
             id++;
-            return "P00" + id;
+            return String.format("P%03d",id);
         }else {
             return "P001";
         }

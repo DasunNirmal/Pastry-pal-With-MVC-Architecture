@@ -14,11 +14,11 @@ import java.util.List;
 public class SupplierModel {
     private String splitSupplierID(String currentSupplierID) {
         if (currentSupplierID != null){
-            String [] split = currentSupplierID.split("00");
+            String [] split = currentSupplierID.split("[S]");
 
             int id = Integer.parseInt(split[1]);
             id++;
-            return "S00" + id;
+            return String.format("S%03d",id);
         }else {
             return "S001";
         }

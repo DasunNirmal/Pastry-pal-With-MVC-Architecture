@@ -14,13 +14,13 @@ import java.util.List;
 public class ComplainModel {
     private String splitComplainID(String currentComplainID){
         if (currentComplainID != null){
-            String [] split = currentComplainID.split("00");
+            String [] split = currentComplainID.split("[M]");
 
             int id = Integer.parseInt(split[1]);
             id++;
-            return "CM00" + id;
+            return String.format("M%03d",id);
         }else {
-            return "CM001";
+            return "M001";
         }
     }
     public String generateNextComplainID() throws SQLException {

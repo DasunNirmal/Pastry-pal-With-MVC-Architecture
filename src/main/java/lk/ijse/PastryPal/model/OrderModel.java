@@ -14,11 +14,11 @@ public class OrderModel {
     private OrderDetailModel orderDetailModel = new OrderDetailModel();
     private String splitOrderID(String currentOrderID){
         if (currentOrderID != null){
-            String [] split = currentOrderID.split("00");
+            String [] split = currentOrderID.split("[O]");
 
             int id = Integer.parseInt(split[1]);
             id++;
-            return "O00" + id;
+            return String.format("O%03d",id);
         }else {
             return "O001";
         }

@@ -278,14 +278,15 @@ public class CustomerFormController {
     }
     @FXML
     void btnReportOnAction(ActionEvent event) throws JRException, SQLException {
-        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/Customers.jrxml");
+        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/CustomerDetail.jrxml");
         JasperDesign load = JRXmlLoader.load(resourceAsStream);
         JasperReport jasperReport = JasperCompileManager.compileReport(load);
-        JasperFillManager.fillReport(
+        JasperPrint jasperPrint = JasperFillManager.fillReport(
                 jasperReport,
                 null,
                 DbConnection.getInstance().getConnection()
         );
+        JasperViewer.viewReport(jasperPrint,false);
     }
     @FXML
     void txtGoToAddressOnAction(ActionEvent event) {

@@ -13,11 +13,11 @@ import java.util.List;
 public class ItemModel {
     private String splitItemID(String currentItemID){
         if (currentItemID != null){
-            String [] split = currentItemID.split("00");
+            String [] split = currentItemID.split("[I]");
 
             int id = Integer.parseInt(split[1]);
             id++;
-            return "I00" + id;
+            return String.format("I%03d",id);
         }else {
             return "I001";
         }

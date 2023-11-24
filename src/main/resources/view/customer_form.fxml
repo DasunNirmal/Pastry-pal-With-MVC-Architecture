@@ -95,7 +95,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="lblCustomerId" layoutX="192.0" layoutY="140.0" prefHeight="22.0" prefWidth="102.0">
+      <Label fx:id="lblCustomerId" layoutX="192.0" layoutY="140.0" prefHeight="22.0" prefWidth="127.0">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

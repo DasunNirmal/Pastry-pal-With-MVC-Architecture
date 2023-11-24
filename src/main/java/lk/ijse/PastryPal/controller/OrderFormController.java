@@ -243,12 +243,14 @@ public class OrderFormController {
                 new Alert(Alert.AlertType.CONFIRMATION,"Order is Saved").show();
                 String productId = cmbProductID.getValue();
                 ProductDto updatedProduct = productModel.searchProductById(productId);
+                generateNextOrderID();
                 if (updatedProduct != null) {
                     lblQtyOnHand.setText(String.valueOf(updatedProduct.getQty()));
                 }
                 obList.clear();
                 tblOrder.refresh();
                 calculateTotal();
+                generateNextOrderID();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
