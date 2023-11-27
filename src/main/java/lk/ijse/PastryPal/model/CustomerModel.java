@@ -60,14 +60,18 @@ public class CustomerModel {
         ArrayList<CustomerDto> dtoList = new ArrayList<>();
 
         while (resultSet.next()){
-            dtoList.add(
-                    new CustomerDto(
-                            resultSet.getString(1),
-                            resultSet.getString(2),
-                            resultSet.getString(3),
-                            resultSet.getString(4)
-                    )
-            );
+            if (resultSet.getString(2) != null
+                    || resultSet.getString(3) != null
+                    || resultSet.getString(4) != null) {
+                dtoList.add(
+                        new CustomerDto(
+                                resultSet.getString(1),
+                                resultSet.getString(2),
+                                resultSet.getString(3),
+                                resultSet.getString(4)
+                        )
+                );
+            }
         }
         return dtoList;
     }
