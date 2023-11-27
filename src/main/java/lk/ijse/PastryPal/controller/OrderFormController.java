@@ -29,11 +29,6 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderFormController {
-    @FXML
-    private JFXComboBox<String> cmbCustomerID;
-
-    @FXML
-    private JFXComboBox<String> cmbProductID;
 
     @FXML
     private TableColumn<?, ?> colDescription;
@@ -51,7 +46,7 @@ public class OrderFormController {
     private TableColumn<?, ?> colTotal;
 
     @FXML
-    private TableView<OrderTm> tblOrder;
+    private Label lblCustomerID;
 
     @FXML
     private Label lblCustomerName;
@@ -66,10 +61,16 @@ public class OrderFormController {
     private Label lblDescription;
 
     @FXML
+    private Label lblNetTotal;
+
+    @FXML
     private Label lblOrderID;
 
     @FXML
     private Label lblPrice;
+
+    @FXML
+    private Label lblProductID;
 
     @FXML
     private Label lblQtyOnHand;
@@ -78,16 +79,18 @@ public class OrderFormController {
     private Label lblTime;
 
     @FXML
-    private TextField txtQty;
+    private TableView<OrderTm> tblOrder;
 
     @FXML
-    private Label lblNetTotal;
+    private TextField txtQty;
 
     @FXML
     private TextField txtSearch;
 
+    @FXML
+    private TextField txtSearchCustomer;
+
     private CustomerModel customerModel = new CustomerModel();
-    private ProductDto dto = new ProductDto();
     private ProductModel productModel = new ProductModel();
     private OrderModel orderModel = new OrderModel();
     private ObservableList<OrderTm> obList = FXCollections.observableArrayList();
@@ -96,8 +99,25 @@ public class OrderFormController {
         setCellValueFactory();
         setDateAndTime();
         generateNextOrderID();
-        loadCustomerID();
-        loadProductId();
+        generateNextCustomerID();
+
+    }
+
+    private void generateNextCustomerID() {
+        try {
+            String previousOrderID = lblCustomerID.getText();
+            String orderID = customerModel.generateNextCustomer();
+            lblCustomerID.setText(orderID);
+            if (orderID != null) {
+                lblCustomerID.setText(orderID);
+            }
+            clearFields();
+            if (btnClearPressed){
+                lblCustomerID.setText(previousOrderID);
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
     }
 
     private void generateNextOrderID() {
@@ -126,9 +146,7 @@ public class OrderFormController {
     }
 
     private void clearFields() {
-        cmbCustomerID.setValue(null);
         lblCustomerName.setText("");
-        cmbProductID.setValue(null);
         lblDescription.setText("");
         lblPrice.setText("");
         lblQtyOnHand.setText("");
@@ -158,36 +176,9 @@ public class OrderFormController {
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
     }
 
-    private void loadCustomerID() {
-        ObservableList<String> obList = FXCollections.observableArrayList();
-
-        try {
-            List<CustomerDto> idList = customerModel.getAllCustomer();
-            for (CustomerDto dto : idList){
-                obList.add(dto.getCustomer_id());
-            }
-            cmbCustomerID.setItems(obList);
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }
-    }
-    private void loadProductId() {
-        ObservableList<String> obList = FXCollections.observableArrayList();
-
-        try {
-            List<ProductDto> productDto = productModel.getAllProducts();
-            for (ProductDto dto : productDto){
-                obList.add(dto.getProduct_id());
-            }
-            cmbProductID.setItems(obList);
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }
-    }
-
     @FXML
     void btnAddOnAction(ActionEvent event) {
-        String product_id = cmbProductID.getValue();
+        String product_id = lblProductID.getText();
         String desc = lblDescription.getText();
         double unit_price = Double.parseDouble(lblPrice.getText());
         int qty = Integer.parseInt(txtQty.getText());
@@ -228,22 +219,27 @@ public class OrderFormController {
     void btnPlaceOrderOnAction(ActionEvent event) {
         String orderID = lblOrderID.getText();
         LocalDate date = LocalDate.parse(lblDate2.getText());
-        String customerID = cmbCustomerID.getValue();
+        String customerID = lblCustomerID.getText();
 
         List<OrderTm> orderTmList = new ArrayList<>();
         for (int i = 0; i < tblOrder.getItems().size(); i++) {
             OrderTm orderTm = obList.get(i);
             orderTmList.add(orderTm);
         }
-
+        var customerDto = new CustomerDto(customerID,null,null,null);
         var orderDto = new OrderDto(orderID, date ,customerID ,orderTmList);
         try {
+            boolean checkCustomerID = customerModel.isValidCustomer(customerDto);
+            if (!checkCustomerID){
+                customerModel.save(customerDto);
+            }
             boolean isSuccess = orderModel.placeOrder(orderDto);
             if (isSuccess){
                 new Alert(Alert.AlertType.CONFIRMATION,"Order is Saved").show();
-                String productId = cmbProductID.getValue();
+                String productId = lblProductID.getText();
                 ProductDto updatedProduct = productModel.searchProductById(productId);
                 generateNextOrderID();
+                generateNextCustomerID();
                 if (updatedProduct != null) {
                     lblQtyOnHand.setText(String.valueOf(updatedProduct.getQty()));
                 }
@@ -251,48 +247,65 @@ public class OrderFormController {
                 tblOrder.refresh();
                 calculateTotal();
                 generateNextOrderID();
+                generateNextCustomerID();
             }
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
 
-    @FXML
-    void cmbCustomerIdOnAction(ActionEvent event) {
-        String id = cmbCustomerID.getValue();
-        try {
-            CustomerDto customerDto = customerModel.searchCustomer(id);
-            if (customerDto != null) {
-                lblCustomerName.setText(customerDto.getName());
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }
-    }
-
-    @FXML
-    void cmbProductIdOnAction(ActionEvent event) {
-        String id = cmbProductID.getValue();
-        txtQty.requestFocus();
-        try {
-            ProductDto dto = productModel.searchProductById(id);
-            if (dto != null){
-                lblDescription.setText(dto.getDescription());
-                lblPrice.setText(String.valueOf(dto.getPrice()));
-                lblQtyOnHand.setText(String.valueOf(dto.getQty()));
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }
-    }
 
     @FXML
     void txtQtyOnAction(ActionEvent event) {
-
+        btnAddOnAction(new ActionEvent());
     }
 
     @FXML
     void txtSearchOnActon(ActionEvent event) {
+        String searchInput = txtSearch.getText();
 
+        try {
+            ProductDto productDto;
+            if (searchInput.matches("[P][0-9]{3,}")) {
+                productDto = productModel.searchProductById(searchInput);
+            }else {
+                productDto = productModel.searchProductByName(searchInput);
+            }
+            if (productDto != null ){
+                lblProductID.setText(productDto.getProduct_id());
+                lblDescription.setText(productDto.getDescription());
+                lblPrice.setText(String.valueOf(productDto.getPrice()));
+                lblQtyOnHand.setText(String.valueOf(productDto.getQty()));
+            }else {
+                lblProductID.setText("");
+                new Alert(Alert.AlertType.CONFIRMATION,"Product Not Found").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+        }
+    }
+    @FXML
+    void txtSearchCustomerOnActon(ActionEvent event) {
+        String searchCustomer = txtSearchCustomer.getText();
+
+        try {
+            CustomerDto customerDto;
+            //validating the input method assuming it is a digit
+            if (searchCustomer.matches("\\d+")) {
+                customerDto = customerModel.searchCustomerByPhoneNumber(searchCustomer);
+            } else {
+                customerDto = customerModel.searchCustomer(searchCustomer);
+            }
+            if (customerDto != null) {
+                lblCustomerID.setText(customerDto.getCustomer_id());
+                lblCustomerName.setText(customerDto.getName());
+                txtSearch.setText("");
+            } else {
+                generateNextCustomerID();
+                new Alert(Alert.AlertType.INFORMATION, "Customer not Found").show();
+            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+        }
     }
 }

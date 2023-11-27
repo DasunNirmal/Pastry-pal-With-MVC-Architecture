@@ -133,4 +133,15 @@ public class CustomerModel {
         ptsm.setString(1,id);
         return ptsm.executeUpdate() > 0;
     }
+
+    public boolean isValidCustomer(CustomerDto customerDto) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM customer WHERE customer_id = ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1,customerDto.getCustomer_id());
+
+        ResultSet resultSet = ptsm.executeQuery();
+        return resultSet.next();
+    }
 }
