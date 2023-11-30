@@ -5,10 +5,13 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 import lk.ijse.PastryPal.DB.DbConnection;
 import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
@@ -65,12 +68,14 @@ public class CustomerFormController {
     private Label lblTime;
 
     private CustomerModel customerModel = new CustomerModel();
+    private ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
     public void initialize(){
         setCellValueFactory();
         setDateAndTime();
         generateNextCustomerID();
         loadAllCustomers();
+        tableListener();
     }
     private void  generateNextCustomerID(){
         try {
@@ -117,9 +122,23 @@ public class CustomerFormController {
         colPoneNumber.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
         tblCustomer.setId("my-table");
     }
+    private void tableListener() {
+        tblCustomer.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
+            setData(newValue);
+        });
+    }
+
+    private void setData(CustomerTm row) {
+        if (row != null) {
+            lblCustomerId.setText(row.getCustomer_id());
+            txtCustomerName.setText(row.getName());
+            txtCustomerAddress.setText(row.getAddress());
+            txtPhoneNumber.setText(row.getPhone_number());
+        }
+    }
     private void loadAllCustomers() {
-        ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
         try {
+            obList.clear();
             List<CustomerDto> dtoList = customerModel.getAllCustomer();
             for (CustomerDto dto : dtoList){
                 obList.add(
@@ -165,6 +184,7 @@ public class CustomerFormController {
                     new Alert(Alert.AlertType.CONFIRMATION,"Customer is Saved").show();
                     clearFields();
                     generateNextCustomerID();
+                    obList.clear();
                     loadAllCustomers();
                 }else {
                     new Alert(Alert.AlertType.ERROR,"Customer is Not Saved").show();
@@ -201,6 +221,7 @@ public class CustomerFormController {
                     boolean isUpdated = customerModel.updateCustomer(dto);
                     if (isUpdated){
                         new Alert(Alert.AlertType.CONFIRMATION,"Customer is Updated").show();
+                        obList.clear();
                         loadAllCustomers();
                         clearFields();
                         generateNextCustomerID();
@@ -238,6 +259,7 @@ public class CustomerFormController {
                 boolean isDeleted = customerModel.deleteCustomers(id);
                 if (isDeleted){
                     new Alert(Alert.AlertType.CONFIRMATION,"Customer is Deleted").show();
+                    obList.clear();
                     loadAllCustomers();
                     clearFields();
                     generateNextCustomerID();
@@ -276,6 +298,43 @@ public class CustomerFormController {
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         }
+    }
+    @FXML
+    void txtSearchFilterOnAction(KeyEvent event) {
+        searchTableFilter();
+    }
+    private void searchTableFilter() {
+        FilteredList<CustomerTm> filterCustomerTbl = new FilteredList<>(obList, b -> true);
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterCustomerTbl.setPredicate(customerTm -> {
+                if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
+                    return true;
+                }
+                String search = newValue.toLowerCase();
+
+                if (customerTm.getCustomer_id().toLowerCase().contains(search)) {
+                    return true;
+                } else if (customerTm.getCustomer_id().toLowerCase().contains(search)) {
+                    return true;
+                } else if (customerTm.getName().toLowerCase().contains(search)) {
+                    return true;
+                } else if (customerTm.getName().toLowerCase().contains(search)) {
+                    return true;
+                } else if (customerTm.getAddress().toLowerCase().contains(search)) {
+                    return true;
+                } else if (customerTm.getAddress().toLowerCase().contains(search)) {
+                    return true;
+                } else if (customerTm.getPhone_number().toLowerCase().contains(search)) {
+                    return true;
+                } else if (customerTm.getPhone_number().toLowerCase().contains(search)) {
+                    return true;
+                } else
+                    return false;
+            });
+        });
+        SortedList<CustomerTm> sortCustomerTbl = new SortedList<>(filterCustomerTbl);
+        sortCustomerTbl.comparatorProperty().bind(tblCustomer.comparatorProperty());
+        tblCustomer.setItems(sortCustomerTbl);
     }
     @FXML
     void btnReportOnAction(ActionEvent event) throws JRException, SQLException {
