@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
@@ -18,6 +19,7 @@ import lk.ijse.PastryPal.dto.tm.OrderTm;
 import lk.ijse.PastryPal.model.CustomerModel;
 import lk.ijse.PastryPal.model.OrderModel;
 import lk.ijse.PastryPal.model.ProductModel;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -27,8 +29,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class OrderFormController {
+    @FXML
+    private TableColumn<?, ?> colAction;
 
     @FXML
     private TableColumn<?, ?> colDescription;
@@ -95,12 +100,12 @@ public class OrderFormController {
     private OrderModel orderModel = new OrderModel();
     private ObservableList<OrderTm> obList = FXCollections.observableArrayList();
 
-    public void initialize(){
+    public void initialize() throws SQLException {
         setCellValueFactory();
         setDateAndTime();
         generateNextOrderID();
         generateNextCustomerID();
-
+        autoCompleteProduct();
     }
 
     private void generateNextCustomerID() {
@@ -174,6 +179,8 @@ public class OrderFormController {
         colPrice.setCellValueFactory(new PropertyValueFactory<>("unit_price"));
         colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        colAction.setCellValueFactory(new PropertyValueFactory<>("btn"));
+        tblOrder.setId("my-table");
     }
 
     @FXML
@@ -183,6 +190,10 @@ public class OrderFormController {
         double unit_price = Double.parseDouble(lblPrice.getText());
         int qty = Integer.parseInt(txtQty.getText());
         double total = unit_price * qty;
+        Button btn = new Button("Delete");
+
+        setRemoveButtonAction(btn);
+        btn.setCursor(Cursor.HAND);
 
         if (!obList.isEmpty()){
             for (int i = 0; i < tblOrder.getItems().size(); i++) {
@@ -200,11 +211,34 @@ public class OrderFormController {
                 }
             }
         }
-        var OrderTm = new OrderTm(product_id,desc,unit_price,qty,total);
+        var OrderTm = new OrderTm(product_id,desc,unit_price,qty,total,btn);
         obList.add(OrderTm);
 
         tblOrder.setItems(obList);
         calculateTotal();
+    }
+
+    private void setRemoveButtonAction(Button btn) {
+        btn.setStyle(
+                "-fx-background-color: rgba(231, 76, 60, 1.0);" +
+                        "-fx-text-fill: white;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-min-width: 10;" +
+                        "-fx-pref-width: 152;"
+        );
+        btn.setOnAction((e) -> {
+            ButtonType yes = new ButtonType("yes", ButtonBar.ButtonData.OK_DONE);
+            ButtonType no = new ButtonType("no", ButtonBar.ButtonData.CANCEL_CLOSE);
+            Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure want to remove this order", yes, no).showAndWait();
+
+            if (type.orElse(no) == yes) {
+                int focusedIndex = tblOrder.getSelectionModel().getFocusedIndex();
+
+                obList.remove(focusedIndex);
+                tblOrder.refresh();
+                calculateTotal();
+            }
+        });
     }
 
     private void calculateTotal() {
@@ -258,6 +292,11 @@ public class OrderFormController {
     @FXML
     void txtQtyOnAction(ActionEvent event) {
         btnAddOnAction(new ActionEvent());
+    }
+
+    private void autoCompleteProduct() throws SQLException {
+        String[] desc = productModel.getProductsByName(txtSearch.getText());
+        TextFields.bindAutoCompletion(txtSearch, desc);
     }
 
     @FXML

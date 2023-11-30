@@ -115,6 +115,7 @@ public class CustomerFormController {
         colCustomerName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colPoneNumber.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
+        tblCustomer.setId("my-table");
     }
     private void loadAllCustomers() {
         ObservableList<CustomerTm> obList = FXCollections.observableArrayList();

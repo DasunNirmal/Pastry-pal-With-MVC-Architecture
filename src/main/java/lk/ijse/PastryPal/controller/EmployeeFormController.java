@@ -118,6 +118,7 @@ public class EmployeeFormController {
         colLastName.setCellValueFactory(new PropertyValueFactory<>("last_name"));
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
+        tblEmployee.setId("my-table");
     }
     private void loadAllEmployees() {
         ObservableList<EmployeeTm> obList = FXCollections.observableArrayList();

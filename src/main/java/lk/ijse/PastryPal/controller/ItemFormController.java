@@ -131,6 +131,7 @@ public class ItemFormController {
         colSupplierName.setCellValueFactory(new PropertyValueFactory<>("supplier_name"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("product_name"));
         colQty.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        tblItem.setId("my-table");
     }
     private void loadAllItems() {
         ObservableList<ItemTm> obList = FXCollections.observableArrayList();

@@ -115,6 +115,7 @@ public class SupplierFormController {
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         colPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phone_number"));
+        tblSuppliers.setId("my-table");
     }
 
     private void loadAllSuppliers() {

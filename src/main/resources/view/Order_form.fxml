@@ -43,14 +43,14 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <TableView fx:id="tblOrder" layoutX="61.0" layoutY="415.0" prefHeight="327.0" prefWidth="932.0" style="-fx-background-color: white; -fx-background-radius: 16;">
+      <TableView fx:id="tblOrder" layoutX="61.0" layoutY="415.0" prefHeight="327.0" prefWidth="932.0" style="-fx-background-color: white; -fx-background-radius: 16;" stylesheets="@../style/tableView.css">
          <columns>
             <TableColumn fx:id="colItemCode" prefWidth="109.0" text="Product ID" />
             <TableColumn fx:id="colDescription" prefWidth="228.0" text="Description" />
             <TableColumn fx:id="colPrice" prefWidth="112.0" text="Unit Price" />
             <TableColumn fx:id="colQty" prefWidth="145.0" text="Quantity " />
             <TableColumn fx:id="colTotal" prefWidth="185.0" text="Total Price" />
-            <TableColumn prefWidth="152.0" text="Action" />
+            <TableColumn fx:id="colAction" prefWidth="152.0" text="Action" />
          </columns>
       </TableView>
       <Label layoutX="64.0" layoutY="320.0" prefHeight="22.0" prefWidth="113.0" text="Order Date   :">

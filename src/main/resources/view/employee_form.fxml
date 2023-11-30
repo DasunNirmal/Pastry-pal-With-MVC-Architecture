@@ -67,14 +67,13 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <TableView fx:id="tblEmployee" layoutX="68.0" layoutY="337.0" prefHeight="391.0" prefWidth="1006.0" style="-fx-background-color: white; -fx-background-radius: 16;">
+      <TableView fx:id="tblEmployee" layoutX="68.0" layoutY="337.0" prefHeight="391.0" prefWidth="1006.0" style="-fx-background-color: white; -fx-background-radius: 16;" stylesheets="@../style/tableView.css">
          <columns>
             <TableColumn fx:id="colEmployeeID" prefWidth="139.0" text="Employee ID" />
             <TableColumn fx:id="colFirstName" prefWidth="162.0" text="First Name" />
             <TableColumn fx:id="colLastName" prefWidth="182.0" text="Last Name" />
-            <TableColumn fx:id="colAddress" prefWidth="239.0" text="Address" />
-            <TableColumn fx:id="colPhoneNumber" prefWidth="133.0" text="Phone Number" />
-            <TableColumn prefWidth="150.0" text="Delete/Update" />
+            <TableColumn fx:id="colAddress" prefWidth="329.0" text="Address" />
+            <TableColumn fx:id="colPhoneNumber" prefWidth="193.0" text="Phone Number" />
          </columns>
       </TableView>
       <TextField fx:id="txtAddress" alignment="CENTER" layoutX="351.0" layoutY="152.0" onAction="#GoToPhoneNumberOnAction" prefHeight="32.0" prefWidth="210.0" promptText="Address" style="-fx-background-radius: 20;">

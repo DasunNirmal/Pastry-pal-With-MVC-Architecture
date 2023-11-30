@@ -22,8 +22,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ProductFormController {
-    @FXML
-    private TableColumn<?, ?> colAction;
 
     @FXML
     private TableColumn<?, ?> colDescription;
@@ -113,6 +111,7 @@ public class ProductFormController {
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colQtyOnHand.setCellValueFactory(new PropertyValueFactory<>("qty"));
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        tblItems.setId("my-table");
     }
     private void loadAllProducts() {
         ObservableList<ProductTm> obList = FXCollections.observableArrayList();
@@ -156,7 +155,7 @@ public class ProductFormController {
         }else {
             try {
                 //the reason for this is qty and price takes double and can't take String
-                double qty = Double.parseDouble(qtyText);
+                int qty = Integer.parseInt(qtyText);
                 double price = Double.parseDouble(priceText);
 
                 var dto = new ProductDto(id, description, qty, price);
@@ -200,7 +199,7 @@ public class ProductFormController {
             new Alert(Alert.AlertType.ERROR, "Can not Update Product.Price is Empty").showAndWait();
         }else {
             try {
-                double qty = Double.parseDouble(qtyText);
+                int qty = Integer.parseInt(qtyText);
                 double price = Double.parseDouble(priceText);
 
                 var dto = new ProductDto(id,desc,qty,price);

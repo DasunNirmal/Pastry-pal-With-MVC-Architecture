@@ -61,7 +61,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <TableView fx:id="tblItem" layoutX="96.0" layoutY="377.0" prefHeight="357.0" prefWidth="925.0" style="-fx-background-color: white; -fx-background-radius: 16;">
+      <TableView fx:id="tblItem" layoutX="96.0" layoutY="377.0" prefHeight="357.0" prefWidth="925.0" style="-fx-background-color: white; -fx-background-radius: 16;" stylesheets="@../style/tableView.css">
          <columns>
             <TableColumn fx:id="colItemID" prefWidth="138.0" text="Items ID" />
             <TableColumn fx:id="colSupplierID" prefWidth="144.0" text="Supplier ID" />

@@ -1,5 +1,6 @@
 package lk.ijse.PastryPal.dto.tm;
 
+import javafx.scene.control.Button;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,4 +14,5 @@ public class OrderTm {
     private double unit_price;
     private int qty;
     private double total;
+    private Button btn;
 }

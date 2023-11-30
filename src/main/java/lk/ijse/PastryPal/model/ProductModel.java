@@ -74,7 +74,7 @@ public class ProductModel {
         if (resultSet.next()){
             String Product_id = resultSet.getString(1);
             String Product_description = resultSet.getString(2);
-            double Product_qty = Double.parseDouble(resultSet.getString(3));
+            int Product_qty = Integer.parseInt(resultSet.getString(3));
             double Product_price = Double.parseDouble(resultSet.getString(4));
 
             dto = new ProductDto(Product_id, Product_description, Product_qty ,Product_price);
@@ -94,7 +94,7 @@ public class ProductModel {
         if (resultSet.next()){
             String Product_Id = resultSet.getString(1);
             String Product_description = resultSet.getString(2);
-            double Product_qty = Double.parseDouble(resultSet.getString(3));
+            int Product_qty = Integer.parseInt(resultSet.getString(3));
             double Product_price = Double.parseDouble(resultSet.getString(4));
 
             dto = new ProductDto(Product_Id, Product_description, Product_qty, Product_price);
@@ -125,7 +125,7 @@ public class ProductModel {
                     new ProductDto(
                             resultSet.getString(1),
                             resultSet.getString(2),
-                            resultSet.getDouble(3),
+                            resultSet.getInt(3),
                             resultSet.getDouble(4)
                     )
             );
@@ -151,5 +151,21 @@ public class ProductModel {
         ptsm.setString(2,productId);
 
         return ptsm.executeUpdate() > 0;
+    }
+
+    public String[] getProductsByName(String searchTerm) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM products WHERE description LIKE ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1, "%" + searchTerm + "%");
+        ResultSet resultSet = ptsm.executeQuery();
+
+        List<String> productNames = new ArrayList<>();
+        while (resultSet.next()) {
+            String name = resultSet.getString("description");
+            productNames.add(name);
+        }
+        return productNames.toArray(new String[0]);
     }
 }

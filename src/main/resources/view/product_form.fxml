@@ -67,13 +67,12 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <TableView fx:id="tblItems" layoutX="75.0" layoutY="337.0" prefHeight="369.0" prefWidth="997.0" style="-fx-background-color: white; -fx-background-radius: 16;">
+      <TableView fx:id="tblItems" layoutX="75.0" layoutY="337.0" prefHeight="369.0" prefWidth="997.0" style="-fx-background-color: white; -fx-background-radius: 16;" stylesheets="@../style/tableView.css">
          <columns>
-            <TableColumn fx:id="colProductID" prefWidth="125.0" text="Product ID" />
-            <TableColumn fx:id="colDescription" prefWidth="309.0" text="Description" />
-            <TableColumn fx:id="colQtyOnHand" prefWidth="206.0" text="Quantity On Hand" />
-            <TableColumn fx:id="colPrice" prefWidth="164.0" text="Price" />
-            <TableColumn fx:id="colAction" prefWidth="192.0" text="Delete/Update" />
+            <TableColumn fx:id="colProductID" prefWidth="216.0" text="Product ID" />
+            <TableColumn fx:id="colDescription" prefWidth="375.0" text="Description" />
+            <TableColumn fx:id="colQtyOnHand" prefWidth="190.0" text="Quantity On Hand" />
+            <TableColumn fx:id="colPrice" prefWidth="215.0" text="Price" />
          </columns>
       </TableView>
       <TextField fx:id="txtPrice" alignment="CENTER" layoutX="411.0" layoutY="195.0" onAction="#txtQtyOnAction" prefHeight="32.0" prefWidth="210.0" promptText="Price" style="-fx-background-radius: 20;">

@@ -61,12 +61,11 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <TableView fx:id="tblComplains" layoutX="129.0" layoutY="377.0" prefHeight="347.0" prefWidth="896.0" style="-fx-background-color: white; -fx-background-radius: 16;">
+      <TableView fx:id="tblComplains" layoutX="129.0" layoutY="377.0" prefHeight="347.0" prefWidth="896.0" style="-fx-background-color: white; -fx-background-radius: 16;" stylesheets="@../style/tableView.css">
          <columns>
-            <TableColumn fx:id="colComplainID" prefWidth="127.0" text="Complain ID" />
-            <TableColumn fx:id="colDescription" prefWidth="396.0" text="Description" />
-            <TableColumn fx:id="colDate" prefWidth="177.0" text="Date" />
-            <TableColumn prefWidth="195.0" text="Delete/Update" />
+            <TableColumn fx:id="colComplainID" prefWidth="172.0" text="Complain ID" />
+            <TableColumn fx:id="colDescription" prefWidth="469.0" text="Description" />
+            <TableColumn fx:id="colDate" prefWidth="254.0" text="Date" />
          </columns>
       </TableView>
       <TextArea fx:id="txtComplain" layoutX="524.0" layoutY="134.0" prefHeight="141.0" prefWidth="318.0" promptText="         Describe the Complain here !">
@@ -124,7 +123,7 @@
       </TextField>
       <ImageView fitHeight="25.0" fitWidth="29.0" layoutX="143.0" layoutY="333.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../icons/icons8-search%20(1).gif" />
+            <Image url="@../icons/icons8-search (1).gif" />
          </image>
       </ImageView>
       <Label fx:id="lblComplainID" layoutX="244.0" layoutY="150.0" prefHeight="22.0" prefWidth="113.0">

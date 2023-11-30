@@ -57,7 +57,7 @@
          <font>
             <Font size="14.0" />
          </font></TextField>
-      <JFXButton buttonType="RAISED" layoutX="799.0" layoutY="309.0" onAction="#btnDeleteOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Delete" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="729.0" layoutY="309.0" onAction="#btnDeleteOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Delete" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -65,7 +65,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="899.0" layoutY="309.0" onAction="#btnUpdateOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Update" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="829.0" layoutY="309.0" onAction="#btnUpdateOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Update" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -73,7 +73,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="999.0" layoutY="309.0" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Save" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="929.0" layoutY="309.0" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Save" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -81,14 +81,13 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <TableView fx:id="tblCustomer" layoutX="80.0" layoutY="350.0" prefHeight="381.0" prefWidth="1012.0" style="-fx-background-color: white; -fx-background-radius: 16;">
-        <columns>
-          <TableColumn fx:id="colCustomerID" prefWidth="139.0" text="Customer ID" />
-          <TableColumn fx:id="colCustomerName" prefWidth="218.0" text="Customer Name" />
-            <TableColumn fx:id="colAddress" prefWidth="250.0" text="Address" />
-            <TableColumn fx:id="colPoneNumber" prefWidth="192.0" text="Phone Number" />
-            <TableColumn fx:id="colPoneNumber1" prefWidth="212.0" text="Delete/Update" />
-        </columns>
+      <TableView fx:id="tblCustomer" layoutX="80.0" layoutY="350.0" prefHeight="381.0" prefWidth="944.0" style="-fx-background-color: white; -fx-background-radius: 16;" stylesheets="@../style/tableView.css">
+         <columns>
+            <TableColumn fx:id="colCustomerID" prefWidth="139.0" text="Customer ID" />
+            <TableColumn fx:id="colCustomerName" prefWidth="216.0" text="Customer Name" />
+            <TableColumn fx:id="colAddress" prefWidth="331.0" text="Address" />
+            <TableColumn fx:id="colPoneNumber" prefWidth="254.0" text="Phone Number" />
+         </columns>
       </TableView>
       <Label fx:id="lblDate" layoutX="1029.0" layoutY="10.0" prefHeight="32.0" prefWidth="102.0">
          <font>
@@ -115,7 +114,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="699.0" layoutY="309.0" onAction="#btnClearOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Clear" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="629.0" layoutY="309.0" onAction="#btnClearOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Clear" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -132,7 +131,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <JFXButton buttonType="RAISED" layoutX="603.0" layoutY="309.0" onAction="#btnReportOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Report" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="533.0" layoutY="309.0" onAction="#btnReportOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Report" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

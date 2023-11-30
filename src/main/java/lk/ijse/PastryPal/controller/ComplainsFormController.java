@@ -107,6 +107,7 @@ public class ComplainsFormController {
         colComplainID.setCellValueFactory(new PropertyValueFactory<>("complain_id"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("complain_date"));
+        tblComplains.setId("my-table");
     }
 
     private void loadAllComplains() {
