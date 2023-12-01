@@ -307,33 +307,6 @@ public class CustomerFormController {
     }
 
     @FXML
-    void txtSearchOnActon(ActionEvent event) {
-//        String searchInput = txtSearch.getText();
-//
-//        try {
-//            CustomerDto customerDto;
-//            //validating the input method assuming it is a digit
-//            if (searchInput.matches("\\d+")) {
-//                customerDto = customerModel.searchCustomerByPhoneNumber(searchInput);
-//            } else {
-//                customerDto = customerModel.searchCustomer(searchInput);
-//            }
-//            if (customerDto != null) {
-//                lblCustomerId.setText(customerDto.getCustomer_id());
-//                txtCustomerName.setText(customerDto.getName());
-//                txtCustomerAddress.setText(customerDto.getAddress());
-//                txtPhoneNumber.setText(customerDto.getPhone_number());
-//                txtSearch.setText("");
-//            } else {
-//                lblCustomerId.setText("");
-//                generateNextCustomerID();
-//                new Alert(Alert.AlertType.INFORMATION, "Customer not Found").show();
-//            }
-//        } catch (SQLException e) {
-//            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-//        }
-    }
-    @FXML
     void txtSearchFilterOnAction(KeyEvent event) {
         searchTableFilter();
     }
