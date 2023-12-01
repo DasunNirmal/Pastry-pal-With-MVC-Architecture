@@ -24,7 +24,10 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -67,16 +70,47 @@ public class CustomerFormController {
     @FXML
     private Label lblTime;
 
+    @FXML
+    private Label lblCustomers;
+
+    @FXML
+    private Label lblTotalCustomers;
+
     private CustomerModel customerModel = new CustomerModel();
     private ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
-    public void initialize(){
+    public void initialize() throws SQLException {
         setCellValueFactory();
         setDateAndTime();
         generateNextCustomerID();
         loadAllCustomers();
         tableListener();
+        totalCustomers();
+        totalLoyalityCustomers();
     }
+
+    private void totalLoyalityCustomers() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+
+        String sql = "SELECT COUNT(*) FROM customer WHERE name IS NOT NULL;";
+        ResultSet resultSet = statement.executeQuery(sql);
+        resultSet.next();
+        int count = resultSet.getInt(1);
+        lblCustomers.setText(String.valueOf(count));
+    }
+
+    private void totalCustomers() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+
+        String sql = "SELECT count(*) FROM customer";
+        ResultSet resultSet = statement.executeQuery(sql);
+        resultSet.next();
+        int count = resultSet.getInt(1);
+        lblTotalCustomers.setText(String.valueOf(count));
+    }
+
     private void  generateNextCustomerID(){
         try {
             String previousCustomerID = lblCustomerId.getText();
@@ -274,30 +308,30 @@ public class CustomerFormController {
 
     @FXML
     void txtSearchOnActon(ActionEvent event) {
-        String searchInput = txtSearch.getText();
-
-        try {
-            CustomerDto customerDto;
-            //validating the input method assuming it is a digit
-            if (searchInput.matches("\\d+")) {
-                customerDto = customerModel.searchCustomerByPhoneNumber(searchInput);
-            } else {
-                customerDto = customerModel.searchCustomer(searchInput);
-            }
-            if (customerDto != null) {
-                lblCustomerId.setText(customerDto.getCustomer_id());
-                txtCustomerName.setText(customerDto.getName());
-                txtCustomerAddress.setText(customerDto.getAddress());
-                txtPhoneNumber.setText(customerDto.getPhone_number());
-                txtSearch.setText("");
-            } else {
-                lblCustomerId.setText("");
-                generateNextCustomerID();
-                new Alert(Alert.AlertType.INFORMATION, "Customer not Found").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
-        }
+//        String searchInput = txtSearch.getText();
+//
+//        try {
+//            CustomerDto customerDto;
+//            //validating the input method assuming it is a digit
+//            if (searchInput.matches("\\d+")) {
+//                customerDto = customerModel.searchCustomerByPhoneNumber(searchInput);
+//            } else {
+//                customerDto = customerModel.searchCustomer(searchInput);
+//            }
+//            if (customerDto != null) {
+//                lblCustomerId.setText(customerDto.getCustomer_id());
+//                txtCustomerName.setText(customerDto.getName());
+//                txtCustomerAddress.setText(customerDto.getAddress());
+//                txtPhoneNumber.setText(customerDto.getPhone_number());
+//                txtSearch.setText("");
+//            } else {
+//                lblCustomerId.setText("");
+//                generateNextCustomerID();
+//                new Alert(Alert.AlertType.INFORMATION, "Customer not Found").show();
+//            }
+//        } catch (SQLException e) {
+//            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
+//        }
     }
     @FXML
     void txtSearchFilterOnAction(KeyEvent event) {

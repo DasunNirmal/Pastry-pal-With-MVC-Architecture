@@ -124,9 +124,14 @@
       </JFXButton>
       <AnchorPane layoutX="778.0" layoutY="123.0" prefHeight="133.0" prefWidth="188.0" style="-fx-background-color: rgba(162, 155, 254,1.0); -fx-background-radius: 20;">
          <children>
-            <Label layoutX="31.0" layoutY="8.0" prefHeight="32.0" prefWidth="127.0" text="Total Customers" textFill="WHITE">
+            <Label layoutX="27.0" layoutY="8.0" prefHeight="32.0" prefWidth="144.0" text="Loyality Customers" textFill="WHITE">
                <font>
                   <Font name="FreeSans Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblCustomers" layoutX="36.0" layoutY="65.0" prefHeight="32.0" prefWidth="127.0" textFill="WHITE">
+               <font>
+                  <Font name="FreeSans Bold" size="30.0" />
                </font>
             </Label>
          </children>
@@ -139,5 +144,24 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
+      <AnchorPane layoutX="975.0" layoutY="120.0" prefHeight="136.0" prefWidth="153.0" style="-fx-background-color: rgba(234, 181, 67,1.0); -fx-background-radius: 20;">
+         <children>
+            <Label layoutX="5.0" layoutY="4.0" prefHeight="32.0" prefWidth="127.0" text="Total Customers" textFill="WHITE">
+               <font>
+                  <Font name="FreeSans Bold" size="15.0" />
+               </font>
+            </Label>
+            <JFXButton buttonType="RAISED" layoutX="76.0" layoutY="99.0" style="-fx-background-color: rgba(60, 99, 130,1.0); -fx-background-radius: 20;" text="View more" textFill="WHITE">
+               <font>
+                  <Font name="FreeSans Bold" size="11.0" />
+               </font>
+            </JFXButton>
+            <Label fx:id="lblTotalCustomers" layoutX="36.0" layoutY="42.0" prefHeight="50.0" prefWidth="77.0" textFill="WHITE">
+               <font>
+                  <Font name="FreeSans Bold" size="32.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
