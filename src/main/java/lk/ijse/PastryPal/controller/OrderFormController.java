@@ -351,6 +351,7 @@ public class OrderFormController {
                 lblDescription.setText(productDto.getDescription());
                 lblPrice.setText(String.valueOf(productDto.getPrice()));
                 lblQtyOnHand.setText(String.valueOf(productDto.getQty()));
+                txtQty.requestFocus();
             }else {
                 lblProductID.setText("");
                 new Alert(Alert.AlertType.CONFIRMATION,"Product Not Found").show();
