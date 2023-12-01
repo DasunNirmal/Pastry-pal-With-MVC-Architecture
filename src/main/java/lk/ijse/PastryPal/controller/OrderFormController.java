@@ -1,6 +1,5 @@
 package lk.ijse.PastryPal.controller;
 
-import com.jfoenix.controls.JFXComboBox;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -12,6 +11,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
+import lk.ijse.PastryPal.DB.DbConnection;
 import lk.ijse.PastryPal.dto.CustomerDto;
 import lk.ijse.PastryPal.dto.OrderDto;
 import lk.ijse.PastryPal.dto.ProductDto;
@@ -19,15 +19,20 @@ import lk.ijse.PastryPal.dto.tm.OrderTm;
 import lk.ijse.PastryPal.model.CustomerModel;
 import lk.ijse.PastryPal.model.OrderModel;
 import lk.ijse.PastryPal.model.ProductModel;
+import lombok.SneakyThrows;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JRDesignQuery;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 import org.controlsfx.control.textfield.TextFields;
 
+import java.io.InputStream;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -249,6 +254,7 @@ public class OrderFormController {
         lblNetTotal.setText(String.valueOf(total));
     }
 
+    @SneakyThrows
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
         String orderID = lblOrderID.getText();
@@ -270,13 +276,9 @@ public class OrderFormController {
             boolean isSuccess = orderModel.placeOrder(orderDto);
             if (isSuccess){
                 new Alert(Alert.AlertType.CONFIRMATION,"Order is Saved").show();
-                String productId = lblProductID.getText();
-                ProductDto updatedProduct = productModel.searchProductById(productId);
+                Report();
                 generateNextOrderID();
                 generateNextCustomerID();
-                if (updatedProduct != null) {
-                    lblQtyOnHand.setText(String.valueOf(updatedProduct.getQty()));
-                }
                 obList.clear();
                 tblOrder.refresh();
                 calculateTotal();
@@ -287,6 +289,40 @@ public class OrderFormController {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
     }
+
+    private void Report() throws JRException, SQLException {
+        String orderId = lblOrderID.getText();
+        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/OrderInvoice.jrxml");
+        JasperDesign load = JRXmlLoader.load(resourceAsStream);
+
+        JRDesignQuery jrDesignQuery = new JRDesignQuery();
+        jrDesignQuery.setText("SELECT \n" +
+                "    o.order_id,\n" +
+                "    o.customer_id,\n" +
+                "    o.order_date,\n" +
+                "    d.product_id,\n" +
+                "    p.description,\n" +
+                "    d.qty,\n" +
+                "    d.unit_price,\n" +
+                "    (d.qty * d.unit_price) AS total_price\n" +
+                "FROM \n" +
+                "    orders o\n" +
+                "JOIN \n" +
+                "    order_details d ON o.order_id = d.order_id\n" +
+                "JOIN \n" +
+                "    products p ON d.product_id = p.product_id\n" +
+                "WHERE \n" +
+                "    o.order_id = " + orderId + ";");
+
+        JasperReport jasperReport = JasperCompileManager.compileReport(load);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(
+                jasperReport,
+                null,
+                DbConnection.getInstance().getConnection()
+        );
+        JasperViewer.viewReport(jasperPrint, false);
+    }
+
 
 
     @FXML

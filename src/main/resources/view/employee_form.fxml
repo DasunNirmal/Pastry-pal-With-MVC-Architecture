@@ -122,7 +122,7 @@
             <Image url="@../icons/icons8-search (1).gif" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="814.0" layoutY="116.0" prefHeight="116.0" prefWidth="239.0" style="-fx-background-color: rgba(162, 155, 254,1.0); -fx-background-radius: 20;" />
+      <AnchorPane layoutX="814.0" layoutY="116.0" prefHeight="116.0" prefWidth="239.0" style="-fx-background-color: rgba(131, 52, 113,1.0); -fx-background-radius: 20;" />
       <Label layoutX="866.0" layoutY="120.0" prefHeight="32.0" prefWidth="127.0" text="Total Employees" textFill="WHITE">
          <font>
             <Font name="FreeSans Bold" size="15.0" />

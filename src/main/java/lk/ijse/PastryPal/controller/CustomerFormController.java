@@ -345,7 +345,7 @@ public class CustomerFormController {
     }
     @FXML
     void btnReportOnAction(ActionEvent event) throws JRException, SQLException {
-        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/CustomerDetail.jrxml");
+        InputStream resourceAsStream = getClass().getResourceAsStream("/reports/Customer.jrxml");
         JasperDesign load = JRXmlLoader.load(resourceAsStream);
         JasperReport jasperReport = JasperCompileManager.compileReport(load);
         JasperPrint jasperPrint = JasperFillManager.fillReport(

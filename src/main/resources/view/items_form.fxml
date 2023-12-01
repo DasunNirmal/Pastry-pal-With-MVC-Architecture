@@ -108,7 +108,7 @@
             <Image url="@../icons/icons8-search (1).gif" />
          </image>
       </ImageView>
-      <AnchorPane layoutX="813.0" layoutY="138.0" prefHeight="123.0" prefWidth="210.0" style="-fx-background-color: rgba(162, 155, 254,1.0); -fx-background-radius: 20;" />
+      <AnchorPane layoutX="813.0" layoutY="138.0" prefHeight="123.0" prefWidth="210.0" style="-fx-background-color: rgba(131, 52, 113,1.0); -fx-background-radius: 20;" />
       <Label layoutX="826.0" layoutY="143.0" prefHeight="32.0" prefWidth="188.0" text="Total Material Categoreis" textFill="WHITE">
          <font>
             <Font name="FreeSans Bold" size="15.0" />

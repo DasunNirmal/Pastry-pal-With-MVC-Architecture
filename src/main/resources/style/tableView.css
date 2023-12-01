@@ -1,3 +1,11 @@
 #my-table .table-column {
     -fx-alignment: CENTER;
 }
+.table-row-cell:odd {
+    -fx-background-color: #FADD394F;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+.table-row-cell:selected{
+    -fx-background-color: rgba(246, 185, 59,1.0);
+}
