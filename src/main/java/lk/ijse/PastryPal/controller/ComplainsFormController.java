@@ -2,21 +2,30 @@ package lk.ijse.PastryPal.controller;
 
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
+import lk.ijse.PastryPal.DB.DbConnection;
 import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.ComplainDto;
 import lk.ijse.PastryPal.dto.tm.ComplainTm;
+import lk.ijse.PastryPal.dto.tm.CustomerTm;
 import lk.ijse.PastryPal.model.ComplainModel;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -39,6 +48,9 @@ public class ComplainsFormController {
     private Label lblComplainID;
 
     @FXML
+    private Label lblCoplainCount;
+
+    @FXML
     private Label lblDate;
 
     @FXML
@@ -53,13 +65,19 @@ public class ComplainsFormController {
     @FXML
     private TextField txtSearch;
 
-    private ComplainModel complainModel = new ComplainModel();
+    @FXML
+    private Label lblComplainSaveOrNot;
 
-    public void initialize(){
+    private ComplainModel complainModel = new ComplainModel();
+    private ObservableList<ComplainTm> obList = FXCollections.observableArrayList();
+
+    public void initialize() throws SQLException {
         setCellValueFactory();
         setDateAndTime();
         generateNextComplainID();
         loadAllComplains();
+        tableListener();
+        totalComplains();
     }
 
     private void generateNextComplainID() {
@@ -88,6 +106,7 @@ public class ComplainsFormController {
         txtComplain.setText("");
         txtDate.setValue(null);
         txtSearch.setText("");
+        lblComplainSaveOrNot.setText("");
     }
 
     private void setDateAndTime(){
@@ -103,6 +122,29 @@ public class ComplainsFormController {
             timeline.play();
         });
     }
+    private void totalComplains() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+
+        String sql = "SELECT count(*) FROM complains";
+        ResultSet resultSet = statement.executeQuery(sql);
+        resultSet.next();
+        int count = resultSet.getInt(1);
+        lblCoplainCount.setText(String.valueOf(count));
+    }
+    private void tableListener() {
+        tblComplains.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
+            setData(newValue);
+        });
+    }
+
+    private void setData(ComplainTm row) {
+        if (row != null) {
+            lblComplainID.setText(row.getComplain_id());
+            txtComplain.setText(row.getDescription());
+            txtDate.setValue(row.getComplain_date());
+        }
+    }
     private void setCellValueFactory() {
         colComplainID.setCellValueFactory(new PropertyValueFactory<>("complain_id"));
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -111,8 +153,8 @@ public class ComplainsFormController {
     }
 
     private void loadAllComplains() {
-        ObservableList<ComplainTm> obList = FXCollections.observableArrayList();
         try {
+            obList.clear();
             List<ComplainDto> dtoList = complainModel.getAllComplains();
             for (ComplainDto dto : dtoList){
                 obList.add(
@@ -147,12 +189,23 @@ public class ComplainsFormController {
             try {
                 boolean isSaved = complainModel.saveComplain(dto);
                 if (isSaved){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Complain is saved").show();
-                    clearFields();
+                    obList.clear();
+                    totalComplains();
                     generateNextComplainID();
                     loadAllComplains();
+                    lblComplainSaveOrNot.setText("Complain is Saved !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }else {
-                    new Alert(Alert.AlertType.ERROR,"Complain is not saved").show();
+                    lblComplainSaveOrNot.setText("Some Thing Happened Complain is Not Saved !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        lblComplainSaveOrNot.setText("");
+                    });
+                    pause.play();
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
@@ -178,12 +231,23 @@ public class ComplainsFormController {
             try {
                 boolean isUpdated = complainModel.updateComplains(dto);
                 if (isUpdated){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Complain is Updated").show();
-                    clearFields();
+                    obList.clear();
+                    totalComplains();
                     generateNextComplainID();
                     loadAllComplains();
+                    lblComplainSaveOrNot.setText("Complain is Updated !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }else {
-                    new Alert(Alert.AlertType.ERROR,"Complain is Not Updated").show();
+                    lblComplainSaveOrNot.setText("Some Thing Happened Complain is Not Updated !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        lblComplainSaveOrNot.setText("");
+                    });
+                    pause.play();
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
@@ -208,12 +272,23 @@ public class ComplainsFormController {
             try {
                 boolean isDeleted = complainModel.deleteComplains(id);
                 if (isDeleted){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Complain is Deleted").show();
-                    clearFields();
+                    obList.clear();
+                    totalComplains();
                     generateNextComplainID();
                     loadAllComplains();
+                    lblComplainSaveOrNot.setText("Complain is Deleted !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }else {
-                    new Alert(Alert.AlertType.ERROR,"Complain is not Deleted").show();
+                    lblComplainSaveOrNot.setText("Some Thing Happened Complain is Not Deleted !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        lblComplainSaveOrNot.setText("");
+                    });
+                    pause.play();
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
@@ -222,24 +297,37 @@ public class ComplainsFormController {
     }
 
     @FXML
-    void txtSearchOnActon(ActionEvent event) {
-        String searchInput = txtSearch.getText();
+    void txtSearchOnActon(KeyEvent event) {
+        searchTableFilter();
+    }
 
-        try {
-            ComplainDto complainDto;
-            complainDto = complainModel.searchComplainByID(searchInput);
-            if (complainDto != null){
-                lblComplainID.setText(complainDto.getComplain_id());
-                txtComplain.setText(complainDto.getDescription());
-                txtDate.setValue(complainDto.getComplain_date());
-                txtSearch.setText("");
-            }else {
-                lblComplainID.setText("");
-                generateNextComplainID();
-                new Alert(Alert.AlertType.INFORMATION,"Complain Not Found").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }
+    private void searchTableFilter() {
+        FilteredList<ComplainTm> filterComplainsTbl = new FilteredList<>(obList, b -> true);
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterComplainsTbl.setPredicate(customerTm -> {
+                if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
+                    return true;
+                }
+                String search = newValue.toLowerCase();
+
+                if (customerTm.getComplain_id().toLowerCase().contains(search)) {
+                    return true;
+                } else if (customerTm.getComplain_id().toLowerCase().contains(search)) {
+                    return true;
+                } else if (customerTm.getDescription().toLowerCase().contains(search)) {
+                    return true;
+                } else if (customerTm.getDescription().toLowerCase().contains(search)) {
+                    return true;
+                } else if (customerTm.getComplain_date().toString().contains(search)) {
+                    return true;
+                } else if (customerTm.getComplain_date().toString().contains(search)) {
+                    return true;
+                } else
+                    return false;
+            });
+        });
+        SortedList<ComplainTm> sortComplainsTbl = new SortedList<>(filterComplainsTbl);
+        sortComplainsTbl.comparatorProperty().bind(tblComplains.comparatorProperty());
+        tblComplains.setItems(sortComplainsTbl);
     }
 }

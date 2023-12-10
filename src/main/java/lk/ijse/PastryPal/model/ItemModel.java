@@ -74,50 +74,6 @@ public class ItemModel {
         return ptsm.executeUpdate() > 0;
     }
 
-    public ItemDto searchProductById(String searchID) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM items WHERE item_id = ?";
-        PreparedStatement ptsm = connection.prepareStatement(sql);
-        ptsm.setString(1,searchID);
-        ResultSet resultSet = ptsm.executeQuery();
-
-        ItemDto dto = null;
-        if (resultSet.next()){
-            String Item_id = resultSet.getString(1);
-            String Item_name = resultSet.getString(2);
-            double Item_qty = Double.parseDouble(resultSet.getString(3));
-            String Item_su_id = resultSet.getString(4);
-            String Item_su_name = resultSet.getString(5);
-            String Item_su_tele = resultSet.getString(6);
-
-            dto = new ItemDto(Item_id, Item_name ,Item_qty ,Item_su_id,Item_su_name,Item_su_tele);
-        }
-        return dto;
-    }
-
-    public ItemDto searchProductByName(String searchName) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM items WHERE product_name = ?";
-        PreparedStatement ptsm = connection.prepareStatement(sql);
-        ptsm.setString(1,searchName);
-        ResultSet resultSet = ptsm.executeQuery();
-
-        ItemDto dto = null;
-        if (resultSet.next()){
-            String Item_id = resultSet.getString(1);
-            String Item_name = resultSet.getString(2);
-            double Item_qty = Double.parseDouble(resultSet.getString(3));
-            String Item_su_id = resultSet.getString(4);
-            String Item_su_name = resultSet.getString(5);
-            String Item_su_tele = resultSet.getString(6);
-
-            dto = new ItemDto(Item_id, Item_name ,Item_qty ,Item_su_id,Item_su_name,Item_su_tele);
-        }
-        return dto;
-    }
-
     public List<ItemDto> getAllItems() throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 

@@ -11,6 +11,7 @@ public class ItemTm {
     private String item_id;
     private String supplier_id;
     private String supplier_name;
+    private String phoneNumber;
     private String product_name;
     private double qty;
 }

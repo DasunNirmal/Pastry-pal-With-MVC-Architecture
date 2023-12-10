@@ -24,16 +24,6 @@
             <Font size="15.0" />
          </font>
       </TextField>
-      <TextField fx:id="txtPassword" alignment="CENTER" layoutX="246.0" layoutY="223.0" onAction="#txtGoToConfirmPasswordOnAction" prefHeight="40.0" prefWidth="280.0" promptText="new password" style="-fx-background-radius: 18;" styleClass="tex_field">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </TextField>
-      <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="257.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../icons/icons8-key-100.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="254.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/icons8-user-100.png" />
@@ -88,5 +78,15 @@
             <Font size="15.0" />
          </font>
       </PasswordField>
+      <PasswordField fx:id="txtPassword" alignment="CENTER" layoutX="246.0" layoutY="224.0" onAction="#txtGoToConfirmPasswordOnAction" prefHeight="40.0" prefWidth="280.0" promptText="password" style="-fx-background-radius: 18;">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </PasswordField>
+      <ImageView fitHeight="32.0" fitWidth="60.0" layoutX="254.0" layoutY="228.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icons/icons8-key-100.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

@@ -31,7 +31,7 @@
          </font>
       </Label>
       <Line endX="893.0" layoutX="249.0" layoutY="92.0" startX="-249.0" stroke="#bc8f14" />
-      <TextField fx:id="txtName" alignment="CENTER" layoutX="538.0" layoutY="144.0" onAction="#txtNameOnAction" prefHeight="32.0" prefWidth="210.0" promptText="Name" style="-fx-background-radius: 20;">
+      <TextField fx:id="txtName" alignment="CENTER" layoutX="538.0" layoutY="144.0" onAction="#txtNameOnAction" prefHeight="32.0" prefWidth="210.0" promptText="Kist" style="-fx-background-radius: 20;">
          <font>
             <Font size="14.0" />
          </font></TextField>
@@ -40,7 +40,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtPhoneNumber" alignment="CENTER" layoutX="538.0" layoutY="222.0" onAction="#txtPhoneNumberOnAction" prefHeight="32.0" prefWidth="210.0" promptText="Phone Number" style="-fx-background-radius: 20;">
+      <TextField fx:id="txtPhoneNumber" alignment="CENTER" layoutX="538.0" layoutY="222.0" onAction="#txtPhoneNumberOnAction" prefHeight="32.0" prefWidth="210.0" promptText="0751238940" style="-fx-background-radius: 20;">
          <font>
             <Font size="14.0" />
          </font></TextField>
@@ -60,7 +60,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="912.0" layoutY="316.0" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Save" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="612.0" layoutY="316.0" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Save" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -81,7 +81,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <DatePicker fx:id="txtDate" layoutX="254.0" layoutY="222.0" prefHeight="32.0" prefWidth="210.0" promptText="Choose the date" style="-fx-background-radius: 5;">
+      <DatePicker fx:id="txtDate" layoutX="254.0" layoutY="222.0" prefHeight="32.0" prefWidth="210.0" promptText="12/1/2023" style="-fx-background-radius: 5;">
          <cursor>
             <Cursor fx:constant="TEXT" />
          </cursor>
@@ -106,7 +106,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="txtSearch" alignment="CENTER" layoutX="127.0" layoutY="313.0" onAction="#txtSearchOnActon" prefHeight="32.0" prefWidth="170.0" promptText="       Enter a ID to search" style="-fx-background-radius: 20;">
+      <TextField fx:id="txtSearch" alignment="CENTER" layoutX="127.0" layoutY="313.0" onKeyPressed="#txtSearchOnActon" prefHeight="32.0" prefWidth="170.0" promptText="       Enter a ID to search" style="-fx-background-radius: 20;">
          <font>
             <Font size="12.0" />
          </font>
@@ -116,7 +116,7 @@
             <Image url="@../icons/icons8-search (1).gif" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutX="612.0" layoutY="316.0" onAction="#btnClearOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Clear" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="912.0" layoutY="316.0" onAction="#btnClearOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Clear" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -124,7 +124,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <AnchorPane layoutX="818.0" layoutY="123.0" prefHeight="133.0" prefWidth="210.0" style="-fx-background-color: rgba(131, 52, 113,1.0); -fx-background-radius: 20;">
+      <AnchorPane layoutX="828.0" layoutY="133.0" prefHeight="133.0" prefWidth="210.0" style="-fx-background-color: rgba(131, 52, 113,1.0); -fx-background-radius: 20;">
          <children>
             <Label layoutX="49.0" layoutY="8.0" prefHeight="32.0" prefWidth="127.0" text="Total Suppliers" textFill="WHITE">
                <font>
@@ -134,6 +134,26 @@
          </children>
       </AnchorPane>
       <Label fx:id="lblSupplierID" layoutX="232.0" layoutY="150.0" prefHeight="22.0" prefWidth="102.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblSupplierCount" alignment="CENTER" layoutX="882.0" layoutY="200.0" prefHeight="22.0" prefWidth="102.0" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="31.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblSupplierSaveOrNot" alignment="CENTER" layoutX="327.0" layoutY="317.0" prefHeight="22.0" prefWidth="248.0" textFill="#ff5757">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="541.0" layoutY="120.0" prefHeight="22.0" prefWidth="60.0" text="Name :">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="541.0" layoutY="200.0" prefHeight="22.0" prefWidth="127.0" text="Phone Number:">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

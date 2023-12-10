@@ -6,7 +6,7 @@ public class RegExPatterns {
     @Getter
     public static final Pattern validName = Pattern.compile("\\b[A-Z][a-z]*( [A-Z][a-z]*)*\\b");
     @Getter
-    public static final Pattern validDescription = Pattern.compile("\\b[a-z.A-Z]+(?: [a-zA-Z]+)*\\b");
+    public static final Pattern validDescription = Pattern.compile("\\b[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*\\b");
     @Getter
     public static final Pattern validPassword = Pattern.compile("(.*?[0-9]){4,}");
     @Getter
@@ -15,4 +15,6 @@ public class RegExPatterns {
     public static final Pattern validAddress = Pattern.compile("^[A-Za-z0-9'\\/\\.\\,\\s]{5,}$");
     @Getter
     public static final Pattern validDouble = Pattern.compile("^[0-9]+\\.?[0-9]*$");
+    @Getter
+    public static final Pattern validInt = Pattern.compile("^[1-9][0-9]?$|^100$");
 }

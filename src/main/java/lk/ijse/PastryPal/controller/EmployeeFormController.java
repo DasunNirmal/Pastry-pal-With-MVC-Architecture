@@ -1,23 +1,29 @@
 package lk.ijse.PastryPal.controller;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
+import lk.ijse.PastryPal.DB.DbConnection;
 import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.EmployeeDto;
-import lk.ijse.PastryPal.dto.tm.CustomerTm;
 import lk.ijse.PastryPal.dto.tm.EmployeeTm;
 import lk.ijse.PastryPal.model.EmployeeModel;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -49,6 +55,9 @@ public class EmployeeFormController {
     private Label lblDate;
 
     @FXML
+    private Label lblEmployeeCount;
+
+    @FXML
     private Label lblTime;
 
     @FXML
@@ -66,13 +75,19 @@ public class EmployeeFormController {
     @FXML
     private TextField txtSearch;
 
-    private EmployeeModel employeeModel = new EmployeeModel();
+    @FXML
+    private Label lblEmployeeSaveOrNot;
 
-    public void initialize(){
+    private EmployeeModel employeeModel = new EmployeeModel();
+    private ObservableList<EmployeeTm> obList = FXCollections.observableArrayList();
+
+    public void initialize() throws SQLException {
         setDateAndTime();
         generateNextEmployeeID();
         loadAllEmployees();
         setCellValueFactory();
+        tableListener();
+        totalEmployee();
     }
     private void generateNextEmployeeID() {
         try {
@@ -98,6 +113,7 @@ public class EmployeeFormController {
         txtAddress.setText("");
         txtPhoneNumber.setText("");
         txtSearch.setText("");
+        lblEmployeeSaveOrNot.setText("");
     }
     private void setDateAndTime(){
         Platform.runLater(() -> {
@@ -112,6 +128,30 @@ public class EmployeeFormController {
             timeline.play();
         });
     }
+    private void totalEmployee() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+
+        String sql = "SELECT count(*) FROM employee";
+        ResultSet resultSet = statement.executeQuery(sql);
+        resultSet.next();
+        int count = resultSet.getInt(1);
+        lblEmployeeCount.setText(String.valueOf(count));
+    }
+    private void tableListener() {
+        tblEmployee.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
+            setData(newValue);
+        });
+    }
+    private void setData(EmployeeTm row) {
+        if (row != null) {
+            lblEmployeeID.setText(row.getEmployee_id());
+            txtFirstName.setText(row.getFirst_name());
+            txtLastName.setText(row.getFirst_name());
+            txtAddress.setText(row.getAddress());
+            txtPhoneNumber.setText(row.getPhone_number());
+        }
+    }
     private void setCellValueFactory() {
         colEmployeeID.setCellValueFactory(new PropertyValueFactory<>("employee_id"));
         colFirstName.setCellValueFactory(new PropertyValueFactory<>("first_name"));
@@ -121,8 +161,8 @@ public class EmployeeFormController {
         tblEmployee.setId("my-table");
     }
     private void loadAllEmployees() {
-        ObservableList<EmployeeTm> obList = FXCollections.observableArrayList();
         try {
+            obList.clear();
             List<EmployeeDto> dtoList = employeeModel.getAllEmployees();
             for (EmployeeDto dto: dtoList ) {
                 obList.add(
@@ -170,12 +210,23 @@ public class EmployeeFormController {
             try {
                 boolean isSaved = employeeModel.saveEmployee(dto);
                 if (isSaved){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Employee is Saved").show();
-                    clearFields();
+                    obList.clear();
                     generateNextEmployeeID();
+                    totalEmployee();
                     loadAllEmployees();
+                    lblEmployeeSaveOrNot.setText("Employee is Saved !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }else {
-                    new Alert(Alert.AlertType.ERROR,"Employee is not Saved").show();
+                    lblEmployeeSaveOrNot.setText("Employee is Not Saved !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        lblEmployeeSaveOrNot.setText("");
+                    });
+                    pause.play();
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
@@ -197,27 +248,38 @@ public class EmployeeFormController {
         boolean isValidPhone_Number = RegExPatterns.getValidPhoneNumber().matcher(phone_number).matches();
 
         if (!isValidFirstName){
-            new Alert(Alert.AlertType.ERROR,"Can nor Update Employee.First Name is empty").showAndWait();
+            new Alert(Alert.AlertType.ERROR,"Can not Update Employee.First Name is empty").showAndWait();
             return;
         }if (!isValidLastName){
-            new Alert(Alert.AlertType.ERROR,"Can nor Update Employee.Last Name is empty").showAndWait();
+            new Alert(Alert.AlertType.ERROR,"Can not Update Employee.Last Name is empty").showAndWait();
             return;
         }if (!isValidAddress){
-            new Alert(Alert.AlertType.ERROR,"Can nor Update Employee.Address is empty").showAndWait();
+            new Alert(Alert.AlertType.ERROR,"Can not Update Employee.Address is empty").showAndWait();
             return;
         }if (!isValidPhone_Number){
-            new Alert(Alert.AlertType.ERROR,"Can nor Update Employee.Phone Number is empty").showAndWait();
+            new Alert(Alert.AlertType.ERROR,"Can not Update Employee.Phone Number is empty").showAndWait();
         } else {
             var dto = new EmployeeDto(id, first_name, last_name, address ,phone_number);
             try {
                 boolean isUpdated = employeeModel.updateEmployee(dto);
                 if (isUpdated){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Employee is Updated").show();
-                    clearFields();
+                    obList.clear();
+                    totalEmployee();
                     generateNextEmployeeID();
                     loadAllEmployees();
+                    lblEmployeeSaveOrNot.setText("Employee is Updated !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }else {
-                    new Alert(Alert.AlertType.ERROR,"Employee is not Updated").show();
+                    lblEmployeeSaveOrNot.setText("Employee is Not Updated !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        lblEmployeeSaveOrNot.setText("");
+                    });
+                    pause.play();
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
@@ -239,59 +301,79 @@ public class EmployeeFormController {
         boolean isValidPhone_Number = RegExPatterns.getValidPhoneNumber().matcher(phone_number).matches();
 
         if (!isValidFirstName){
-            new Alert(Alert.AlertType.ERROR,"Can nor Delete Employee.First Name is empty").showAndWait();
+            new Alert(Alert.AlertType.ERROR,"Can not Delete Employee.First Name is empty").showAndWait();
             return;
         }if (!isValidLastName){
-            new Alert(Alert.AlertType.ERROR,"Can nor Delete Employee.Last Name is empty").showAndWait();
+            new Alert(Alert.AlertType.ERROR,"Can not Delete Employee.Last Name is empty").showAndWait();
             return;
         }if (!isValidAddress){
-            new Alert(Alert.AlertType.ERROR,"Can nor Delete Employee.Address is empty").showAndWait();
+            new Alert(Alert.AlertType.ERROR,"Can not Delete Employee.Address is empty").showAndWait();
             return;
         }if (!isValidPhone_Number){
-            new Alert(Alert.AlertType.ERROR,"Can nor Delete Employee.Phone Number is empty").showAndWait();
+            new Alert(Alert.AlertType.ERROR,"Can not Delete Employee.Phone Number is empty").showAndWait();
         } else {
             try {
                 boolean isDeleted = employeeModel.deleteEmployee(id);
                 if (isDeleted){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Employee is Deleted").show();
-                    clearFields();
+                    obList.clear();
                     generateNextEmployeeID();
                     loadAllEmployees();
+                    totalEmployee();
+                    lblEmployeeSaveOrNot.setText("Employee is Deleted !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }else {
-                    new Alert(Alert.AlertType.ERROR,"Employee is Not Deleted").show();
+                    lblEmployeeSaveOrNot.setText("Employee Not is Deleted !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        lblEmployeeSaveOrNot.setText("");
+                    });
+                    pause.play();
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
             }
         }
     }
-
     @FXML
-    void txtSearchOnAction(ActionEvent event) {
-        String searchInput = txtSearch.getText();
+    void txtSearchOnAction(KeyEvent event) {
+        searchTableFilter();
+    }
+    private void searchTableFilter() {
+        FilteredList<EmployeeTm> filterEmployeeTbl = new FilteredList<>(obList, b -> true);
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterEmployeeTbl.setPredicate(employeeTm -> {
+                if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
+                    return true;
+                }
+                String search = newValue.toLowerCase();
 
-        try {
-            EmployeeDto employeeDto;
-            if (searchInput.matches("\\d+")){
-                employeeDto = employeeModel.searchEmployeeByPhoneNumber(searchInput);
-            }else {
-                employeeDto = employeeModel.searchEmployeeByID(searchInput);
-            }
-            if (employeeDto != null){
-                lblEmployeeID.setText(employeeDto.getEmployee_id());
-                txtFirstName.setText(employeeDto.getFirst_name());
-                txtLastName.setText(employeeDto.getLast_name());
-                txtAddress.setText(employeeDto.getAddress());
-                txtPhoneNumber.setText(employeeDto.getPhone_number());
-                txtSearch.setText("");
-            }else {
-                lblEmployeeID.setText("");
-                generateNextEmployeeID();
-                new Alert(Alert.AlertType.INFORMATION,"Employee not found").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }
+                if (employeeTm.getEmployee_id().toLowerCase().contains(search)) {
+                    return true;
+                } else if (employeeTm.getEmployee_id().toLowerCase().contains(search)) {
+                    return true;
+                } else if (employeeTm.getFirst_name().toLowerCase().contains(search)) {
+                    return true;
+                } else if (employeeTm.getFirst_name().toLowerCase().contains(search)) {
+                    return true;
+                } else if (employeeTm.getAddress().toLowerCase().contains(search)) {
+                    return true;
+                } else if (employeeTm.getAddress().toLowerCase().contains(search)) {
+                    return true;
+                } else if (employeeTm.getPhone_number().toLowerCase().contains(search)) {
+                    return true;
+                } else if (employeeTm.getPhone_number().toLowerCase().contains(search)) {
+                    return true;
+                } else
+                    return false;
+            });
+        });
+        SortedList<EmployeeTm> sortCustomerTbl = new SortedList<>(filterEmployeeTbl);
+        sortCustomerTbl.comparatorProperty().bind(tblEmployee.comparatorProperty());
+        tblEmployee.setItems(sortCustomerTbl);
     }
     @FXML
     void txtGoToLastNameOnAction(ActionEvent event) {

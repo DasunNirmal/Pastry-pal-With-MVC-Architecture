@@ -148,4 +148,36 @@ public class CustomerModel {
         ResultSet resultSet = ptsm.executeQuery();
         return resultSet.next();
     }
+
+    public String[] getCustomerByPhoneNumber(String phone) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM customer WHERE phone_number LIKE ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1, "%" + phone + "%");
+        ResultSet resultSet = ptsm.executeQuery();
+
+        List<String> customerPhoneNumbers = new ArrayList<>();
+        while (resultSet.next()) {
+            String name = resultSet.getString(4);
+            customerPhoneNumbers.add(name);
+        }
+        return customerPhoneNumbers.toArray(new String[0]);
+    }
+
+    public String[] getCustomerByID(String id) throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+
+        String sql = "SELECT * FROM customer WHERE customer_id LIKE ?";
+        PreparedStatement ptsm = connection.prepareStatement(sql);
+        ptsm.setString(1, "%" + id + "%");
+        ResultSet resultSet = ptsm.executeQuery();
+
+        List<String> customerPhoneNumbers = new ArrayList<>();
+        while (resultSet.next()) {
+            String ID = resultSet.getString(1);
+            customerPhoneNumbers.add(ID);
+        }
+        return customerPhoneNumbers.toArray(new String[0]);
+    }
 }

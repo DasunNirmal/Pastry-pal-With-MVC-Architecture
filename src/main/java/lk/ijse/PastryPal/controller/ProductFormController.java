@@ -1,21 +1,30 @@
 package lk.ijse.PastryPal.controller;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
+import lk.ijse.PastryPal.DB.DbConnection;
 import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.ProductDto;
+import lk.ijse.PastryPal.dto.tm.CustomerTm;
 import lk.ijse.PastryPal.dto.tm.ProductTm;
 import lk.ijse.PastryPal.model.ProductModel;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -59,13 +68,21 @@ public class ProductFormController {
     @FXML
     private TextField txtSearch;
 
-    private ProductModel productModel = new ProductModel();
+    @FXML
+    private Label lblProductCount;
 
-    public void initialize(){
+    @FXML
+    private Label lblProductsSaveOrNot;
+    private ProductModel productModel = new ProductModel();
+    private ObservableList<ProductTm> obList = FXCollections.observableArrayList();
+
+    public void initialize() throws SQLException {
         setValueFactory();
         setDateAndTime();
         generateNextProductID();
         loadAllProducts();
+        tableListener();
+        totalProducts();
     }
 
     private void generateNextProductID() {
@@ -92,6 +109,7 @@ public class ProductFormController {
         txtQty.setText("");
         txtPrice.setText("");
         txtSearch.setText("");
+        lblProductsSaveOrNot.setText("");
     }
     private void setDateAndTime(){
         Platform.runLater(() -> {
@@ -113,9 +131,23 @@ public class ProductFormController {
         colPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         tblItems.setId("my-table");
     }
+    private void tableListener() {
+        tblItems.getSelectionModel().selectedItemProperty().addListener((observable, oldValued, newValue) -> {
+            setData(newValue);
+        });
+    }
+
+    private void setData(ProductTm row) {
+        if (row != null) {
+            lblProductID.setText(row.getProduct_id());
+            txtDescription.setText(row.getDescription());
+            txtQty.setText(String.valueOf(row.getQty()));
+            txtPrice.setText(String.valueOf(row.getPrice()));
+        }
+    }
     private void loadAllProducts() {
-        ObservableList<ProductTm> obList = FXCollections.observableArrayList();
         try {
+            obList.clear();
             List<ProductDto> dtoList = productModel.getAllProducts();
             for (ProductDto dto : dtoList){
                 obList.add(
@@ -131,6 +163,16 @@ public class ProductFormController {
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
         }
+    }
+    private void totalProducts() throws SQLException {
+        Connection connection = DbConnection.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+
+        String sql = "SELECT count(*) FROM products";
+        ResultSet resultSet = statement.executeQuery(sql);
+        resultSet.next();
+        int count = resultSet.getInt(1);
+        lblProductCount.setText(String.valueOf(count));
     }
 
     @FXML
@@ -154,7 +196,6 @@ public class ProductFormController {
             new Alert(Alert.AlertType.ERROR,"Can not Save Product.Price is Empty").showAndWait();
         }else {
             try {
-                //the reason for this is qty and price takes double and can't take String
                 int qty = Integer.parseInt(qtyText);
                 double price = Double.parseDouble(priceText);
 
@@ -162,12 +203,23 @@ public class ProductFormController {
                 try {
                     boolean isSaved = productModel.saveProduct(dto);
                     if (isSaved) {
-                        new Alert(Alert.AlertType.CONFIRMATION, "Product Is Saved").show();
-                        clearFields();
+                        obList.clear();
                         generateNextProductID();
                         loadAllProducts();
+                        totalProducts();
+                        lblProductsSaveOrNot.setText("Product is Saved !");
+                        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                        pause.setOnFinished(pauseEvent -> {
+                            clearFields();
+                        });
+                        pause.play();
                     } else {
-                        new Alert(Alert.AlertType.ERROR, "Product Is Not Saved").show();
+                        lblProductsSaveOrNot.setText("Product is Not Saved !");
+                        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                        pause.setOnFinished(pauseEvent -> {
+                            lblProductsSaveOrNot.setText("");
+                        });
+                        pause.play();
                     }
                 } catch (SQLException e) {
                     new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -185,7 +237,7 @@ public class ProductFormController {
         String qtyText = txtQty.getText();
         String priceText = txtPrice.getText();
 
-        boolean isValidDescription = RegExPatterns.getValidName().matcher(desc).matches();
+        boolean isValidDescription = RegExPatterns.getValidDescription().matcher(desc).matches();
         boolean isValidQty = RegExPatterns.getValidDouble().matcher(qtyText).matches();
         boolean isValidPrice = RegExPatterns.getValidDouble().matcher(priceText).matches();
 
@@ -206,12 +258,24 @@ public class ProductFormController {
                 try {
                     boolean isUpdated = productModel.updateProducts(dto);
                     if (isUpdated){
-                        new Alert(Alert.AlertType.CONFIRMATION,"Product Is Updated").show();
-                        clearFields();
+                        obList.clear();
                         generateNextProductID();
+                        totalProducts();
+                        loadAllProducts();
+                        lblProductsSaveOrNot.setText("Product is Updated !");
+                        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                        pause.setOnFinished(pauseEvent -> {
+                            clearFields();
+                        });
+                        pause.play();
                     }
                 } catch (SQLException e) {
-                    new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+                    lblProductsSaveOrNot.setText("Product is Not Updated !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        lblProductsSaveOrNot.setText("");
+                    });
+                    pause.play();
                 }
             }catch (NumberFormatException e){
                 new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
@@ -242,12 +306,23 @@ public class ProductFormController {
             try {
                 boolean isDeleted = productModel.deleteProduct(id);
                 if (isDeleted){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Product is Deleted").show();
-                    clearFields();
+                    obList.clear();
                     generateNextProductID();
                     loadAllProducts();
+                    totalProducts();
+                    lblProductsSaveOrNot.setText("Product is Deleted !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }else {
-                    new Alert(Alert.AlertType.ERROR,"Product is Not Deleted").show();
+                    lblProductsSaveOrNot.setText("Product is Not Deleted !");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        lblProductsSaveOrNot.setText("");
+                    });
+                    pause.play();
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
@@ -256,29 +331,29 @@ public class ProductFormController {
     }
 
     @FXML
-    void txtSearchOnActon(ActionEvent event) {
-        String searchInput = txtSearch.getText();
+    void txtSearchOnActon(KeyEvent event) {
+        searchTableFilter();
+    }
+    private void searchTableFilter() {
+        FilteredList<ProductTm> filterProductTbl = new FilteredList<>(obList, b -> true);
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterProductTbl.setPredicate(productTm -> {
+                if (newValue.isEmpty() || newValue.isBlank() || newValue == null) {
+                    return true;
+                }
+                String search = newValue.toLowerCase();
 
-        try {
-            ProductDto productDto;
-            if (searchInput.matches("[P][0-9]{3,}")) {
-                productDto = productModel.searchProductById(searchInput);
-            }else {
-                productDto = productModel.searchProductByName(searchInput);
-            }
-            if (productDto != null ){
-                lblProductID.setText(productDto.getProduct_id());
-                txtDescription.setText(productDto.getDescription());
-                txtQty.setText(String.valueOf(productDto.getQty()));
-                txtPrice.setText(String.valueOf(productDto.getPrice()));
-            }else {
-                lblProductID.setText("");
-                generateNextProductID();
-                new Alert(Alert.AlertType.CONFIRMATION,"Product Not Found").show();
-            }
-        } catch (SQLException e) {
-            new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
-        }
+                if (productTm.getProduct_id().toLowerCase().contains(search)) {
+                    return true;
+                } else if (productTm.getDescription().toLowerCase().contains(search)) {
+                    return true;
+                } else
+                    return false;
+            });
+        });
+        SortedList<ProductTm> sortCustomerTbl = new SortedList<>(filterProductTbl);
+        sortCustomerTbl.comparatorProperty().bind(tblItems.comparatorProperty());
+        tblItems.setItems(sortCustomerTbl);
     }
     @FXML
     void txtPriceOnAction(ActionEvent event) {

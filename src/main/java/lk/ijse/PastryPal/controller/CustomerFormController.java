@@ -1,6 +1,7 @@
 package lk.ijse.PastryPal.controller;
 
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -76,6 +77,9 @@ public class CustomerFormController {
     @FXML
     private Label lblTotalCustomers;
 
+    @FXML
+    private Label lblCustomerSaveOrNot;
+
     private CustomerModel customerModel = new CustomerModel();
     private ObservableList<CustomerTm> obList = FXCollections.observableArrayList();
 
@@ -110,7 +114,6 @@ public class CustomerFormController {
         int count = resultSet.getInt(1);
         lblTotalCustomers.setText(String.valueOf(count));
     }
-
     private void  generateNextCustomerID(){
         try {
             String previousCustomerID = lblCustomerId.getText();
@@ -135,6 +138,7 @@ public class CustomerFormController {
         txtCustomerAddress.setText("");
         txtPhoneNumber.setText("");
         txtSearch.setText("");
+        lblCustomerSaveOrNot.setText("");
     }
     private void setDateAndTime() {
         Platform.runLater(() -> {
@@ -215,13 +219,25 @@ public class CustomerFormController {
             try {
                 boolean isSaved = customerModel.save(dto);
                 if (isSaved){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Customer is Saved").show();
-                    clearFields();
                     generateNextCustomerID();
                     obList.clear();
                     loadAllCustomers();
+                    totalCustomers();
+                    totalLoyalityCustomers();
+                    lblCustomerSaveOrNot.setText("Customer Is Saved");
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }else {
-                    new Alert(Alert.AlertType.ERROR,"Customer is Not Saved").show();
+                    lblCustomerSaveOrNot.setText("Customer Is Not Saved !");
+
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }
             }catch (SQLException e){
                 new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
@@ -254,14 +270,27 @@ public class CustomerFormController {
                 try {
                     boolean isUpdated = customerModel.updateCustomer(dto);
                     if (isUpdated){
-                        new Alert(Alert.AlertType.CONFIRMATION,"Customer is Updated").show();
                         obList.clear();
                         loadAllCustomers();
-                        clearFields();
+                        totalCustomers();
+                        totalLoyalityCustomers();
                         generateNextCustomerID();
+                        lblCustomerSaveOrNot.setText("Customer Is Updated !");
+
+                        PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                        pause.setOnFinished(pauseEvent -> {
+                            clearFields();
+                        });
+                        pause.play();
                     }
                 }catch (SQLException e){
-                    new Alert(Alert.AlertType.ERROR,e.getMessage()).show();
+                    lblCustomerSaveOrNot.setText("Customer Is Not Updated !");
+
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }
             } catch (NumberFormatException e) {
                 new Alert(Alert.AlertType.ERROR,"In Valid Phone Number Format").showAndWait();
@@ -292,13 +321,26 @@ public class CustomerFormController {
             try {
                 boolean isDeleted = customerModel.deleteCustomers(id);
                 if (isDeleted){
-                    new Alert(Alert.AlertType.CONFIRMATION,"Customer is Deleted").show();
                     obList.clear();
                     loadAllCustomers();
-                    clearFields();
+                    totalLoyalityCustomers();
                     generateNextCustomerID();
+                    totalCustomers();
+                    lblCustomerSaveOrNot.setText("Customer Is Deleted !");
+
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }else {
-                    new Alert(Alert.AlertType.INFORMATION,"Customer is Not Deleted").show();
+                    lblCustomerSaveOrNot.setText("Customer Is Not Deleted !");
+
+                    PauseTransition pause = new PauseTransition(Duration.seconds(2));
+                    pause.setOnFinished(pauseEvent -> {
+                        clearFields();
+                    });
+                    pause.play();
                 }
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR,e.getMessage()).show();

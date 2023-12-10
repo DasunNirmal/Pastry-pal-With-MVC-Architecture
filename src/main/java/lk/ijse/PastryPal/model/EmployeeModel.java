@@ -48,50 +48,6 @@ public class EmployeeModel {
         return ptsm.executeUpdate() > 0;
     }
 
-    public EmployeeDto searchEmployeeByID(String searchID) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM employee WHERE employee_id = ?";
-        PreparedStatement ptsm = connection.prepareStatement(sql);
-        ptsm.setString(1,searchID);
-        ResultSet resultSet = ptsm.executeQuery();
-
-        EmployeeDto dto = null;
-        if (resultSet.next()){
-            String Employee_id = resultSet.getString(1);
-            String Employee_first_name = resultSet.getString(2);
-            String Employee_last_name = resultSet.getString(3);
-            String Employee_address = resultSet.getString(4);
-            String Employee_phone_number = resultSet.getString(5);
-
-            dto = new EmployeeDto(Employee_id, Employee_first_name, Employee_last_name, Employee_address,
-                    Employee_phone_number);
-        }
-        return dto;
-    }
-
-    public EmployeeDto searchEmployeeByPhoneNumber(String searchPhoneNumber) throws SQLException {
-        Connection connection = DbConnection.getInstance().getConnection();
-
-        String sql = "SELECT * FROM employee WHERE phone_number = ?";
-        PreparedStatement ptsm = connection.prepareStatement(sql);
-        ptsm.setString(1,searchPhoneNumber);
-        ResultSet resultSet = ptsm.executeQuery();
-
-        EmployeeDto dto = null;
-        if (resultSet.next()){
-            String Employee_id = resultSet.getString(1);
-            String Employee_first_name = resultSet.getString(2);
-            String Employee_last_name = resultSet.getString(3);
-            String Employee_address = resultSet.getString(4);
-            String Employee_phone_number = resultSet.getString(5);
-
-            dto = new EmployeeDto(Employee_id, Employee_first_name, Employee_last_name, Employee_address,
-                    Employee_phone_number);
-        }
-        return dto;
-    }
-
     public boolean updateEmployee(EmployeeDto dto) throws SQLException {
         Connection connection = DbConnection.getInstance().getConnection();
 

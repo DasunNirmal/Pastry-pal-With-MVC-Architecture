@@ -28,17 +28,17 @@
             <Glow />
          </effect>
       </Label>
-      <Label layoutX="444.0" layoutY="136.0" prefHeight="41.0" prefWidth="94.0" text="LOGIN">
+      <Label layoutX="442.0" layoutY="66.0" prefHeight="41.0" prefWidth="94.0" text="LOGIN">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="txtUser" alignment="CENTER" layoutX="347.0" layoutY="203.0" onAction="#txtGoToPasswordOnAction" prefHeight="40.0" prefWidth="280.0" promptText="username" style="-fx-background-radius: 18;" styleClass="tex_field">
+      <TextField fx:id="txtUser" alignment="CENTER" layoutX="345.0" layoutY="133.0" onAction="#txtGoToPasswordOnAction" prefHeight="40.0" prefWidth="280.0" promptText="username" style="-fx-background-radius: 18;" styleClass="tex_field">
          <font>
             <Font size="15.0" />
          </font>
       </TextField>
-      <JFXButton buttonType="RAISED" layoutX="444.0" layoutY="393.0" onAction="#btnLoginOnAction" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Login" textFill="#f5ecec">
+      <JFXButton buttonType="RAISED" layoutX="446.0" layoutY="305.0" onAction="#btnLoginOnAction" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Login" textFill="#f5ecec">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -46,34 +46,46 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <Label layoutX="365.0" layoutY="331.0" text="Don't hav an accout ?" />
-      <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="355.0" layoutY="207.0" pickOnBounds="true" preserveRatio="true">
+      <Label layoutX="363.0" layoutY="261.0" text="Don't hav an accout ?" />
+      <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="353.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/icons8-user-100.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="425.0" fitWidth="363.0" layoutX="-17.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="425.0" fitWidth="363.0" layoutX="-22.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/bake.jpeg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="41.0" fitWidth="47.0" layoutX="466.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="41.0" fitWidth="47.0" layoutX="473.0" layoutY="444.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/icons8-bread-and-rye-100.png" />
          </image>
       </ImageView>
-      <Line endX="100.0" layoutX="357.0" layoutY="469.0" startX="-28.0" stroke="#bc8f14" />
-      <Line endX="100.0" layoutX="546.0" layoutY="469.0" startX="-28.0" stroke="#bc8f14" />
-      <Hyperlink layoutX="517.0" layoutY="327.0" onAction="#hyperSignUpOnAction" style="-fx-background-radius: 15;" text="Sign up here !" />
-      <PasswordField fx:id="txtPassword" alignment="CENTER" layoutX="347.0" layoutY="286.0" onAction="#txtLoginOnAction" prefHeight="40.0" prefWidth="280.0" promptText="password" style="-fx-background-radius: 18;">
+      <Line endX="100.0" layoutX="364.0" layoutY="469.0" startX="-28.0" stroke="#bc8f14" />
+      <Line endX="100.0" layoutX="553.0" layoutY="469.0" startX="-28.0" stroke="#bc8f14" />
+      <Hyperlink layoutX="515.0" layoutY="257.0" onAction="#hyperSignUpOnAction" style="-fx-background-radius: 15;" text="Sign up here !" />
+      <PasswordField fx:id="txtPassword" alignment="CENTER" layoutX="345.0" layoutY="216.0" onAction="#txtLoginOnAction" prefHeight="40.0" prefWidth="280.0" promptText="password" style="-fx-background-radius: 18;">
          <font>
             <Font size="15.0" />
          </font>
       </PasswordField>
-      <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="354.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="32.0" fitWidth="97.0" layoutX="352.0" layoutY="220.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../icons/icons8-key-100.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="imgLoading" fitHeight="59.0" fitWidth="66.0" layoutX="463.0" layoutY="383.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../icons/icons8-dots-loading.gif" />
+         </image>
+      </ImageView>
+      <Label fx:id="lblInfo" alignment="CENTER" layoutX="351.0" layoutY="355.0" prefHeight="32.0" prefWidth="280.0" textFill="#573702">
+         <font>
+            <Font name="Serif Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="347.0" layoutY="111.0" text="Enter your user name" />
+      <Label layoutX="347.0" layoutY="193.0" text="Enter your password" />
    </children>
 </AnchorPane>

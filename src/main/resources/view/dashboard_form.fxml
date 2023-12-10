@@ -47,7 +47,7 @@
             </Label>
             <Label fx:id="lblTotalOrders" layoutX="25.0" layoutY="75.0" prefHeight="50.0" prefWidth="94.0" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="FreeSans Bold" size="43.0" />
+                  <Font name="FreeSans Bold" size="31.0" />
                </font>
             </Label>
          </children>
@@ -69,7 +69,7 @@
             </Label>
             <Label fx:id="lblSales" layoutX="87.0" layoutY="74.0" prefHeight="50.0" prefWidth="77.0" textFill="WHITE">
                <font>
-                  <Font name="FreeSans Bold" size="32.0" />
+                  <Font name="FreeSans Bold" size="31.0" />
                </font>
             </Label>
             <Label layoutX="21.0" layoutY="73.0" prefHeight="50.0" prefWidth="70.0" text="Rs :" textFill="WHITE">
@@ -91,7 +91,7 @@
             </Label>
             <Label fx:id="lblTotalComplains" layoutX="34.0" layoutY="69.0" prefHeight="50.0" prefWidth="77.0" textFill="WHITE">
                <font>
-                  <Font name="FreeSans Bold" size="32.0" />
+                  <Font name="FreeSans Bold" size="31.0" />
                </font>
             </Label>
          </children>
@@ -108,7 +108,7 @@
             </Label>
             <Label fx:id="lblOrdersByDate" layoutX="45.0" layoutY="76.0" prefHeight="50.0" prefWidth="70.0" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="FreeSans Bold" size="43.0" />
+                  <Font name="FreeSans Bold" size="31.0" />
                </font>
             </Label>
          </children>
@@ -146,7 +146,7 @@
             </Label>
             <Label fx:id="lblTotalCustomers" layoutX="36.0" layoutY="72.0" prefHeight="50.0" prefWidth="77.0" textFill="WHITE">
                <font>
-                  <Font name="FreeSans Bold" size="32.0" />
+                  <Font name="FreeSans Bold" size="31.0" />
                </font>
             </Label>
          </children>

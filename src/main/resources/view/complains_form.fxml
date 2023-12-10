@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -53,7 +54,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutX="932.0" layoutY="334.0" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Save" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="632.0" layoutY="334.0" onAction="#btnSaveOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Save" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -99,7 +100,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <JFXButton buttonType="RAISED" layoutX="633.0" layoutY="334.0" onAction="#btnClearOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Clear" textFill="WHITE">
+      <JFXButton buttonType="RAISED" layoutX="929.0" layoutY="334.0" onAction="#btnClearOnAction" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Clear" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -114,9 +115,17 @@
                   <Font name="FreeSans Bold" size="15.0" />
                </font>
             </Label>
+            <Label fx:id="lblCoplainCount" alignment="CENTER" layoutX="69.0" layoutY="80.0" prefHeight="22.0" prefWidth="113.0" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
          </children>
+         <effect>
+            <DropShadow />
+         </effect>
       </AnchorPane>
-      <TextField fx:id="txtSearch" alignment="CENTER" layoutX="135.0" layoutY="328.0" onAction="#txtSearchOnActon" prefHeight="32.0" prefWidth="170.0" promptText="       Enter a ID to search" style="-fx-background-radius: 20;">
+      <TextField fx:id="txtSearch" alignment="CENTER" layoutX="135.0" layoutY="328.0" onKeyPressed="#txtSearchOnActon" prefHeight="32.0" prefWidth="170.0" promptText="       Enter a ID to search" style="-fx-background-radius: 20;">
          <font>
             <Font size="12.0" />
          </font>
@@ -129,6 +138,11 @@
       <Label fx:id="lblComplainID" layoutX="244.0" layoutY="150.0" prefHeight="22.0" prefWidth="113.0">
          <font>
             <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblComplainSaveOrNot" alignment="CENTER" layoutX="346.0" layoutY="334.0" prefHeight="22.0" prefWidth="248.0" textFill="#ff5757">
+         <font>
+            <Font name="System Bold" size="17.0" />
          </font>
       </Label>
    </children>

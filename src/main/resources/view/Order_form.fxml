@@ -93,7 +93,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="txtQty" layoutX="877.0" layoutY="321.0" onAction="#txtQtyOnAction" prefHeight="24.0" prefWidth="41.0" />
+      <TextField fx:id="txtQty" alignment="CENTER" layoutX="877.0" layoutY="321.0" onAction="#txtQtyOnAction" prefHeight="24.0" prefWidth="41.0" promptText="5" />
       <JFXButton buttonType="RAISED" layoutX="744.0" layoutY="377.0" onAction="#btnPlaceOrderOnAction" prefHeight="25.0" prefWidth="148.0" style="-fx-background-color: rgba(229, 142, 38,1.0); -fx-background-radius: 16;" text="Place The Order" textFill="WHITE">
          <font>
             <Font name="System Bold" size="13.0" />

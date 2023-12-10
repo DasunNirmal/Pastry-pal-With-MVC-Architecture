@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 import lk.ijse.PastryPal.DB.DbConnection;
+import lk.ijse.PastryPal.RegExPatterns.RegExPatterns;
 import lk.ijse.PastryPal.dto.CustomerDto;
 import lk.ijse.PastryPal.dto.OrderDto;
 import lk.ijse.PastryPal.dto.ProductDto;
@@ -35,6 +36,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class OrderFormController {
     @FXML
@@ -99,7 +101,6 @@ public class OrderFormController {
 
     @FXML
     private TextField txtSearchCustomer;
-
     private CustomerModel customerModel = new CustomerModel();
     private ProductModel productModel = new ProductModel();
     private OrderModel orderModel = new OrderModel();
@@ -111,6 +112,7 @@ public class OrderFormController {
         generateNextOrderID();
         generateNextCustomerID();
         autoCompleteProduct();
+        autoCompleteCustomer();
     }
 
     private void generateNextCustomerID() {
@@ -192,35 +194,45 @@ public class OrderFormController {
     void btnAddOnAction(ActionEvent event) {
         String product_id = lblProductID.getText();
         String desc = lblDescription.getText();
-        double unit_price = Double.parseDouble(lblPrice.getText());
-        int qty = Integer.parseInt(txtQty.getText());
-        double total = unit_price * qty;
         Button btn = new Button("Delete");
-
+        String Qty = txtQty.getText();
         setRemoveButtonAction(btn);
         btn.setCursor(Cursor.HAND);
+        boolean isValidQTy = RegExPatterns.getValidInt().matcher(Qty).matches();
 
-        if (!obList.isEmpty()){
-            for (int i = 0; i < tblOrder.getItems().size(); i++) {
-                if (colItemCode.getCellData(i).equals(product_id)){
-                    int col_qty = (int) colQty.getCellData(i);
-                    qty += col_qty;
-                    total = unit_price * qty;
-
-                    obList.get(i).setQty(qty);
-                    obList.get(i).setTotal(total);
-
-                    calculateTotal();
-                    tblOrder.refresh();
-                    return;
-                }
-            }
+        if (product_id.isEmpty() || desc.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR,"Empty values Found For Product !.Please Select a Product").showAndWait();
+            return;
+        }   else if (!isValidQTy){
+                new Alert(Alert.AlertType.ERROR,"Not a Valid Quantity").showAndWait();
         }
-        var OrderTm = new OrderTm(product_id,desc,unit_price,qty,total,btn);
-        obList.add(OrderTm);
+        try {
+            int qty = Integer.parseInt(txtQty.getText());
+            double unit_price = Double.parseDouble(lblPrice.getText());
+            double total = unit_price * qty;
+            if (!obList.isEmpty()){
+                    for (int i = 0; i < tblOrder.getItems().size(); i++) {
+                        if (colItemCode.getCellData(i).equals(product_id)){
+                            int col_qty = (int) colQty.getCellData(i);
+                            qty += col_qty;
+                            total = unit_price * qty;
 
-        tblOrder.setItems(obList);
-        calculateTotal();
+                            obList.get(i).setQty(qty);
+                            obList.get(i).setTotal(total);
+
+                            calculateTotal();
+                            tblOrder.refresh();
+                            return;
+                        }
+                    }
+                }
+                var OrderTm = new OrderTm(product_id,desc,unit_price,qty,total,btn);
+                obList.add(OrderTm);
+                tblOrder.setItems(obList);
+                calculateTotal();
+            } catch (NumberFormatException e) {
+                new Alert(Alert.AlertType.ERROR,e.getMessage());
+        }
     }
 
     private void setRemoveButtonAction(Button btn) {
@@ -238,7 +250,6 @@ public class OrderFormController {
 
             if (type.orElse(no) == yes) {
                 int focusedIndex = tblOrder.getSelectionModel().getFocusedIndex();
-
                 obList.remove(focusedIndex);
                 tblOrder.refresh();
                 calculateTotal();
@@ -291,29 +302,8 @@ public class OrderFormController {
     }
 
     private void Report() throws JRException, SQLException {
-        String orderId = lblOrderID.getText();
         InputStream resourceAsStream = getClass().getResourceAsStream("/reports/OrderInvoice.jrxml");
         JasperDesign load = JRXmlLoader.load(resourceAsStream);
-
-        JRDesignQuery jrDesignQuery = new JRDesignQuery();
-        jrDesignQuery.setText("SELECT \n" +
-                "    o.order_id,\n" +
-                "    o.customer_id,\n" +
-                "    o.order_date,\n" +
-                "    d.product_id,\n" +
-                "    p.description,\n" +
-                "    d.qty,\n" +
-                "    d.unit_price,\n" +
-                "    (d.qty * d.unit_price) AS total_price\n" +
-                "FROM \n" +
-                "    orders o\n" +
-                "JOIN \n" +
-                "    order_details d ON o.order_id = d.order_id\n" +
-                "JOIN \n" +
-                "    products p ON d.product_id = p.product_id\n" +
-                "WHERE \n" +
-                "    o.order_id = " + orderId + ";");
-
         JasperReport jasperReport = JasperCompileManager.compileReport(load);
         JasperPrint jasperPrint = JasperFillManager.fillReport(
                 jasperReport,
@@ -323,11 +313,23 @@ public class OrderFormController {
         JasperViewer.viewReport(jasperPrint, false);
     }
 
-
-
     @FXML
     void txtQtyOnAction(ActionEvent event) {
+        String product_id = lblProductID.getText();
+        String desc = lblDescription.getText();
+        String qty = txtQty.getText();
+        if (product_id.isEmpty() || desc.isEmpty() || qty.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR,"Empty values Found !").showAndWait();
+            return;
+        }
         btnAddOnAction(new ActionEvent());
+    }
+
+    private void autoCompleteCustomer() throws SQLException {
+        String [] phoneNumber = customerModel.getCustomerByPhoneNumber(txtSearchCustomer.getText());
+        String [] iD = customerModel.getCustomerByID(txtSearchCustomer.getText());
+        TextFields.bindAutoCompletion(txtSearchCustomer, phoneNumber);
+        TextFields.bindAutoCompletion(txtSearchCustomer, iD);
     }
 
     private void autoCompleteProduct() throws SQLException {
@@ -366,7 +368,6 @@ public class OrderFormController {
 
         try {
             CustomerDto customerDto;
-            //validating the input method assuming it is a digit
             if (searchCustomer.matches("\\d+")) {
                 customerDto = customerModel.searchCustomerByPhoneNumber(searchCustomer);
             } else {
@@ -375,6 +376,7 @@ public class OrderFormController {
             if (customerDto != null) {
                 lblCustomerID.setText(customerDto.getCustomer_id());
                 lblCustomerName.setText(customerDto.getName());
+                txtQty.requestFocus();
                 txtSearch.setText("");
             } else {
                 generateNextCustomerID();

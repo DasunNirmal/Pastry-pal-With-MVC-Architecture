@@ -26,12 +26,12 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <Label layoutX="51.0" layoutY="113.0" prefHeight="32.0" prefWidth="118.0" text="..WELCOME.." textFill="#bc0efc">
+            <Label layoutX="51.0" layoutY="113.0" prefHeight="32.0" prefWidth="118.0" text="..WELCOME.." textFill="#faa60f">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="lblUser" alignment="CENTER" layoutX="54.0" layoutY="135.0" prefHeight="35.0" prefWidth="110.0" textFill="#7d1fd0">
+            <Label fx:id="lblUser" alignment="CENTER" layoutX="54.0" layoutY="135.0" prefHeight="35.0" prefWidth="110.0" textFill="#faa60f">
                <font>
                   <Font name="Serif Bold Italic" size="16.0" />
                </font>

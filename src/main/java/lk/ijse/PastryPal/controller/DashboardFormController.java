@@ -81,13 +81,13 @@ public class DashboardFormController {
 
     public void initialize() throws SQLException {
         setDateAndTime();
-        loadAllDetails();
         setCellValueFactory();
         countOrders();
         TotalSales();
         countOrdersByDate();
         totalCustomers();
         totalComplains();
+        loadAllDetails();
     }
 
     private void totalComplains() throws SQLException {
