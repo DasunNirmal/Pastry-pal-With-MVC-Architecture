@@ -10,7 +10,7 @@ CREATE TABLE users(
 
 CREATE TABLE customer(
 	customer_id varchar(10)primary key,
-	name varchar(15),
+	name varchar(15)not null,
 	address varchar(25),
 	phone_number varchar(10)
 );
